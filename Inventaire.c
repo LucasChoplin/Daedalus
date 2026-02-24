@@ -9,13 +9,65 @@
 
 #define TAILLE_CHIFFRE 32
 #define TAILLE_ITEM 32
+#define TAILLE_SPRITE 128
 #define NB_ITEM 2
+#define FICHIER_DATA "data.txt"
+#define GLADIATEUR_MAX_HP 200
+#define GLADIATEUR_ATTACK 120
+#define GLADIATEUR_SPEED 100
+#define ARCHER_MAX_HP 100
+#define ARCHER_ATTACK 200
+#define ARCHER_SPEED 100
+#define LANCIER_MAX_HP 100
+#define LANCIER_ATTACK 120
+#define LANCIER_SPEED 200
+
+typedef struct {
+    int hp;
+    int max_hp;
+    int attack;
+    int speed;
+} Fighter;
 
 /** \brief structure pour les items  */
 typedef struct{
     int nb;/**< nom de l'image de l'item*/
     SDL_Texture * t;/**< quantité de l'item */
+    void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
+
+/** \brief fonction qui redonne 1 pv 
+    \param p pointeur vers le perso concerné
+*/
+void soin1PV(Fighter * p){
+    p->hp++;
+    if(p->hp>p->max_hp){
+        p->hp = p->max_hp;
+    }
+}
+
+/** \brief fonction qui redonne 5 pv 
+    \param p pointeur vers le perso concerné
+*/
+void soin5PV(Fighter * p){
+    p->hp+= 5;
+    if(p->hp>p->max_hp){
+        p->hp = p->max_hp;
+    }
+}
+
+/** \brief fonction pour vérifier si un fichier existe 
+    \param nom chaîne de caractère qui contient le nom du fichier à vérifier
+    \return renvoie 1 si le fichier existe et 0 dans le cas contraire 
+*/
+int FichierExiste(char nom[]){
+    FILE * f = fopen(nom, "r");
+    if(f){
+        fclose(f);
+        return 1;
+    }
+    return 0;
+}
 
 /** \brief fonction pour charger les images danns une texture (enlève la couleur blanche de l'image aussi (255.255.255))
     \param nom nom du fichier bpm à charger 
@@ -78,13 +130,14 @@ void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[]){
     \param event pointeur vers l'événement souris cliqué 
     \param l liste de pointeurs vers les item_t
  */
-void detecterItemUtilise(SDL_Event * event, item_t * l[]){
+void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
     for(int i = 0;i < NB_ITEM;i++){
         if(l[i]->nb>0){
             if(detecterButtonClique(event,&item)){
                 l[i]->nb--;
+                l[i]->f(p);
             }
             x+=100;
             item.x = x;
@@ -105,7 +158,7 @@ void FreeTextureItem(item_t * l[]){
 
 
 int main(int argc, char *argv[]){
-    
+    Fighter player = {40, 140, 120, 100};
     SDL_Init(SDL_INIT_VIDEO);
     SDL_DisplayMode mode;
     SDL_GetCurrentDisplayMode(0, &mode);//sert à récupérer la taille de l'écran actuelle 
@@ -118,15 +171,16 @@ int main(int argc, char *argv[]){
     SDL_Event event;/** variable servant à stocker les evénements détectés par SDL_PollEvent */
 //----------------------initialisation des items ------------------------------------
     item_t potion;
-    potion.nb = 1;
+    potion.nb = 10;
+    potion.f = soin1PV;
     chargerImage("Img/potion.bmp",renderer,&potion.t);
     item_t potion2;
     potion2.nb = 5;
+    potion2.f = soin5PV;
     chargerImage("Img/potion2.bmp",renderer,&potion2.t);
     item_t * listeItem[3];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
-
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(window);
     SDL_Texture * Chiffre;
@@ -140,6 +194,63 @@ int main(int argc, char *argv[]){
         srcDigits[i].w = digitWidth; 
         srcDigits[i].h = digitHeight; 
     }
+//-------------------lecture des données -----------------------------------------
+    FILE * f;
+    if(!FichierExiste(FICHIER_DATA)){//si le fichier data.txt on le créé
+        f = fopen(FICHIER_DATA,"w");
+        SDL_Texture * Gladiateur;
+        SDL_Rect DestGla = {200,100,TAILLE_SPRITE,TAILLE_SPRITE};
+        chargerImage("Img/gladiateur.bmp",renderer,&Gladiateur);
+        SDL_Texture * Archer;
+        SDL_Rect DestArc = {400,100,TAILLE_SPRITE,TAILLE_SPRITE};
+        chargerImage("Img/archer.bmp",renderer,&Archer);
+        SDL_Texture * Lancier;
+        SDL_Rect DestLan = {600,100,TAILLE_SPRITE,TAILLE_SPRITE};
+        chargerImage("Img/lancier.bmp",renderer,&Lancier);
+        SDL_RenderCopy(renderer,Gladiateur,NULL,&DestGla);
+        SDL_RenderCopy(renderer,Archer,NULL,&DestArc);
+        SDL_RenderCopy(renderer,Lancier,NULL,&DestLan);
+        SDL_RenderPresent(renderer);
+        int choixPerso = 0;
+        while(choixPerso==0){//choix de la classe 
+            while(SDL_PollEvent(&event)){
+                if(event.type == SDL_MOUSEBUTTONDOWN){
+                    if(detecterButtonClique(&event,&DestGla)){
+                        fprintf(f,"pv_max=%d\n",GLADIATEUR_MAX_HP);
+                        fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
+                        fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
+                        choixPerso++;
+                    }
+                    else if(detecterButtonClique(&event,&DestArc)){
+                        fprintf(f,"pv_max=%d\n",ARCHER_MAX_HP);
+                        fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
+                        fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
+                        choixPerso++;
+                    }
+                    else if(detecterButtonClique(&event,&DestLan)){
+                        fprintf(f,"pv_max=%d\n",LANCIER_MAX_HP);
+                        fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
+                        fprintf(f,"stat_speed=%d\n",LANCIER_SPEED);
+                        choixPerso++;
+                    }
+                }
+            }
+        }
+        fprintf(f,"nb_potions=%d\n",0);
+        fprintf(f,"nb_Superpotions=%d\n",0);
+        fclose(f);
+        SDL_DestroyTexture(Gladiateur);
+        SDL_DestroyTexture(Archer);
+        SDL_DestroyTexture(Lancier);
+    }
+    f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locals 
+    fscanf(f,"pv_max=%d\n",&(player.max_hp));
+    fscanf(f,"stat_attaque=%d\n",&(player.attack));
+    fscanf(f,"stat_speed=%d\n",&(player.speed));
+    fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
+    fscanf(f,"nb_Superpotions=%d\n",&(listeItem[1]->nb));
+    fclose(f);
+    player.hp = player.max_hp;
 //--------------------------------------------------------------------------------
     while(sortie==0){
         while(SDL_PollEvent(&event)){
@@ -158,12 +269,17 @@ int main(int argc, char *argv[]){
                 }
             }
             if((event.type == SDL_MOUSEBUTTONDOWN)&&(pause)){
-                detecterItemUtilise(&event,listeItem);
+                detecterItemUtilise(&event,listeItem,&player);
                 printf("SOURIS");
             }
         }
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); 
         SDL_RenderClear(renderer);
+
+        SDL_Rect player_hp = {50, 1000, player.hp * 3, 50};
+        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        SDL_RenderFillRect(renderer, &player_hp);
+
         if(pause){
             affficherIventaire(renderer,Chiffre,listeItem);
         }
