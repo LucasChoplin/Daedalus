@@ -1,11 +1,11 @@
-CC = gcc
-CFLAGS = `sdl2-config --cflags`
-LDFLAGS = `sdl2-config --libs`
+start : main.o map.o atlas.o
+	gcc main.o map.o atlas.o -o start -lSDL2 -lSDL2_image
 
-all: main
+main.o : main.c structs.h
+	gcc -c main.c
 
-monprog: main.c
-	$(CC) main.c -o main $(CFLAGS) $(LDFLAGS)
+map.o : system/map.c system/map.h system/atlas.h
+	gcc -c system/map.c
 
-clean:
-	rm -f main
+atlas.o : system/atlas.c system/atlas.h
+	gcc -c system/atlas.c
