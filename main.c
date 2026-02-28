@@ -14,7 +14,7 @@ Game game;
 Player player;
 
 //initialisation de SDL et creation de la fenetre et du renderer
-int initSDL(void){
+int initSDL(){
     int rendererFlags, windowFlags;
     rendererFlags = SDL_RENDERER_ACCELERATED;
     windowFlags = 0;
