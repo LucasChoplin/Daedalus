@@ -1,28 +1,17 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+#include "structs.h"
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
+
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 960
+
 
 SDL_Surface* texte=NULL;
 char* message = NULL; 
 SDL_Color couleur;
-
-typedef struct {
-    int hp;
-    int max_hp;
-    int attack;
-    int speed;
-    int xp;
-} Fighter;
-
-typedef enum {
-    PLAYER_TURN,
-    ENEMY_TURN,
-    VICTORY,
-    DEFEAT
-} GameState;
 
 int is_point_in_rect(int x, int y, SDL_Rect rect) {
     return (x >= rect.x && x <= rect.x + rect.w &&
@@ -31,22 +20,16 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 
 
 int main(int argc, char *argv[]){
+
+    int x=10,y=10;
+
     TTF_Init();
 
-    TTF_Font* font = TTF_OpenFont("assets/ALGER.TTF", 100);
-
-    char txt[][15]={"VICTORY","DEFEAT","RUN","FAIBLE","FORTE","INVENTAIRE"}; 
-
-    SDL_Surface* texte=NULL;
-    char* message = NULL; 
-    SDL_Color couleur;
-
-    int x,y;
+    TTF_Font* font = TTF_OpenFont("times.ttf", 100);
 
     SDL_Init(SDL_INIT_VIDEO);
-    srand(time(NULL));
 
-    SDL_Window *window = SDL_CreateWindow("Combat Tour par Tour",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,640, 480,SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_Window *window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -57,13 +40,27 @@ int main(int argc, char *argv[]){
     int running = 1;
 
     // Boutons
-    SDL_Rect fuite = { 1400, 950, 425, 40 };
-    SDL_Rect attack_btn = { 1625, 900, 200, 40 };
-    SDL_Rect strong_attack_btn = { 1400, 900, 200, 40 };
+    SDL_Rect fuite = { 800, 900, 425, 40 };
+    SDL_Rect attack_btn = { 800, 850, 200, 40 };
+    SDL_Rect strong_attack_btn = {1025, 850, 200, 40 };
+    SDL_Rect inventaire = { 800, 800, 425, 40 };
 
     //barre
-    SDL_Rect xp_possede = { 50, 960, player.xp *3, 10 };
-    SDL_Rect xp_necessaire = { 50, 960, 100*3, 10 };
+    SDL_Rect xp_possede = { 50, 935, player.xp *3, 10 };
+    SDL_Rect xp_necessaire = { 50, 935, 100*3, 10 };
+
+    //affichage de l'image
+    SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
+
+    SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
+    SDL_FreeSurface(image);
+
+    SDL_Rect personnage = {150, 800, 0, 0};
+    SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
+
+    SDL_Rect ennemy = {1100, 100, 0, 0};
+    SDL_QueryTexture(monImage, NULL, NULL, &ennemy.w, &ennemy.h);
+
     
     while (running &&(player.hp>0 && enemy.hp>0)) {
         SDL_Event e;
@@ -116,8 +113,8 @@ int main(int argc, char *argv[]){
         if (state == ENEMY_TURN) {
             SDL_Delay(500);
             switch(rand()%2) {
-                case 0:player.hp = (player.hp<30*(enemy.attack/100)) ? 0 : player.hp-30*(enemy.attack/100);
-                case 1:player.hp = (player.hp<50*(enemy.attack/100)) ? 0 : player.hp-50*(enemy.attack/100);
+                case 0:player.hp = (player.hp<30*(enemy.attack/100)) ? 0 : player.hp-30*(enemy.attack/100);break;
+                case 1:player.hp = (player.hp<50*(enemy.attack/100)) ? 0 : player.hp-50*(enemy.attack/100);break;
             }
                    
             state = (player.hp <= 0) ? DEFEAT : PLAYER_TURN;
@@ -128,11 +125,11 @@ int main(int argc, char *argv[]){
         SDL_RenderClear(renderer);
 
         // Barre de vie ennemi
-        SDL_Rect enemy_hp = {50, 40, enemy.hp * 3, 50};
+        SDL_Rect enemy_hp = {1000, 40, enemy.hp * 3, 30};
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &enemy_hp);
         
-        SDL_Rect player_hp = {50, 900, player.hp * 3, 50};
+        SDL_Rect player_hp = {50, 900, player.hp * 3, 30};
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         SDL_RenderFillRect(renderer, &player_hp);
 
@@ -151,6 +148,10 @@ int main(int argc, char *argv[]){
         //bouton fuite
         SDL_SetRenderDrawColor(renderer, 250, 250, 250, 255);
         SDL_RenderFillRect(renderer, &fuite);
+        
+        //bouton inventaire
+        SDL_SetRenderDrawColor(renderer, 250, 0, 250, 255);
+        SDL_RenderFillRect(renderer, &inventaire);
 
         //bouton xp necessaire
         SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
@@ -160,33 +161,30 @@ int main(int argc, char *argv[]){
         SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
         SDL_RenderFillRect(renderer, &xp_possede);
 
-        SDL_Surface* image = SDL_LoadBMP("img/archer.bmp");
-
-        SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer,image);  
-        SDL_FreeSurface(image); //Équivalent du destroyTexture pour les surface, permet de libérer la mémoire quand on n'a plus besoin d'une surface
-
-        SDL_Rect personnage = {100, 800, 0, 0};
-        SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
-
         SDL_RenderCopy(renderer, monImage, NULL, &personnage);
+        SDL_RenderCopy(renderer, monImage, NULL, &ennemy);
 
         SDL_RenderPresent(renderer);
         SDL_Delay(16);
     }
+    SDL_Delay(2000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
 
+
+    SDL_Surface* texte=NULL;
+    char* message = NULL; 
+    SDL_Color couleur;
 
     switch(state){
         case DEFEAT:
             couleur = (SDL_Color){200, 0, 0, 255};
-            message=txt[1];
+            message="DEFEAT";
             break;
 
         case VICTORY:
             couleur = (SDL_Color){0, 200, 0, 255};
-            message=txt[0];
+            message="VICTORY";
             break;        
     }
 
@@ -196,7 +194,7 @@ int main(int argc, char *argv[]){
     SDL_FreeSurface(texte);
 
     SDL_GetRendererOutputSize(renderer, &x, &y);
-    SDL_Rect position = {x/2.5, y/3, 0, 0};
+    SDL_Rect position = {500, 500, 0, 0};
     SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
 
     SDL_RenderCopy(renderer, texture, NULL, &position);
