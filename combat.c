@@ -140,8 +140,6 @@ int main(int argc, char *argv[]){
         SDL_SetRenderDrawColor(renderer, 200, 50, 50, 255);
         SDL_RenderFillRect(renderer, &attack_btn);
 
-        text(1650,900,txt[3],(SDL_Color){0,0,0,255});
-
         // Barre de vie joueur
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
         SDL_RenderFillRect(renderer, &player_hp);
