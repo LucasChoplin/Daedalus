@@ -5,9 +5,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
-    SDL_Surface* texte=NULL;
-    char* message = NULL; 
-    SDL_Color couleur;
+SDL_Surface* texte=NULL;
+char* message = NULL; 
+SDL_Color couleur;
 
 typedef struct {
     int hp;
@@ -27,32 +27,6 @@ typedef enum {
 int is_point_in_rect(int x, int y, SDL_Rect rect) {
     return (x >= rect.x && x <= rect.x + rect.w &&
             y >= rect.y && y <= rect.y + rect.h);
-}
-
-void text(int x,int y,char*message,SDL_Color couleur){
-    TTF_Init();
-
-    TTF_Font* font = TTF_OpenFont("assets/ALGER.TTF", 100);
-
-    SDL_Window *window = SDL_CreateWindow("Combat Tour par Tour",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,640, 480,SDL_WINDOW_FULLSCREEN_DESKTOP);
-
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-    SDL_Surface* texte=NULL;
-
-    texte = TTF_RenderText_Blended(font, message,couleur);
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, texte);
-    SDL_FreeSurface(texte);
-
-    SDL_GetRendererOutputSize(renderer, &x, &y);
-    SDL_Rect position = {x/2.5, y/3, 0, 0};
-    SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
-
-    SDL_RenderCopy(renderer, texture, NULL, &position);
-
-    TTF_CloseFont(font);
-    TTF_Quit();
 }
 
 
