@@ -116,21 +116,26 @@ int main(int argc, char *argv[]){
 //-------------------------- création des items --------------------
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
     int sortie = 0;/* variable servant à arrêter le programme */
+    int itemDraw = 0;/* variable servant à indiquer si il y'a un item à afficher*/
+    int timeDraw = 0;/* variable servant à conserver le nombre de fois qu'un item à été dessiner*/
+    initAtlasItem(game.renderer);
+    SDL_Texture * itemAfficher;
     Fighter player1 = {40, 140, 120, 100};
     item_t potion;
     potion.nb = 10;
     potion.f = soin1PV;
-    chargerImage("Img/potion.bmp",game.renderer,&potion.t);
+    //chargerImage("Img/potion.bmp",game.renderer,&potion.t);
     item_t potion2;
     potion2.nb = 5;
     potion2.f = soin5PV;
-    chargerImage("Img/potion2.bmp",game.renderer,&potion2.t);
+    //chargerImage("Img/potion2.bmp",game.renderer,&potion2.t);
     item_t * listeItem[3];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(game.window);
     SDL_Texture * Chiffre;
+    SDL_Texture * atlasItem;
     chargerImage("Img/chiffreTest.bmp",game.renderer,&Chiffre);
     SDL_Rect srcDigits[10]; 
     int digitWidth = 32; 
@@ -247,6 +252,9 @@ int main(int argc, char *argv[]){
                         pause = 0;
                     }
                 }
+                if(e.key.keysym.sym == SDLK_a){
+                    itemDraw = dropItem(listeItem,0,&itemAfficher);
+                }
             }
             if((e.type == SDL_MOUSEBUTTONDOWN)&&(pause)){
                 detecterItemUtilise(&e,listeItem,&player1);
@@ -258,11 +266,20 @@ int main(int argc, char *argv[]){
         if(pause){
             affficherIventaire(game.renderer,Chiffre,listeItem);
         }
+        if((itemDraw)||(timeDraw)){
+            if(timeDraw ==0 ){
+                timeDraw =1;
+            }
+            timeDraw = afficherItemObtenu(game.renderer,itemAfficher,timeDraw);
+            printf("t = %d\n",timeDraw);
+        }
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
     SDL_DestroyTexture(potion.t);
     SDL_DestroyTexture(potion2.t);
+    SDL_DestroyTexture(atlasItem);
+    SDL_DestroyTexture(Chiffre);
     SDL_Quit();
     return 0;
 }

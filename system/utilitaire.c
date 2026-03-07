@@ -33,7 +33,12 @@ int detecterButtonClique(SDL_Event * e,SDL_Rect * r){
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
     d->w = 32;
     d->h = 32;
-    SDL_Rect chif = {nb*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+    SDL_Rect chif = {nb%10*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+    if(nb>9){
+        SDL_Rect chif2 = {(nb/10)*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+        SDL_Rect d2 = {d->x-32,d->y,32,32};
+        SDL_RenderCopy(r, t,&chif2,&d2);
+    }
     SDL_RenderCopy(r, t,&chif,d);
 }
 
