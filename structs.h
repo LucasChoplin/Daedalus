@@ -1,10 +1,10 @@
+#ifndef structs_h //evite les inclusions multiples
+#define structs_h
+#include "def.h"
+
 typedef struct{
     SDL_Renderer *renderer;
     SDL_Window *window;
-    int up;
-    int down;
-    int left;
-    int right;
 } Game;
 
 typedef struct{
@@ -12,7 +12,14 @@ typedef struct{
     SDL_Texture *texture;
 } Player;
 
-extern Game game;
+typedef struct{
+    int mapID, xSalle, ySalle;
+    int tiles[SALLE_HEIGHT][SALLE_WIDTH];
+} Salle;
+
+typedef struct{
+    int mapID, tileX, tileY;
+} Mob;
 
 typedef struct {
     int hp;
@@ -27,3 +34,7 @@ typedef struct{
     SDL_Texture * t;/**< quantité de l'item */
     void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
+
+extern Game game;
+
+#endif
