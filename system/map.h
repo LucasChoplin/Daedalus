@@ -1,12 +1,17 @@
 #ifndef map_h //evite les inclusions multiples
 #define map_h
 #include <SDL2/SDL.h>
-#define MAP_WIDTH 20
-#define MAP_HEIGHT 15
+#include "../def.h"
+#include "../structs.h"
 
 int isWall(int tile);
-void drawMap(SDL_Renderer* renderer, int offsetX, int offsetY);
+void initMap(void);
+void drawMap(SDL_Renderer* renderer);
+void drawMob(SDL_Renderer* renderer, Mob* mob);
+void cleanupMap(void);
+void changeRoom(int direction, int* playerX, int* playerY);
 
-extern int map[MAP_HEIGHT][MAP_WIDTH];
+extern Salle* currentMap;
+extern Salle* salles[];
 
 #endif

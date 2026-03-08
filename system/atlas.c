@@ -5,15 +5,25 @@
 #include "atlas.h"
 
 static SDL_Texture* atlas = NULL;
+static SDL_Texture* mobAtlas = NULL;
 
 //l'atlas comprend toutes les textures possibles de sol/mur
 //on ne charge qu'une texture pour toutes les maps
+//on a aussi un atlas pour les diff mobs 
 
 //initialise l'atlas en chargeant la texture
 void initAtlas(SDL_Renderer* renderer){
-    atlas = IMG_LoadTexture(renderer, "assets/atlas1.png"); //path du sprite de l'atlas
+    atlas = IMG_LoadTexture(renderer, "assets/atlas1.png"); // path du sprite de l'atlas
     if(!atlas){
-        fprintf(stderr, "Erreur IMG_LoadTexture : %s", SDL_GetError());
+        fprintf(stderr, "Erreur IMG_LoadTexture (map) : %s", SDL_GetError());
+        exit(1);
+    }
+}
+
+void initMobAtlas(SDL_Renderer* renderer){
+    mobAtlas = IMG_LoadTexture(renderer, "assets/jokere.png");
+    if(!mobAtlas){
+        fprintf(stderr, "Erreur IMG_LoadTexture (mob) : %s", SDL_GetError());
         exit(1);
     }
 }
@@ -26,9 +36,20 @@ void cleanupAtlas(void){
     }
 }
 
+void cleanupMobAtlas(void){
+    if(mobAtlas){
+        SDL_DestroyTexture(mobAtlas);
+        mobAtlas = NULL;
+    }
+}
+
 //pour obtenir la texture de l'atlas
 SDL_Texture* getAtlasTexture(void){
     return atlas;
+}
+
+SDL_Texture* getMobAtlasTexture(void){
+    return mobAtlas;
 }
 
 //retourne le 'rectange' de l'atlas correspondant à un ID de tile
