@@ -1,17 +1,7 @@
-#include <SDL2/SDL.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "structs.h"
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include "combat.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 960
-
-
-SDL_Surface* texte=NULL;
-char* message = NULL; 
-SDL_Color couleur;
 
 int is_point_in_rect(int x, int y, SDL_Rect rect) {
     return (x >= rect.x && x <= rect.x + rect.w &&
@@ -19,19 +9,13 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 }
 
 
-int main(int argc, char *argv[]){
+int lancerCombat(SDL_Renderer *renderer){
 
     int x=10,y=10;
 
     TTF_Init();
 
     TTF_Font* font = TTF_OpenFont("times.ttf", 100);
-
-    SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_Window *window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
     Fighter player = {100, 100, 120, 100, 60};
     Fighter enemy  = {80,  80,  115, 20};
@@ -94,11 +78,10 @@ int main(int argc, char *argv[]){
 
                 if (is_point_in_rect(mx, my, fuite)) {
                     if(player.speed>enemy.speed){
-                            SDL_DestroyRenderer(renderer);
-                            SDL_DestroyWindow(window);
-                            SDL_Quit();
-
-                            return 0;
+                        SDL_DestroyTexture(monImage);
+                        TTF_CloseFont(font);
+                        TTF_Quit();
+                        return 0;
                     }
                     else{
                         state = ENEMY_TURN;
@@ -168,8 +151,10 @@ int main(int argc, char *argv[]){
         SDL_Delay(16);
     }
     SDL_Delay(2000);
+    SDL_DestroyTexture(monImage);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
 
 
     SDL_Surface* texte=NULL;
@@ -205,14 +190,6 @@ int main(int argc, char *argv[]){
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
     TTF_Quit();
-
-
-  
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
     return 0;
 }
 
