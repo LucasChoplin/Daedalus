@@ -1,12 +1,36 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "utilitaire.h"
+#include "../def.h"
 /** \file Inventaire.c
     \brief contenus des fonctions de utilitaire.h.
     \author Patrick Leguillon
     \version 1.0
     \date 28 février 2026
 */
+static SDL_Texture * atlasMenu = NULL;//texture qui sert à stocker l'atlas des menus 
+
+void initAtlasMenu(SDL_Renderer * r){
+    atlasMenu = IMG_LoadTexture(r, "Img/bouton.png");
+}
+
+SDL_Texture * getAtlasMenu(void){
+    return atlasMenu;
+}
+
+void cleanupAtlasMenu(void){
+    SDL_DestroyTexture(atlasMenu);
+}
+
+SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS){
+    SDL_Rect rect;
+    rect.x = (ID % TAILLE_ATLAS) * 64;
+    rect.y = (ID / TAILLE_ATLAS) * 64;
+    rect.w = 64;
+    rect.h = 64;
+    return rect;
+}
 
 int FichierExiste(char nom[]){
     FILE * f = fopen(nom, "r");

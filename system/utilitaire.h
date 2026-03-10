@@ -1,6 +1,10 @@
+#ifndef utilitaire_h //evite les inclusions multiples
+#define utilitaire_h
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../structs.h"
+#include "../def.h"
 /** \file Inventaire.c
     \brief bibliothèque des fonctions générals 
     \author Patrick Leguillon
@@ -8,8 +12,16 @@
     \date 28 février 2026
 */
 
-#define TAILLE_CHIFFRE 32 //taille des chiffres 32*32px
-#define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 
+/** \brief fonction qui charge l'atals des boutons
+    \param r pointeur vers le moteur de rendu SDL_Renderer
+*/
+void initAtlasMenu(SDL_Renderer * r);
+
+SDL_Texture * getAtlasMenu(void);
+
+void cleanupAtlasMenu(void);
+
+SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS);
 
 /** \brief fonction pour vérifier si un fichier existe 
     \param nom chaîne de caractère qui contient le nom du fichier à vérifier
@@ -44,3 +56,5 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d);
     \param l pointeur vers la liste des items 
 */
 void sauvegarder(Fighter p,item_t * l[]);
+
+#endif 

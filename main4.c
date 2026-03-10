@@ -2,32 +2,30 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "system/inventaire.h"
+#include "structs.h"
 #include "system/map.h"
 #include "system/atlas.h"
-#include "system/utilitaire.h"
+#include "system/inventaire.h"
+#include "def.h"
 
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 960
-#define GLADIATEUR_MAX_HP 200
-#define GLADIATEUR_ATTACK 120
-#define GLADIATEUR_SPEED 100
-#define ARCHER_MAX_HP 100
-#define ARCHER_ATTACK 220
-#define ARCHER_SPEED 100
-#define LANCIER_MAX_HP 100
-#define LANCIER_ATTACK 120
-#define LANCIER_SPEED 200
-#define TAILLE_MENU 128
+//commande de compilation 
+//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 Game game;
 Player player;
+Mob mobTest = {.mapID=1, .tileX=5, .tileY=5};
 
-//commande de compilation ::
-// gcc -o main main2.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+//evite collision avec les mobs
+/*int checkMobCollision(int x, int y) {
+    if (currentMap->mapID == mobTest.mapID) {
+        if (mobTest.tileX == x && mobTest.tileY == y) {
+            return 1; //si mob
+        }
+    }
+    return 0; 
+}*/
 
-//initialisation de SDL et creation de la fenetre et du renderer
-int initSDL(){
+int initSDL(void){
     int rendererFlags, windowFlags;
     rendererFlags = SDL_RENDERER_ACCELERATED;
     windowFlags = 0;
@@ -57,6 +55,7 @@ int initSDL(){
     initAtlas(game.renderer);
     initAtlasItem(game.renderer);
     initAtlasMenu(game.renderer);
+    initMobAtlas(game.renderer);
 
     return 0;
 }
@@ -92,8 +91,10 @@ void drawTexture(SDL_Texture* texture, int x, int y, int w, int h){
 //nettoyage de la memoire
 void cleanup(void){
     cleanupAtlas();
-    cleanupAtlasMenu();
     cleanupAtlasItem();
+    cleanupAtlasMenu();
+    cleanupMobAtlas();
+    cleanupMap();
     if(game.renderer != NULL)
         SDL_DestroyRenderer(game.renderer);
     if(game.window != NULL)
@@ -105,24 +106,21 @@ int main(int argc, char *argv[]){
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
     memset(&player, 0, sizeof(Player));
+
     initSDL();
+
     int mapPixelWidth = SALLE_WIDTH * TILE_SIZE;
     int mapPixelHeight = SALLE_HEIGHT * TILE_SIZE;
     int mapOffsetX = (SCREEN_WIDTH - mapPixelWidth) / 2;
     int mapOffsetY = (SCREEN_HEIGHT - mapPixelHeight) / 2;
-    //position de depart du player
-    player.xTile = 2;
-    player.yTile = 2;
-    player.texture = loadTexture("assets/batman.png"); //chemin du sprite du player
-    atexit(cleanup); //nettoyera la memoire à la fermeture du programme
-//-------------------------- création des items --------------------
+
+    initAtlas(game.renderer);
+    initMap();
+//----------------------------------------création des items -----------------------------------
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
     int sortie = 0;/* variable servant à arrêter le programme */
     int menu = 0;/** variable servant à indiquer si un menu est ouvert */
     int itemObtenu[10];
-    int itemDraw = 0;/* variable servant à indiquer si il y'a un item à afficher*/
-    int timeDraw = 0;/* variable servant à conserver le nombre de fois qu'un item à été dessiner*/
-    SDL_Texture * itemAfficher;
     Fighter player1 = {40, 140, 120, 100};
     item_t potion;
     potion.nb = 10;
@@ -245,16 +243,24 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
     fscanf(f,"nb_Superpotions=%d\n",&(listeItem[1]->nb));
     fclose(f);
     player1.hp = player1.max_hp;
-//--------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------
+    //position de depart du player
+    player.xTile = 9;
+    player.yTile = 7;
+    player.texture = loadTexture("assets/batman.png"); //chemin du sprite du player
+    atexit(cleanup); //nettoyera la memoire à la fermeture du programme
+    ////////////////////////
+    
     while(sortie==0){
         prepareScene();
         SDL_Event e;
+        
         //gestion des evenements
         while(SDL_PollEvent(&e)){
+            if(e.type == SDL_QUIT){
+                exit(0);
+            }
             if(menu==0){
-                if(e.type == SDL_QUIT){
-                    exit(0);
-                }
                 if(e.type == SDL_KEYDOWN){
                     int newX = player.xTile;
                     int newY = player.yTile;
@@ -276,12 +282,42 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                             sortie = 1;
                             break;
                     }
-                    //on verifie les collisions
-                    /*int tile = map[newY][newX];
-                    if(!isWall(tile) && newX >= 0 && newX < MAP_WIDTH && newY >= 0 && newY < MAP_HEIGHT){
-                        player.xTile = newX;
-                        player.yTile = newY;
-                    }*/
+                    //on verifie les collisions et le changement de salle
+                    if(newX >= SALLE_WIDTH) {
+                        changeRoom(DROITE, &newX, &newY);
+                        int tile = currentMap->tiles[newY][newX];
+                        if(!isWall(tile)){
+                            player.xTile = newX;
+                            player.yTile = newY;
+                        }
+                    } else if(newX < 0) {
+                        changeRoom(GAUCHE, &newX, &newY);
+                        int tile = currentMap->tiles[newY][newX];
+                        if(!isWall(tile)){
+                            player.xTile = newX;
+                            player.yTile = newY;
+                        }
+                    } else if(newY >= SALLE_HEIGHT) {
+                        changeRoom(BAS, &newX, &newY);
+                        int tile = currentMap->tiles[newY][newX];
+                        if(!isWall(tile)){
+                            player.xTile = newX;
+                            player.yTile = newY;
+                        }
+                    } else if(newY < 0) {
+                        changeRoom(HAUT, &newX, &newY);
+                        int tile = currentMap->tiles[newY][newX];
+                        if(!isWall(tile)){
+                            player.xTile = newX;
+                            player.yTile = newY;
+                        }
+                    } else {
+                        int tile = currentMap->tiles[newY][newX];
+                        if(!isWall(tile)){
+                            player.xTile = newX;
+                            player.yTile = newY;
+                        }
+                    }
                 }
                 if(e.type == SDL_KEYUP){
                     if(e.key.keysym.sym == SDLK_TAB){//si la touche est tab 
@@ -298,9 +334,6 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                         menu = dropItem(game.renderer,0,listeItem,0,itemObtenu);
                     }
                 }
-                if((e.type == SDL_MOUSEBUTTONDOWN)&&(pause)){
-                    detecterItemUtilise(&e,listeItem,&player1);
-                }
             }
             else{
                 if(e.type == SDL_MOUSEBUTTONDOWN){
@@ -310,18 +343,24 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                 }
             }
         }
-        //drawMap(game.renderer, mapOffsetX, mapOffsetY);
-        drawTexture(player.texture, player.xTile * TILE_SIZE, player.yTile * TILE_SIZE, 64, 64);
+        if (player.xTile == mobTest.tileX && player.yTile == mobTest.tileY && currentMap->mapID == mobTest.mapID) {
+            //fonction declenchement combat;
+            printf("Combat!\n");
+        }
+        drawMap(game.renderer);
+        if (currentMap->mapID == mobTest.mapID) {
+            drawMob(game.renderer, &mobTest);
+        }
         if(pause){
             affficherIventaire(game.renderer,Chiffre,listeItem);
         }
         if(menu){
             afficherItemObtenu(game.renderer,menu,itemObtenu);
         }
+        drawTexture(player.texture, player.xTile * TILE_SIZE, player.yTile * TILE_SIZE, 64, 64);
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
-    SDL_DestroyTexture(Chiffre);
-    SDL_Quit();
+
     return 0;
 }

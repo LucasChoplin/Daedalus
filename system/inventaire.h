@@ -1,6 +1,10 @@
+#ifndef inventaire_h //evite les inclusions multiples
+#define inventaire_h
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "utilitaire.h"
+#include "../def.h"
 /** \file Inventaire.c
     \brief bibliothèque des fonctions en lien avec la gestion des items et de l'inventaire 
     \author Patrick Leguillon
@@ -8,14 +12,12 @@
     \date 28 février 2026
 */
 
-#define TAILLE_ITEM 32//taille donnée au item
-#define TAILLE_SPRITE 128//taille donné au sprite  
-#define NB_ITEM 2//nombre d'items dans le jeu 
-
 /** \brief initialise l'atlas des items  
     \param t pointeur vers le moteur de rendu 
 */
 void initAtlasItem(SDL_Renderer * r);
+
+void cleanupAtlasItem(void);
 
 /** \brief fonction qui redonne 1 pv 
     \param p pointeur vers le perso concerné
@@ -40,18 +42,13 @@ void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[]);
  */
 void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
 
-/** \brief fonction qui libère les textures chargées des items 
-    \param l liste de pointeurs vers les item_t
- */
-void FreeTextureItem(item_t * l[]);
-
 /** \brief fonction qui choisi quelle items sont dropées et ajouter
     \param l liste des items 
     \param ennemi numéro de l'ennemi vaincu 
     \param t pointeur vers la où doit être stocké l'image à afficher 
     \return 1 si un item à été dropé
  */
-int dropItem(item_t * l[],int ennemi,SDL_Texture ** t);
+int dropItem(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi,int itemdrop[]);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
@@ -59,4 +56,6 @@ int dropItem(item_t * l[],int ennemi,SDL_Texture ** t);
     \param time entier indiquant le nombre de fois que la texture à été affiché 
     \return retourne 0 quand a fini d'affcher l'item sinon retourne 1
 */
-int afficherItemObtenu(SDL_Renderer * r, SDL_Texture * t, int time);
+void afficherItemObtenu(SDL_Renderer * r, int itemObtenu, int tItemObtenu[]);
+
+#endif 

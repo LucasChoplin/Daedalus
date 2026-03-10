@@ -1,18 +1,24 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "inventaire.h"
 #include "atlas.h"
+#include "../def.h"
 /** \file Inventaire.c
     \brief contenus des fonctions de inventaire.h.
     \author Patrick Leguillon
     \version 1.0
     \date 20 février 2026
 */
-static SDL_Texture* atlasItem = NULL;
+static SDL_Texture * atlasItem = NULL;//texture qui sert à stocker l'atlas des items 
 
 void initAtlasItem(SDL_Renderer * r){
-    //atlasItem = IMG_LoadTexture(r, "Img/Item.png");
-    chargerImage("Img/potion.bmp",r,&atlasItem);
+    atlasItem = IMG_LoadTexture(r, "Img/Item.png");
+    //chargerImage("Img/potion.bmp",r,&atlasItem);
+}
+
+void cleanupAtlasItem(void){
+    SDL_DestroyTexture(atlasItem);
 }
 
 void soin1PV(Fighter * p){
@@ -61,33 +67,35 @@ void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
     }
 }
 
-void FreeTextureItem(item_t * l[]){
-    for(int i = 0; i < NB_ITEM;i++){
-        SDL_DestroyTexture(l[i]->t);
-    }
-}
-
-int dropItem(item_t * l[],int ennemi, SDL_Texture ** t){
+int dropItem(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi, int itemdrop[]){
+    SDL_Rect item = {100*(itemObtenu+1),100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect destItem;
     switch (ennemi){
         case 0:
             if(rand()%10>=9){
                 l[0]->nb++;
-                //(*t) = l[0]->t;
-                return 1;
+                itemdrop[itemObtenu] = 0;
+                itemObtenu++;
+                itemdrop[itemObtenu] = 1;
+                itemObtenu++;
             }
             break;
     }
-    return 0;
+    return itemObtenu;
 }
 
-int afficherItemObtenu(SDL_Renderer * r, SDL_Texture * t, int time){
-    SDL_Rect d = {300,1000 - time*4,TAILLE_ITEM,TAILLE_ITEM};
-    SDL_Rect TexItem = getTileRect(0);
-    SDL_RenderCopy(r,atlasItem,&TexItem,&d);
-    printf("%d",time);
-    if(time>1000){
-        return 0;
+void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
+    SDL_Rect destMenu = {50,50,1280-100,960-200};
+    SDL_Rect destI ={100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
+    SDL_Rect imgEchap = getTileRect2(4,4);
+    SDL_Rect imgMenu = getTileRect2(5,4);
+    SDL_Rect imgItem;
+    SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
+    SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
+    for(int i = 0;i<itemObtenu;i++){
+        imgItem = getTileRect2(tItemObtenu[i],2);
+        SDL_RenderCopy(r,atlasItem,&imgItem,&destI);
+        destI.x += 100;
     }
-    time++;
-    return time;
 }
