@@ -1,9 +1,4 @@
-#include <SDL2/SDL.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "structs.h"
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include "combat.h"
 
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 960
