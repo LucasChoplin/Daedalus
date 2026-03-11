@@ -1,5 +1,5 @@
-start : main3.o map.o atlas.o
-	gcc main3.o map.o atlas.o -o start -lSDL2 -lSDL2_image
+start : main3.o map.o atlas.o text.o
+	gcc main3.o map.o atlas.o text.o -o start -lSDL2 -lSDL2_image -lSDL2_ttf
 
 main3.o : main3.c structs.h
 	gcc -c main3.c
@@ -8,3 +8,6 @@ map.o : system/map.c system/map.h system/atlas.h
 
 atlas.o : system/atlas.c system/atlas.h
 	gcc -c system/atlas.c
+
+text.o : system/text.c system/text.h
+	gcc -c system/text.c
