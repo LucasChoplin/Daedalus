@@ -56,7 +56,6 @@ int initSDL(void){
     initAtlasItem(game.renderer);
     initAtlasMenu(game.renderer);
     initMobAtlas(game.renderer);
-
     return 0;
 }
 
@@ -114,7 +113,6 @@ int main(int argc, char *argv[]){
     int mapOffsetX = (SCREEN_WIDTH - mapPixelWidth) / 2;
     int mapOffsetY = (SCREEN_HEIGHT - mapPixelHeight) / 2;
 
-    initAtlas(game.renderer);
     initMap();
 //----------------------------------------création des items -----------------------------------
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
@@ -160,6 +158,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     sortie = 1;
                 }
                 else if (detecterButtonClique(&event,&quit)){
+                    SDL_DestroyTexture(Chiffre);
+                    cleanup();
                     return 0;
                 }
             }
@@ -258,9 +258,13 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         //gestion des evenements
         while(SDL_PollEvent(&e)){
             if(e.type == SDL_QUIT){
-                exit(0);
+                sortie = 1;
             }
             if(menu==0){
+                if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
+                    SDL_DestroyTexture(Chiffre);
+                    sortie = 1;
+                }
                 if(e.type == SDL_KEYDOWN){
                     int newX = player.xTile;
                     int newY = player.yTile;
@@ -277,9 +281,6 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                             break;
                         case SDLK_RIGHT:
                             newX ++;
-                            break;
-                        case SDLK_ESCAPE://touche echap = arrêt du programme 
-                            sortie = 1;
                             break;
                     }
                     //on verifie les collisions et le changement de salle
@@ -334,6 +335,9 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                         menu = dropItem(game.renderer,0,listeItem,0,itemObtenu);
                     }
                 }
+                if((e.type == SDL_MOUSEBUTTONDOWN)&&(pause)){
+                    detecterItemUtilise(&e,listeItem,&player1);
+                }
             }
             else{
                 if(e.type == SDL_MOUSEBUTTONDOWN){
@@ -361,6 +365,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
-
+    SDL_DestroyTexture(Chiffre);
+    cleanup();
     return 0;
 }
