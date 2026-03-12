@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "structs.h"
 #include "system/map.h"
 #include "system/atlas.h"
+#include "system/utilitaire.h"
 #include "system/inventaire.h"
+#include "system/text.h"
 #include "def.h"
 
 //commande de compilation 
@@ -13,12 +16,14 @@
 
 Game game;
 Player player;
-Mob mobTest = {.mapID=1, .tileX=5, .tileY=5};
+Mob mobTest = {.mapID=1, .xTile=5, .yTile=5};
+Bouton btnF = {.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
+
 
 //evite collision avec les mobs
 /*int checkMobCollision(int x, int y) {
     if (currentMap->mapID == mobTest.mapID) {
-        if (mobTest.tileX == x && mobTest.tileY == y) {
+        if (mobTest.xTile == x && mobTest.yTile == y) {
             return 1; //si mob
         }
     }
@@ -47,6 +52,11 @@ int initSDL(void){
     game.renderer = SDL_CreateRenderer(game.window, -1, rendererFlags);
     if(!game.renderer){
         fprintf(stderr, "Erreur SDL_CreateRenderer : %s", SDL_GetError());
+        return -1;
+    }
+
+    if(TTF_Init() < 0){
+        fprintf(stderr, "Erreur TTF_Init : %s", TTF_GetError());
         return -1;
     }
 
@@ -87,6 +97,16 @@ void drawTexture(SDL_Texture* texture, int x, int y, int w, int h){
     SDL_RenderCopy(game.renderer, texture, NULL, &dest);
 }
 
+//evite collision avec les mobs
+int checkMobCollision(int x, int y) {
+    if (currentMap->mapID == mobTest.mapID) {
+        if (mobTest.xTile == x && mobTest.yTile == y) {
+            return 1; //si mob
+        }
+    }
+    return 0; 
+}
+
 //nettoyage de la memoire
 void cleanup(void){
     cleanupAtlas();
@@ -107,6 +127,12 @@ int main(int argc, char *argv[]){
     memset(&player, 0, sizeof(Player));
 
     initSDL();
+    TTF_Font* font = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
+
+    //apres l'init de TTF, on fini d'init le bouton d'interaction
+    btnF.font = font;
+    btnF.rect.w = 30;  //bouton carre
+    btnF.rect.h = 30;
 
     int mapPixelWidth = SALLE_WIDTH * TILE_SIZE;
     int mapPixelHeight = SALLE_HEIGHT * TILE_SIZE;
@@ -133,8 +159,12 @@ int main(int argc, char *argv[]){
 SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(game.window);
-    SDL_Texture * Chiffre;
-    chargerImage("Img/chiffreTest.bmp",game.renderer,&Chiffre);
+    SDL_Texture * Chiffre = NULL;
+    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
+        fprintf(stderr, "Erreur chargement Chiffre\n");
+        cleanup();
+        return 1;
+    }
     SDL_Rect srcDigits[10]; 
     int digitWidth = 32; 
     int digitHeight = 32; // hauteur d’un chiffre 
@@ -265,6 +295,15 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     SDL_DestroyTexture(Chiffre);
                     sortie = 1;
                 }
+                //si joueur a cote du mob
+                if(currentMap->mapID == mobTest.mapID){
+                    if ((abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
+                        //si appuie sur F, lance combat
+                        if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
+                            printf("Combat!\n");
+                        }
+                    }
+                }
                 if(e.type == SDL_KEYDOWN){
                     int newX = player.xTile;
                     int newY = player.yTile;
@@ -284,37 +323,37 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                             break;
                     }
                     //on verifie les collisions et le changement de salle
-                    if(newX >= SALLE_WIDTH) {
+                    if(newX >= SALLE_WIDTH){
                         changeRoom(DROITE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile)){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY)){
                             player.xTile = newX;
                             player.yTile = newY;
                         }
-                    } else if(newX < 0) {
+                    }else if(newX < 0){
                         changeRoom(GAUCHE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile)){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY)){
                             player.xTile = newX;
                             player.yTile = newY;
                         }
-                    } else if(newY >= SALLE_HEIGHT) {
+                    }else if(newY >= SALLE_HEIGHT){
                         changeRoom(BAS, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile)){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY)){
                             player.xTile = newX;
                             player.yTile = newY;
                         }
-                    } else if(newY < 0) {
+                    }else if(newY < 0){
                         changeRoom(HAUT, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile)){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY)){
                             player.xTile = newX;
                             player.yTile = newY;
                         }
-                    } else {
+                    }else{
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile)){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY)){
                             player.xTile = newX;
                             player.yTile = newY;
                         }
@@ -347,7 +386,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                 }
             }
         }
-        if (player.xTile == mobTest.tileX && player.yTile == mobTest.tileY && currentMap->mapID == mobTest.mapID) {
+        if (player.xTile == mobTest.xTile && player.yTile == mobTest.yTile && currentMap->mapID == mobTest.mapID) {
             //fonction declenchement combat;
             printf("Combat!\n");
         }
@@ -362,6 +401,15 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             afficherItemObtenu(game.renderer,menu,itemObtenu);
         }
         drawTexture(player.texture, player.xTile * TILE_SIZE, player.yTile * TILE_SIZE, 64, 64);
+
+        //dessine le bouton si a cote du mob
+        if (currentMap->mapID == mobTest.mapID &&
+            (abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
+            btnF.rect.x = player.xTile * TILE_SIZE + 50;
+            btnF.rect.y = player.yTile * TILE_SIZE - 20;
+            drawButton(game.renderer, &btnF);
+        }
+
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
