@@ -12,7 +12,7 @@
 #include "def.h"
 
 //commande de compilation 
-//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Game game;
 Player player;
@@ -66,6 +66,7 @@ int initSDL(void){
     initAtlasItem(game.renderer);
     initAtlasMenu(game.renderer);
     initMobAtlas(game.renderer);
+    initAtlasPerso(game.renderer);
     return 0;
 }
 
@@ -113,6 +114,7 @@ void cleanup(void){
     cleanupAtlasItem();
     cleanupAtlasMenu();
     cleanupMobAtlas();
+    cleanupAtlasPerso();
     cleanupMap();
     if(game.renderer != NULL)
         SDL_DestroyRenderer(game.renderer);
@@ -152,9 +154,13 @@ int main(int argc, char *argv[]){
     item_t potion2;
     potion2.nb = 5;
     potion2.f = soin5PV;
+    item_t key;
+    key.nb = 0;
+    key.f = NULL;
     item_t * listeItem[3];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
+    listeItem[2] = &key;
 //----------------------chargement des variables de menu ---------------------------
 SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
 //----------------------Chargement d'image ------------------------------------------
@@ -175,22 +181,27 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         srcDigits[i].h = digitHeight; 
     }
 //---------------------------------------------menu de départ
-    SDL_Rect play = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
+    SDL_Rect play = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
+    SDL_Rect continu = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect quit = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/1.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect playF;
     SDL_Rect quitF;
+    SDL_Rect continuF;
     int sourisX,sourisY;
     while(sortie==0){
         SDL_Event event;
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_MOUSEBUTTONDOWN){
                 if(detecterButtonClique(&event,&play)){
-                    sortie = 1;
+                    sortie = 2;
                 }
                 else if (detecterButtonClique(&event,&quit)){
                     SDL_DestroyTexture(Chiffre);
                     cleanup();
                     return 0;
+                }
+                else if(detecterButtonClique(&event,&continu)){
+                    sortie =1;
                 }
             }
         }
@@ -202,35 +213,40 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             playF = getTileRect(0);     
         }
         if((quit.x<sourisX)&&(quit.x+TAILLE_MENU>sourisX)&&(quit.y<sourisY)&&(quit.y+TAILLE_MENU>sourisY)){
-            quitF = getTileRect2(3,4);
+            quitF = getTileRect2(3,ATLAS_BOUTON);
         }
         else{
-            quitF = getTileRect2(2,4);
+            quitF = getTileRect2(2,ATLAS_BOUTON);
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
+        if(FichierExiste(FICHIER_DATA)){
+            if((continu.x<sourisX)&&(continu.x+TAILLE_MENU>sourisX)&&(continu.y<sourisY)&&(continu.y+TAILLE_MENU>sourisY)){
+                continuF = getTileRect2(7,ATLAS_BOUTON);
+            }
+            else{
+                continuF = getTileRect2(6,ATLAS_BOUTON);
+            }
+            SDL_RenderCopy(game.renderer,getAtlasMenu(),&continuF,&continu);
+        }
         SDL_RenderCopy(game.renderer,getAtlasMenu(),&playF,&play);
         SDL_RenderCopy(game.renderer,getAtlasMenu(),&quitF,&quit);
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
-    sortie = 0;
 //-------------------lecture des données -----------------------------------------
     FILE * f;
-    if(!FichierExiste(FICHIER_DATA)){//si le fichier data.txt on le créé
+    if(sortie==2){//si le fichier data.txt on le créé
         f = fopen(FICHIER_DATA,"w");
-        SDL_Texture * Gladiateur;
         SDL_Rect DestGla = {200,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        chargerImage("Img/gladiateur.bmp",game.renderer,&Gladiateur);
-        SDL_Texture * Archer;
+        SDL_Rect glaF = getTileRect2(1,ATLAS_PERSO);
+        SDL_Rect archerF = getTileRect2(0,ATLAS_PERSO);
         SDL_Rect DestArc = {400,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        chargerImage("Img/archer.bmp",game.renderer,&Archer);
-        SDL_Texture * Lancier;
         SDL_Rect DestLan = {600,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        chargerImage("Img/lancier.bmp",game.renderer,&Lancier);
-        SDL_RenderCopy(game.renderer,Gladiateur,NULL,&DestGla);
-        SDL_RenderCopy(game.renderer,Archer,NULL,&DestArc);
-        SDL_RenderCopy(game.renderer,Lancier,NULL,&DestLan);
+        SDL_Rect lanF = getTileRect2(2,ATLAS_PERSO);
+        SDL_RenderCopy(game.renderer,getAtlasPerso(),&glaF,&DestGla);
+        SDL_RenderCopy(game.renderer,getAtlasPerso(),&archerF,&DestArc);
+        SDL_RenderCopy(game.renderer,getAtlasPerso(),&lanF,&DestLan);
         SDL_RenderPresent(game.renderer);
         int choixPerso = 0;
         while(choixPerso==0){//choix de la classe 
@@ -238,18 +254,21 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             while(SDL_PollEvent(&event)){
                 if(event.type == SDL_MOUSEBUTTONDOWN){
                     if(detecterButtonClique(&event,&DestGla)){
+                        fprintf(f,"classeID=%d\n",GLADIATEUR);
                         fprintf(f,"pv_max=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
                         fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
                         choixPerso++;
                     }
                     else if(detecterButtonClique(&event,&DestArc)){
+                        fprintf(f,"classeID=%d\n",ARCHER);
                         fprintf(f,"pv_max=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
                         choixPerso++;
                     }
                     else if(detecterButtonClique(&event,&DestLan)){
+                        fprintf(f,"classeID=%d\n",LANCIER);
                         fprintf(f,"pv_max=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",LANCIER_SPEED);
@@ -261,18 +280,18 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_Superpotions=%d\n",0);
         fclose(f);
-        SDL_DestroyTexture(Gladiateur);
-        SDL_DestroyTexture(Archer);
-        SDL_DestroyTexture(Lancier);
     }
     f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locals 
+    fscanf(f,"classeID=%d\n",&(player1.classeID));
     fscanf(f,"pv_max=%d\n",&(player1.max_hp));
     fscanf(f,"stat_attaque=%d\n",&(player1.attack));
     fscanf(f,"stat_speed=%d\n",&(player1.speed));
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_Superpotions=%d\n",&(listeItem[1]->nb));
+    fscanf(f,"nb_clés=%d\n",&(listeItem[2]->nb));
     fclose(f);
     player1.hp = player1.max_hp;
+    sortie = 0;
 //----------------------------------------------------------------------------------------------
     //position de depart du player
     player.xTile = 9;
@@ -394,12 +413,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         if (currentMap->mapID == mobTest.mapID) {
             drawMob(game.renderer, &mobTest);
         }
-        if(pause){
-            affficherIventaire(game.renderer,Chiffre,listeItem);
-        }
-        if(menu){
-            afficherItemObtenu(game.renderer,menu,itemObtenu);
-        }
+        
         drawTexture(player.texture, player.xTile * TILE_SIZE, player.yTile * TILE_SIZE, 64, 64);
 
         //dessine le bouton si a cote du mob
@@ -409,7 +423,12 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             btnF.rect.y = player.yTile * TILE_SIZE - 20;
             drawButton(game.renderer, &btnF);
         }
-
+        if(pause){
+            affficherIventaire(game.renderer,Chiffre,listeItem,&player1);
+        }
+        if(menu){
+            afficherItemObtenu(game.renderer,menu,itemObtenu);
+        }
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }

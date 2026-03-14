@@ -24,6 +24,7 @@ typedef struct{
 } Mob;
 
 typedef struct {
+    int classeID;/** indique la classe du personnage */
     int hp;
     int max_hp;
     int attack;
@@ -32,8 +33,7 @@ typedef struct {
 
 /** \brief structure pour les items  */
 typedef struct{
-    int nb;/**< nom de l'image de l'item*/
-    SDL_Texture * t;/**< quantité de l'item */
+    int nb;/**< quantité de l'item */
     void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 

@@ -26,12 +26,15 @@
 #define TAILLE_SPRITE 128//taille donné au sprite  
 #define TAILLE_MENU 128//taille des menus 
 //items
-#define NB_ITEM 2//nombre d'items dans le jeu 
+#define NB_ITEM 3//nombre d'items dans le jeu 
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 
 
 //stats des classes
+#define ARCHER 0
+#define GLADIATEUR 1
+#define LANCIER 2
 #define GLADIATEUR_MAX_HP 200
 #define GLADIATEUR_ATTACK 120
 #define GLADIATEUR_SPEED 100
@@ -41,5 +44,10 @@
 #define LANCIER_MAX_HP 100
 #define LANCIER_ATTACK 120
 #define LANCIER_SPEED 200
+
+//taille des atlas 
+#define ATLAS_BOUTON 4
+#define ATLAS_ITEM 2
+#define ATLAS_PERSO 2
 
 

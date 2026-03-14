@@ -120,7 +120,7 @@ void drawMob(SDL_Renderer* renderer, Mob* mob) {
     SDL_Rect src = getTileRect(0);
     SDL_Texture* mobAtlas = getMobAtlasTexture();
     
-    SDL_Rect destRect = {mob->tileX * TILE_SIZE, mob->tileY * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+    SDL_Rect destRect = {mob->xTile * TILE_SIZE, mob->yTile * TILE_SIZE, TILE_SIZE, TILE_SIZE};
     SDL_RenderCopy(renderer, mobAtlas, &src, &destRect);
 }
 

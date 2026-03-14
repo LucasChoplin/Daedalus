@@ -12,13 +12,6 @@
     \date 28 février 2026
 */
 
-/** \brief initialise l'atlas des items  
-    \param t pointeur vers le moteur de rendu 
-*/
-void initAtlasItem(SDL_Renderer * r);
-
-void cleanupAtlasItem(void);
-
 /** \brief fonction qui redonne 1 pv 
     \param p pointeur vers le perso concerné
 */
@@ -34,7 +27,7 @@ void soin5PV(Fighter * p);
     \param t pointeur vers la texture des chiffres 
     \param l liste de pointeurs vers les item_t
 */
-void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[]);
+void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter * p);
 
 /** \brief fonction qui détecte losqu'on appuie sur un item et diminue sa quantité 
     \param event pointeur vers l'événement souris cliqué 

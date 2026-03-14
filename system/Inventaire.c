@@ -10,16 +10,6 @@
     \version 1.0
     \date 20 février 2026
 */
-static SDL_Texture * atlasItem = NULL;//texture qui sert à stocker l'atlas des items 
-
-void initAtlasItem(SDL_Renderer * r){
-    atlasItem = IMG_LoadTexture(r, "Img/Item.png");
-    //chargerImage("Img/potion.bmp",r,&atlasItem);
-}
-
-void cleanupAtlasItem(void){
-    SDL_DestroyTexture(atlasItem);
-}
 
 void soin1PV(Fighter * p){
     p->hp++;
@@ -35,15 +25,21 @@ void soin5PV(Fighter * p){
     }
 }
 
-void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[]){
+void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter * p){
+    SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
+    SDL_Rect menuF = getTileRect2(5,4);
+    SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
+    SDL_Rect persoF = getTileRect2(p->classeID,ATLAS_PERSO);
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect c = {100,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
+    SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
+    SDL_RenderCopy(r,getAtlasPerso(),&persoF,&Perso);
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
             TexItem = getTileRect(i);
-            SDL_RenderCopy(r, atlasItem,&TexItem, &item);
+            SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             afficherChiffre(r,t,l[i]->nb,&c);
             x+=100;
             item.x = x;
@@ -58,8 +54,10 @@ void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
     for(int i = 0;i < NB_ITEM;i++){
         if(l[i]->nb>0){
             if(detecterButtonClique(event,&item)){
-                l[i]->nb--;
-                l[i]->f(p);
+                if(l[i]->f != NULL){
+                    l[i]->nb--;
+                    l[i]->f(p);
+                }
             }
             x+=100;
             item.x = x;
@@ -95,7 +93,7 @@ void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     for(int i = 0;i<itemObtenu;i++){
         imgItem = getTileRect2(tItemObtenu[i],2);
-        SDL_RenderCopy(r,atlasItem,&imgItem,&destI);
+        SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
         destI.x += 100;
     }
 }

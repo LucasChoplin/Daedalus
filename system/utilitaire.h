@@ -15,13 +15,6 @@
 /** \brief fonction qui charge l'atals des boutons
     \param r pointeur vers le moteur de rendu SDL_Renderer
 */
-void initAtlasMenu(SDL_Renderer * r);
-
-SDL_Texture * getAtlasMenu(void);
-
-void cleanupAtlasMenu(void);
-
-SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS);
 
 /** \brief fonction pour vérifier si un fichier existe 
     \param nom chaîne de caractère qui contient le nom du fichier à vérifier
@@ -34,7 +27,7 @@ int FichierExiste(char nom[]);
     \param r pointeur vers le moteur de rendu 
     \param t pointeur vers le pointeur de Texture où stockée la Texture
  */
-void chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t);
+int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t);
 
 /** \brief indique si un clic de souris touche une texture 
     \param e pointeur sur l'event de la souris enclenché sert à récupérer le x et y de la souris 
