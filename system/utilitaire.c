@@ -42,9 +42,14 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
     d->h = 32;
     SDL_Rect chif = {nb%10*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     if(nb>9){
-        SDL_Rect chif2 = {(nb/10)*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+        SDL_Rect chif2 = {(nb%100/10)*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
         SDL_Rect d2 = {d->x-32,d->y,32,32};
         SDL_RenderCopy(r, t,&chif2,&d2);
+        if(nb>99){
+            chif2.x = nb%1000/100*32;
+            d2.x = d->x-64;
+            SDL_RenderCopy(r, t,&chif2,&d2);
+        }
     }
     SDL_RenderCopy(r, t,&chif,d);
 }

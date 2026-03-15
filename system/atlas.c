@@ -35,15 +35,26 @@ void initMobAtlas(SDL_Renderer* renderer){
 
 void initAtlasItem(SDL_Renderer * r){
     atlasItem = IMG_LoadTexture(r, "assets/Item.png");
-    //chargerImage("Img/potion.bmp",r,&atlasItem);
+    if(!atlasItem){
+        fprintf(stderr, "Erreur IMG_LoadTexture (atlasItem) : %s", SDL_GetError());
+        exit(1);
+    }
 }
 
 void initAtlasMenu(SDL_Renderer * r){
     atlasMenu = IMG_LoadTexture(r, "assets/bouton.png");
+    if(!atlasMenu){
+        fprintf(stderr, "Erreur IMG_LoadTexture (atlasMenu) : %s", SDL_GetError());
+        exit(1);
+    }
 }
 
 void initAtlasPerso(SDL_Renderer * r){
     atlasPerso = IMG_LoadTexture(r, "assets/perso.png");
+    if(!atlasPerso){
+        fprintf(stderr, "Erreur IMG_LoadTexture (atlasItem) : %s", SDL_GetError());
+        exit(1);
+    }
 }
 
 //libere la memoire
@@ -62,15 +73,24 @@ void cleanupMobAtlas(void){
 }
 
 void cleanupAtlasItem(void){
-    SDL_DestroyTexture(atlasItem);
+    if(atlasItem){
+        SDL_DestroyTexture(atlasItem);
+        atlasItem = NULL;
+    }
 }
 
 void cleanupAtlasMenu(void){
-    SDL_DestroyTexture(atlasMenu);
+    if(atlasMenu){
+        SDL_DestroyTexture(atlasMenu);
+        atlasMenu = NULL;
+    }
 }
 
 void cleanupAtlasPerso(void){
-    SDL_DestroyTexture(atlasPerso);
+    if(atlasPerso){
+        SDL_DestroyTexture(atlasPerso);
+        atlasPerso = NULL;
+    }
 }
 
 //pour obtenir la texture de l'atlas
@@ -106,9 +126,9 @@ SDL_Rect getTileRect(int ID){
 
 SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS){
     SDL_Rect rect;
-    rect.x = (ID % TAILLE_ATLAS) * 64;
-    rect.y = (ID / TAILLE_ATLAS) * 64;
-    rect.w = 64;
-    rect.h = 64;
+    rect.x = (ID % TAILLE_ATLAS) * TILE_SIZE;
+    rect.y = (ID / TAILLE_ATLAS) * TILE_SIZE;
+    rect.w = TILE_SIZE;
+    rect.h = TILE_SIZE;
     return rect;
 }

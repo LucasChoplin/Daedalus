@@ -149,13 +149,10 @@ int main(int argc, char *argv[]){
     int itemObtenu[10];
     Fighter player1 = {40, 140, 120, 100};
     item_t potion;
-    potion.nb = 10;
     potion.f = soin1PV;
     item_t potion2;
-    potion2.nb = 5;
     potion2.f = soin5PV;
     item_t key;
-    key.nb = 0;
     key.f = NULL;
     item_t * listeItem[3];
     listeItem[0] = &potion;
@@ -170,15 +167,6 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         fprintf(stderr, "Erreur chargement Chiffre\n");
         cleanup();
         return 1;
-    }
-    SDL_Rect srcDigits[10]; 
-    int digitWidth = 32; 
-    int digitHeight = 32; // hauteur d’un chiffre 
-    for (int i = 0; i < 10; i++) { 
-        srcDigits[i].x = i * digitWidth; 
-        srcDigits[i].y = 0; 
-        srcDigits[i].w = digitWidth; 
-        srcDigits[i].h = digitHeight; 
     }
 //---------------------------------------------menu de départ
     SDL_Rect play = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
@@ -278,7 +266,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             }
         }
         fprintf(f,"nb_potions=%d\n",0);
-        fprintf(f,"nb_Superpotions=%d\n",0);
+        fprintf(f,"nb_superpotions=%d\n",0);
+        fprintf(f,"nb_clés=%d\n",0);
         fclose(f);
     }
     f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locals 
@@ -287,7 +276,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
     fscanf(f,"stat_attaque=%d\n",&(player1.attack));
     fscanf(f,"stat_speed=%d\n",&(player1.speed));
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
-    fscanf(f,"nb_Superpotions=%d\n",&(listeItem[1]->nb));
+    fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_clés=%d\n",&(listeItem[2]->nb));
     fclose(f);
     player1.hp = player1.max_hp;
@@ -379,7 +368,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     }
                 }
                 if(e.type == SDL_KEYUP){
-                    if(e.key.keysym.sym == SDLK_TAB){//si la touche est tab 
+                    if(e.key.keysym.sym == SDLK_TAB){//si la touche est tab est préssé
                         if(pause==0){
                             pause = 1;
                         }
@@ -387,10 +376,10 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                             pause = 0;
                         }
                     }
-                    if(e.key.keysym.sym == SDLK_a){
+                    if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
                         //drawMap(game.renderer, mapOffsetX, mapOffsetY);
                         drawTexture(player.texture, player.xTile * TILE_SIZE, player.yTile * TILE_SIZE, 64, 64);
-                        menu = dropItem(game.renderer,0,listeItem,0,itemObtenu);
+                        menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
                 if((e.type == SDL_MOUSEBUTTONDOWN)&&(pause)){

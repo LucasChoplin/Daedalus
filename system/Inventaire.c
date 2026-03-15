@@ -29,6 +29,7 @@ void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter 
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
     SDL_Rect menuF = getTileRect2(5,4);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
+    SDL_Rect pv = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3+128,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect2(p->classeID,ATLAS_PERSO);
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
@@ -36,6 +37,9 @@ void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter 
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
     SDL_RenderCopy(r,getAtlasPerso(),&persoF,&Perso);
+    afficherChiffre(r,t,p->hp,&pv);
+    pv.x +=200;
+    afficherChiffre(r,t,p->max_hp,&pv);
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
             TexItem = getTileRect(i);
@@ -65,11 +69,11 @@ void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
     }
 }
 
-int dropItem(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi, int itemdrop[]){
+int dropItem2(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi, int itemdrop[]){
     SDL_Rect item = {100*(itemObtenu+1),100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect destItem;
     switch (ennemi){
-        case 0:
+        case 1:
             if(rand()%10>=9){
                 l[0]->nb++;
                 itemdrop[itemObtenu] = 0;
@@ -78,6 +82,29 @@ int dropItem(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi, int itemdr
                 itemObtenu++;
             }
             break;
+    }
+    return itemObtenu;
+}
+
+int dropItem(SDL_Renderer * r,item_t * l[],int itemDrop[], int e1,int e2,int e3,int e4, int e5, int e6){
+    int itemObtenu = 0;
+    if(e1!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e1,itemDrop);
+    }
+    if(e2!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e2,itemDrop);
+    }
+    if(e3!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e3,itemDrop);
+    }
+    if(e4!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e4,itemDrop);
+    }
+    if(e5!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e5,itemDrop);
+    }
+    if(e6!=0){
+        itemObtenu = dropItem2(r,itemObtenu,l,e6,itemDrop);
     }
     return itemObtenu;
 }

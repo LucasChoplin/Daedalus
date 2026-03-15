@@ -41,7 +41,9 @@ void detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
     \param t pointeur vers la où doit être stocké l'image à afficher 
     \return 1 si un item à été dropé
  */
-int dropItem(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi,int itemdrop[]);
+int dropItem2(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi,int itemdrop[]);
+
+int dropItem(SDL_Renderer * r,item_t * l[],int itemDrop[], int e1,int e2,int e3,int e4, int e5, int e6);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
