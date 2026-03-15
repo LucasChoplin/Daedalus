@@ -45,6 +45,14 @@ typedef struct{
     TTF_Font *font;
 }Bouton;
 
+typedef enum {
+    DEFAITE,
+    VICTOIRE,
+    ENNEMY,
+    PLAYER,
+} GameState;
+
+
 extern Game game;
 
 #endif
