@@ -66,28 +66,32 @@ void genererSalle(Salle* salle){
         for(int x = 0; x < SALLE_WIDTH; x++){
             if(y == SALLE_HEIGHT - 1){
                 // mur bas/vide
-                salle->tiles[y][x] = 14;
+                salle->tiles[y][x] = 16;
             } else if(x == 0){
                 // mur gauche
-                salle->tiles[y][x] = 15; 
+                salle->tiles[y][x] = 17; 
             } else if(x == SALLE_WIDTH - 1){
                 // mur droite
-                salle->tiles[y][x] = 21; 
+                salle->tiles[y][x] = 24; 
             } else if(y == 0){
                 // mur haut
-                salle->tiles[y][x] = 18; 
+                salle->tiles[y][x] = 21; 
             } else if(y == SALLE_HEIGHT - 2){
                 // mur bas
-                salle->tiles[y][x] = 12 + rand() % 2;
+                salle->tiles[y][x] = 14 + rand() % 2;
             } else if(y == 1){
                 // sol relié au mur du haut
                 salle->tiles[y][x] = 5 + rand() % 6;
+                salle->tiles[y][x] == 8? salle->tiles[y-1][x] = 22 : 0; 
+                salle->tiles[y][x] == 9? salle->tiles[y-1][x] = 23 : 0; 
             } else {
                 // sol milieu
                 salle->tiles[y][x] = rand() % 5;
             } 
         }
     }
+    salle->tiles[SALLE_HEIGHT-2][0] = 19; 
+    salle->tiles[SALLE_HEIGHT-2][SALLE_WIDTH-1] = 26;
 }
 
 void connecterSalles(Salle* salle1, Salle* salle2, int direction){
@@ -96,16 +100,22 @@ void connecterSalles(Salle* salle1, Salle* salle2, int direction){
     //en fct de la direction on creuse un passage pour les salles
     switch(direction){
         case DROITE:
+            salle1->tiles[yDebut-2][SALLE_WIDTH - 1] = 21;
             salle1->tiles[yDebut-1][SALLE_WIDTH - 1] = 5 + rand() % 3;
+            salle1->tiles[yDebut + 3][SALLE_WIDTH - 1] = 27;
+            salle2->tiles[yDebut-2][0] = 21;
             salle2->tiles[yDebut-1][0] = 5 + rand() % 3;
+            salle2->tiles[yDebut + 3][0] = 20;
             for(int i = 0; i < 3; i++) {
                 salle1->tiles[yDebut + i][SALLE_WIDTH - 1] = 0;
                 salle2->tiles[yDebut + i][0] = 0;
             }
             break;
         case BAS:
-            salle1->tiles[SALLE_HEIGHT - 1][xDebut-1] = 15;
-            salle1->tiles[SALLE_HEIGHT - 1][xDebut + 4] = 21;
+            salle1->tiles[SALLE_HEIGHT - 1][xDebut-1] = 17;
+            salle1->tiles[SALLE_HEIGHT - 1][xDebut + 4] = 24;
+            salle1->tiles[SALLE_HEIGHT - 2][xDebut + 4] = 27;
+            salle1->tiles[SALLE_HEIGHT - 2][xDebut-1] = 20;
             for(int i = 0; i < 4; i++) {
                 salle1->tiles[SALLE_HEIGHT - 1][xDebut + i] = 0; 
                 salle1->tiles[SALLE_HEIGHT - 2][xDebut + i] = 0;
@@ -114,16 +124,22 @@ void connecterSalles(Salle* salle1, Salle* salle2, int direction){
             }
             break;
         case GAUCHE:
+            salle1->tiles[yDebut-2][0] = 21;
             salle1->tiles[yDebut-1][0] = 5 + rand() % 3;
-            salle2->tiles[yDebut-1][SALLE_WIDTH - 1] = 5 + rand() % 4;
+            salle1->tiles[yDebut + 3][0] = 20;
+            salle2->tiles[yDebut-2][SALLE_WIDTH - 1] = 21;
+            salle2->tiles[yDebut-1][SALLE_WIDTH - 1] = 5 + rand() % 3;
+            salle2->tiles[yDebut + 3][SALLE_WIDTH - 1] = 27;
             for(int i = 0; i < 3; i++) {
                 salle1->tiles[yDebut + i][0] = 0; 
                 salle2->tiles[yDebut + i][SALLE_WIDTH - 1] = 0; 
             }
             break;
         case HAUT:
-            salle2->tiles[SALLE_HEIGHT - 1][xDebut-1] = 15;
-            salle2->tiles[SALLE_HEIGHT - 1][xDebut + 4] = 21;
+            salle2->tiles[SALLE_HEIGHT - 1][xDebut-1] = 17;
+            salle2->tiles[SALLE_HEIGHT - 1][xDebut + 4] = 24;
+            salle2->tiles[SALLE_HEIGHT - 2][xDebut-1] = 20;
+            salle2->tiles[SALLE_HEIGHT - 2][xDebut + 4] = 27;
             for(int i = 0; i < 4; i++) {
                 salle1->tiles[0][xDebut + i] = 0;
                 salle1->tiles[1][xDebut + i] = 0;

@@ -19,7 +19,7 @@
 #define TILE_SIZE 64
 
 //taille des atlas/nbr de colonne
-#define ATLAS_MAP 12
+#define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
 #define ATLAS_ITEM 2
 #define ATLAS_PERSO 2
