@@ -18,7 +18,7 @@ static SDL_Texture * atlasPerso = NULL;//texture qui sert à stocker l'atlas des
 
 //initialise l'atlas en chargeant la texture
 void initAtlas(SDL_Renderer* renderer){
-    atlas = IMG_LoadTexture(renderer, "assets/atlas_b1.png"); // path du sprite de l'atlas
+    atlas = IMG_LoadTexture(renderer, "assets/atlas_etage1.png"); // path du sprite de l'atlas
     if(!atlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (map) : %s", SDL_GetError());
         exit(1);

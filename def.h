@@ -6,18 +6,20 @@
 #define SCREEN_HEIGHT 960
 
 //dimension de l'etage entier
-#define ETAGE_WIDTH 3
-#define ETAGE_HEIGHT 3
+#define ETAGE_TAILLE 4
 
 //dimension d'une salle
 #define SALLE_WIDTH 20
 #define SALLE_HEIGHT 15
 
+//nbr salles dans l'etage
+#define NB_SALLES_ACTIVES 8
+
 //dimension d'une tile
 #define TILE_SIZE 64
 
-//taille des atlas 
-#define ATLAS_MAP 7
+//taille des atlas/nbr de colonne
+#define ATLAS_MAP 12
 #define ATLAS_BOUTON 4
 #define ATLAS_ITEM 2
 #define ATLAS_PERSO 2

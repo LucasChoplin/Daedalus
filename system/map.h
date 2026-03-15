@@ -6,6 +6,7 @@
 
 int isWall(int tile);
 void initMap(void);
+int getIDSalleRandom(void);
 void drawMap(SDL_Renderer* renderer);
 void drawMob(SDL_Renderer* renderer, Mob* mob);
 void cleanupMap(void);

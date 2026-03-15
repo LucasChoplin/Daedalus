@@ -6,6 +6,7 @@
 #include "combat.h"
 #include "combat_aff.h"
 #include "../inventaire.h"
+#include "../text.h"
 
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };
@@ -22,10 +23,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 int lancerCombat(SDL_Renderer *renderer){
 
     int x=10,y=10;
-
-    TTF_Init();
-
-    TTF_Font* font = TTF_OpenFont("times.ttf", 100);
+    TTF_Font* font = getEndScreenFont();
 
     Fighter joueur = {100, 100, 120, 100, 60};
     Fighter ennemi  = {80,  80,  115, 20};
@@ -65,8 +63,6 @@ int lancerCombat(SDL_Renderer *renderer){
 
                 if (is_point_in_rect(mx, my, fuite)) {
                     if(joueur.speed>ennemi.speed){
-                        TTF_CloseFont(font);
-                        TTF_Quit();
                         return 0;
                     }
                     else{
@@ -81,14 +77,18 @@ int lancerCombat(SDL_Renderer *renderer){
 
         if (state == ENNEMY) {
             SDL_Delay(500);
+            int degats;
             switch(rand()%2) {
-                case 0:joueur.hp = (joueur.hp<30*(ennemi.attack/100)) ? 0 : joueur.hp-30*(ennemi.attack/100);break;
-                case 1:joueur.hp = (joueur.hp<50*(ennemi.attack/100)) ? 0 : joueur.hp-50*(ennemi.attack/100);break;
+                case 0:
+                    degats = (30 * ennemi.attack) / 100;
+                    joueur.hp = (joueur.hp < degats) ? 0 : joueur.hp - degats; break;
+                case 1:
+                    degats = (50 * ennemi.attack) / 100;
+                    joueur.hp = (joueur.hp < degats) ? 0 : joueur.hp - degats; break;
             }
                    
             state = (joueur.hp <= 0) ? DEFAITE : PLAYER;
         }
-
         // RENDER
         afficherCombat(renderer, &joueur, &ennemi, fuite, attack_btn, forte, inventaire);
         SDL_Delay(16);
@@ -99,8 +99,5 @@ int lancerCombat(SDL_Renderer *renderer){
     SDL_RenderClear(renderer);
 
     endScreen(renderer,state, &x ,&y, font);
-
-    TTF_CloseFont(font);
-    TTF_Quit();
     return 0;
 }
