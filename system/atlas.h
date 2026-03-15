@@ -42,12 +42,11 @@ SDL_Texture * getAtlasMenu(void);
 */
 SDL_Texture * getAtlasPerso(void);
 
-SDL_Rect getTileRect(int ID);
+SDL_Rect getTileRect(int ID, int TAILLE_ATLAS);
 
 /** \brief renvoie le découpage de la case numéro ID dans un atals de taille TAILLE_ATLAS * TAILLE_ATLAS 
     \param ID numéro de l'image choisi partant de 0 à gauche en haut
-    \param TAILLE_ATLAS taille d'un des cotés de l'atlas sachant qu'un atlas est un carré 
+    \param TAILLE_ATLAS taille d'un des cotés de l'atlas sachant qu'un atlas est un rectangle
 */
-SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS);
 
 #endif 

@@ -10,5 +10,5 @@
 // afficher 
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire);
 
-void EndScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font);
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font);
 #endif

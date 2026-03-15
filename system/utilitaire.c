@@ -10,7 +10,7 @@
     \date 28 février 2026
 */
 
-int FichierExiste(char nom[]){
+int fichierExiste(char nom[]){
     FILE * f = fopen(nom, "r");
     if(f){
         fclose(f);

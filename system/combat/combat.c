@@ -98,10 +98,9 @@ int lancerCombat(SDL_Renderer *renderer){
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    EndScreen(renderer,state, &x ,&y, font);
+    endScreen(renderer,state, &x ,&y, font);
 
     TTF_CloseFont(font);
     TTF_Quit();
     return 0;
 }
-

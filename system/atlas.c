@@ -18,7 +18,7 @@ static SDL_Texture * atlasPerso = NULL;//texture qui sert à stocker l'atlas des
 
 //initialise l'atlas en chargeant la texture
 void initAtlas(SDL_Renderer* renderer){
-    atlas = IMG_LoadTexture(renderer, "assets/atlas1.png"); // path du sprite de l'atlas
+    atlas = IMG_LoadTexture(renderer, "assets/atlas_b1.png"); // path du sprite de l'atlas
     if(!atlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (map) : %s", SDL_GetError());
         exit(1);
@@ -115,16 +115,8 @@ SDL_Texture * getAtlasPerso(void){
 }
 
 //retourne le 'rectange' de l'atlas correspondant à un ID de tile
-SDL_Rect getTileRect(int ID){
-    SDL_Rect rect;
-    rect.x = (ID % ATLAS_COLUMNS) * TILE_SIZE;
-    rect.y = (ID / ATLAS_COLUMNS) * TILE_SIZE;
-    rect.w = TILE_SIZE;
-    rect.h = TILE_SIZE;
-    return rect;
-}
 
-SDL_Rect getTileRect2(int ID,int TAILLE_ATLAS){
+SDL_Rect getTileRect(int ID,int TAILLE_ATLAS){
     SDL_Rect rect;
     rect.x = (ID % TAILLE_ATLAS) * TILE_SIZE;
     rect.y = (ID / TAILLE_ATLAS) * TILE_SIZE;

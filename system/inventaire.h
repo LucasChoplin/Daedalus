@@ -27,7 +27,7 @@ void soin5PV(Fighter * p);
     \param t pointeur vers la texture des chiffres 
     \param l liste de pointeurs vers les item_t
 */
-void affficherIventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter * p);
+void afficherInventaire(SDL_Renderer * r, SDL_Texture * t, item_t * l[],Fighter * p);
 
 /** \brief fonction qui détecte losqu'on appuie sur un item et diminue sa quantité 
     \param event pointeur vers l'événement souris cliqué 

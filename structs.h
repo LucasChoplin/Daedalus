@@ -29,6 +29,7 @@ typedef struct {
     int max_hp;
     int attack;
     int speed;
+    int xp;
 } Fighter;
 
 /** \brief structure pour les items  */
@@ -44,14 +45,6 @@ typedef struct{
     char *texte;
     TTF_Font *font;
 }Bouton;
-
-typedef enum {
-    DEFAITE,
-    VICTOIRE,
-    ENNEMY,
-    PLAYER,
-} GameState;
-
 
 extern Game game;
 

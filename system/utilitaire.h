@@ -20,7 +20,7 @@
     \param nom chaîne de caractère qui contient le nom du fichier à vérifier
     \return renvoie 1 si le fichier existe et 0 dans le cas contraire 
 */
-int FichierExiste(char nom[]);
+int fichierExiste(char nom[]);
 
 /** \brief fonction pour charger les images danns une texture (enlève la couleur blanche de l'image aussi (255.255.255))
     \param nom nom du fichier bpm à charger 

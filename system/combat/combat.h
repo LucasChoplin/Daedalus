@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../../structs.h"
-#include "combat_aff.h"
+#include "../../def.h"
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 int lancerCombat(SDL_Renderer *renderer);
 

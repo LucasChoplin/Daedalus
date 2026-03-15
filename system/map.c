@@ -7,7 +7,7 @@
 #include "../def.h"
 
 
-// 0-1 = sol, 2-3 = mur, 100 = vide
+// 0-3 = sol milieu, 3-6 = sol bord, 8 = mur bas, 9-10 = mur haut
 
 Salle* currentMap = NULL;
 Salle* etage[ETAGE_WIDTH * ETAGE_HEIGHT];
@@ -16,12 +16,28 @@ Salle* etage[ETAGE_WIDTH * ETAGE_HEIGHT];
 void genererSalle(Salle* salle){
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
-            if(x == 0 || x == SALLE_WIDTH - 1 || y == 0 || y == SALLE_HEIGHT - 1){
-                //les murs alternent
-                salle->tiles[y][x] = ((x + y)%2 == 0)? 2 : 3;
+            if(y == 0){
+                // mur haut
+                //salle->tiles[y][x] = 9 + rand() % 2;
+                salle->tiles[y][x] = 11;
+            } else if(y == SALLE_HEIGHT - 2){
+                // mur bas
+                salle->tiles[y][x] = 9 + rand() % 2;
+            } else if(y == SALLE_HEIGHT - 1){
+                // mur bas
+                salle->tiles[y][x] = 8;
+            } else if(x == 0 || x == SALLE_WIDTH - 1){
+                // murs gauche et droite
+                salle->tiles[y][x] = 11;
             } else {
-                //le sol est random
-                salle->tiles[y][x] = rand() % 2;
+                // sol
+                if(y == 1){
+                    // sol relié au mur du haut
+                    salle->tiles[y][x] = 4 + rand() % 3;
+                } else {
+                    // sol milieu
+                    salle->tiles[y][x] = rand() % 4;
+                }
             }
         }
     }
@@ -61,7 +77,7 @@ void connecterSalles(Salle* salle1, Salle* salle2, int direction){
 
 //verifie si tile est un mur ou pas
 int isWall(int tile){
-    return (tile >= 2); 
+    return (tile >= 6); 
 }
 
 void initMap(void) {
@@ -105,7 +121,7 @@ void drawMap(SDL_Renderer* renderer){
     for(int y = 0; y < SALLE_HEIGHT; y++){ //parcours de la map
         for(int x = 0; x < SALLE_WIDTH; x++){ 
             int tileID = currentMap->tiles[y][x];
-            src = getTileRect(tileID);
+            src = getTileRect(tileID, ATLAS_MAP);
 
             SDL_Rect destRect = {x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE};
 
@@ -117,7 +133,7 @@ void drawMap(SDL_Renderer* renderer){
 void drawMob(SDL_Renderer* renderer, Mob* mob) {
     if(!mob) return;
     
-    SDL_Rect src = getTileRect(0);
+    SDL_Rect src = getTileRect(0, ATLAS_PERSO);
     SDL_Texture* mobAtlas = getMobAtlasTexture();
     
     SDL_Rect destRect = {mob->xTile * TILE_SIZE, mob->yTile * TILE_SIZE, TILE_SIZE, TILE_SIZE};

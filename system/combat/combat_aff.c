@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "../../structs.h"
+#include "../../def.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -68,7 +69,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL
     SDL_DestroyTexture(monImage);
 }
 
-void EndScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font) {
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font) {
     SDL_Surface* texte=NULL;
     char* message = NULL; 
     SDL_Color couleur;

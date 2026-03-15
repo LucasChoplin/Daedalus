@@ -9,6 +9,9 @@
 #include "system/utilitaire.h"
 #include "system/inventaire.h"
 #include "system/text.h"
+#include "system/combat/combat.h"
+#include "system/combat/combat_aff.h"
+#include "system/combat/combat_attaque.h"
 #include "def.h"
 
 //commande de compilation 
@@ -195,25 +198,25 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
         if((play.x<sourisX)&&(play.x+TAILLE_MENU>sourisX)&&(play.y<sourisY)&&(play.y+TAILLE_MENU>sourisY)){
-            playF = getTileRect(1);
+            playF = getTileRect(1,ATLAS_BOUTON);
         }
         else{
-            playF = getTileRect(0);     
+            playF = getTileRect(0,ATLAS_BOUTON);     
         }
         if((quit.x<sourisX)&&(quit.x+TAILLE_MENU>sourisX)&&(quit.y<sourisY)&&(quit.y+TAILLE_MENU>sourisY)){
-            quitF = getTileRect2(3,ATLAS_BOUTON);
+            quitF = getTileRect(3,ATLAS_BOUTON);
         }
         else{
-            quitF = getTileRect2(2,ATLAS_BOUTON);
+            quitF = getTileRect(2,ATLAS_BOUTON);
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
-        if(FichierExiste(FICHIER_DATA)){
+        if(fichierExiste(FICHIER_DATA)){
             if((continu.x<sourisX)&&(continu.x+TAILLE_MENU>sourisX)&&(continu.y<sourisY)&&(continu.y+TAILLE_MENU>sourisY)){
-                continuF = getTileRect2(7,ATLAS_BOUTON);
+                continuF = getTileRect(7,ATLAS_BOUTON);
             }
             else{
-                continuF = getTileRect2(6,ATLAS_BOUTON);
+                continuF = getTileRect(6,ATLAS_BOUTON);
             }
             SDL_RenderCopy(game.renderer,getAtlasMenu(),&continuF,&continu);
         }
@@ -227,11 +230,11 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
     if(sortie==2){//si le fichier data.txt on le créé
         f = fopen(FICHIER_DATA,"w");
         SDL_Rect DestGla = {200,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        SDL_Rect glaF = getTileRect2(1,ATLAS_PERSO);
-        SDL_Rect archerF = getTileRect2(0,ATLAS_PERSO);
+        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO);
+        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO);
         SDL_Rect DestArc = {400,100,TAILLE_SPRITE,TAILLE_SPRITE};
         SDL_Rect DestLan = {600,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        SDL_Rect lanF = getTileRect2(2,ATLAS_PERSO);
+        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO);
         SDL_RenderCopy(game.renderer,getAtlasPerso(),&glaF,&DestGla);
         SDL_RenderCopy(game.renderer,getAtlasPerso(),&archerF,&DestArc);
         SDL_RenderCopy(game.renderer,getAtlasPerso(),&lanF,&DestLan);
@@ -308,7 +311,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     if ((abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
                         //si appuie sur F, lance combat
                         if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            printf("Combat!\n");
+                            lancerCombat(game.renderer);
                         }
                     }
                 }
@@ -394,10 +397,6 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                 }
             }
         }
-        if (player.xTile == mobTest.xTile && player.yTile == mobTest.yTile && currentMap->mapID == mobTest.mapID) {
-            //fonction declenchement combat;
-            printf("Combat!\n");
-        }
         drawMap(game.renderer);
         if (currentMap->mapID == mobTest.mapID) {
             drawMob(game.renderer, &mobTest);
@@ -413,7 +412,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             drawButton(game.renderer, &btnF);
         }
         if(pause){
-            affficherIventaire(game.renderer,Chiffre,listeItem,&player1);
+            afficherInventaire(game.renderer,Chiffre,listeItem,&player1);
         }
         if(menu){
             afficherItemObtenu(game.renderer,menu,itemObtenu);

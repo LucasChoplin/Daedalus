@@ -1,6 +1,7 @@
 #ifndef COMBAT_H
 #define COMBAT_H
-
+#include "../../structs.h"
+#include "../../def.h"
 #include <SDL2/SDL.h>
 
 // attaque normale 

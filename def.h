@@ -1,3 +1,6 @@
+#ifndef DEF_H
+#define DEF_H
+
 //dimension fenetre
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 960
@@ -12,13 +15,15 @@
 
 //dimension d'une tile
 #define TILE_SIZE 64
-#define ATLAS_COLUMNS 2
+
+//taille des atlas 
+#define ATLAS_MAP 7
+#define ATLAS_BOUTON 4
+#define ATLAS_ITEM 2
+#define ATLAS_PERSO 2
 
 //direction
-#define DROITE 0
-#define BAS 1
-#define GAUCHE 2
-#define HAUT 3
+enum Direction {DROITE, BAS, GAUCHE, HAUT};
 
 //dimension des sprites 
 #define TAILLE_CHIFFRE 32 //taille des chiffres 32*32px
@@ -26,7 +31,7 @@
 #define TAILLE_SPRITE 128//taille donné au sprite  
 #define TAILLE_MENU 128//taille des menus 
 //items
-#define NB_ITEM 3//nombre d'items dans le jeu 
+#define NB_ITEM 2//nombre d'items dans le jeu 
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 
@@ -45,9 +50,13 @@
 #define LANCIER_ATTACK 120
 #define LANCIER_SPEED 200
 
-//taille des atlas 
-#define ATLAS_BOUTON 4
-#define ATLAS_ITEM 2
-#define ATLAS_PERSO 2
+
+typedef enum {
+    DEFAITE,
+    VICTOIRE,
+    ENNEMY,
+    PLAYER,
+} GameState;
 
 
+#endif
