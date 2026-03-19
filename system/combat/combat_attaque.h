@@ -5,12 +5,12 @@
 #include <SDL2/SDL.h>
 
 // attaque normale 
-void attaque(Fighter *joueur, Fighter *ennemi);
+void attaque(Fighter *joueur, Fighter *ennemi, GameState *state);
 
 // attaque forte
-void attaqueForte(Fighter *joueur, Fighter *ennemi);
+void attaqueForte(Fighter *joueur, Fighter *ennemi, GameState *state);
 
 // attaque de l'ennemi
-void attaqueEnnemi(Fighter *joueur, Fighter *ennemi);
+void attaqueEnnemi(Fighter *joueur, Fighter *ennemi, GameState *state);
 
 #endif
