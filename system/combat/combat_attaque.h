@@ -1,5 +1,5 @@
-#ifndef COMBAT_H
-#define COMBAT_H
+#ifndef COMBAT_attack_H
+#define COMBAT_attack_H
 #include "../../structs.h"
 #include "../../def.h"
 #include <SDL2/SDL.h>

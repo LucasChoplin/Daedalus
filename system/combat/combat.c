@@ -21,7 +21,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 }
 
 
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem){
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item){
 
     int x=10,y=10;
     TTF_Font* font = getEndScreenFont();
@@ -60,7 +60,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem){
                 }
 
                 if (is_point_in_rect(mx, my, inventaire)) {
-                    afficherInventaire(renderer,,listeItem)
+                    afficherInventaire(renderer,item,listeItem,joueur);
                 }
             }
 

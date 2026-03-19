@@ -9,6 +9,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem);
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item);
 
 #endif

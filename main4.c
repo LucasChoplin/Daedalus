@@ -343,7 +343,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     if ((abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
                         //si appuie sur F, lance combat
                         if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            lancerCombat(game.renderer);
+                            lancerCombat(game.renderer,&player1,listeItem,Chiffre);
                         }
                     }
                 }
