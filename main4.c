@@ -15,7 +15,7 @@
 #include "def.h"
 
 //commande de compilation 
-//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c ./system/combat/combat.c ./system/combat/combat_aff.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Game game;
 Player player;
@@ -42,9 +42,14 @@ int initSDL(void){
         fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
         return -1;
     }
-
-    game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
-
+    SDL_DisplayMode dm;
+    SDL_GetCurrentDisplayMode(0, &dm);
+    if((dm.h>SCREEN_HEIGHT)&&(dm.w>SCREEN_WIDTH)){
+        game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+    }
+    else{
+        game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dm.w, dm.h, windowFlags);
+    }
     if(!game.window){
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
         return -1;
@@ -138,6 +143,7 @@ int main(int argc, char *argv[]){
     memset(&player, 0, sizeof(Player));
 
     initSDL();
+    SDL_RenderSetLogicalSize(game.renderer, 1280, 960);
     TTF_Font* btnfont = getDefaultFont();
 
     //apres l'init de TTF, on fini d'init le bouton d'interaction
@@ -444,7 +450,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             drawButton(game.renderer, &btnF);
         }
         if(pause){
-            afficherInventaire(game.renderer,Chiffre,listeItem,&player1);
+            afficherInventaire(game.renderer,listeItem,&player1);
+            //combat_afficher_inventaire(game.renderer,listeItem);
         }
         if(menu){
             afficherItemObtenu(game.renderer,menu,itemObtenu);

@@ -4,7 +4,12 @@
 #include "../structs.h"
 #include "../def.h"
 #include "text.h"
-
+/** \file text.c
+    \brief contenu des fonctions de text.h 
+    \author Myriam Laaqira
+    \version 1.0
+    \date mars ??
+*/
 static TTF_Font* defaultFont = NULL;
 static TTF_Font* titleFont = NULL;
 static TTF_Font* combatFont = NULL;
@@ -123,4 +128,28 @@ void drawButton(SDL_Renderer* renderer, Bouton* bouton){
     SDL_RenderCopy(renderer, texture, NULL, &rectTexte);
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
+}
+
+void drawChiffre(SDL_Renderer * r,int nb, int x, int y){
+    char chiffre[10];
+    chiffre[0]='\0';
+    for(int j =1;j-2<nb;j*=10){/* pour transformer les nombres en chaînes de caractères */
+        for(int k=9;k>0;k--){
+            chiffre[k] = chiffre[k-1];
+        }
+        chiffre[0] = '0' + (nb%(j*10)/j) ;
+    }
+    TTF_Font* titleFont = getTitleFont();
+    SDL_Texture* titleTexture = NULL;
+    SDL_Rect titleRect = {0, 0, 0, 0};
+    SDL_Color titleColor = {240, 230, 180, 255};
+    SDL_Surface* titleSurface = TTF_RenderUTF8_Blended(titleFont, chiffre, titleColor);
+    titleTexture = SDL_CreateTextureFromSurface(game.renderer, titleSurface);
+    titleRect.w = titleSurface->w;
+    titleRect.h = titleSurface->h;
+    titleRect.x = x;
+    titleRect.y = y;
+    SDL_FreeSurface(titleSurface);
+    SDL_RenderCopy(r,titleTexture,NULL,&titleRect);
+    SDL_DestroyTexture(titleTexture);
 }

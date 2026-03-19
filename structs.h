@@ -4,6 +4,13 @@
 #include <SDL2/SDL_ttf.h>
 #include "def.h"
 
+/** \file combat_aff.c
+    \brief contenus des fonctions de combat_aff.h 
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
+
 typedef struct{
     SDL_Renderer *renderer;
     SDL_Window *window;
@@ -24,7 +31,7 @@ typedef struct{
 } Mob;
 
 typedef struct {
-    int classeID;/** indique la classe du personnage */
+    int classeID;/**< indique la classe du personnage */
     int hp;
     int max_hp;
     int attack;
@@ -35,7 +42,7 @@ typedef struct {
 /** \brief structure pour les items  */
 typedef struct{
     int nb;/**< quantité de l'item */
-    void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
+    void (*f) (Fighter * p);/**< pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 
 typedef struct{

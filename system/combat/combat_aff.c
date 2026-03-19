@@ -8,6 +8,13 @@
 #include <stdio.h>
 #include "../text.h"
 
+/** \file combat_aff.c
+    \brief contenus des fonctions de combat_aff.h 
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
+
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
     TTF_Font* font = getCombatFont();

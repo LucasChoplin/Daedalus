@@ -3,7 +3,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "atlas.h"
-
+/** \file atlas.c
+    \brief contenus des fonctions de atlas.h
+    \author Myriam Laaqira
+    \version 1.0
+    \date février ??
+*/
 static SDL_Texture* atlas = NULL;
 static SDL_Texture* mobAtlas = NULL;
 static SDL_Texture * atlasItem = NULL;//texture qui sert à stocker l'atlas des items 

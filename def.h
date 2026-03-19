@@ -29,11 +29,11 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 
 //dimension des sprites 
 #define TAILLE_CHIFFRE 32 //taille des chiffres 32*32px
-#define TAILLE_ITEM 32//taille donnée au item
-#define TAILLE_SPRITE 128//taille donné au sprite  
-#define TAILLE_MENU 128//taille des menus 
+#define TAILLE_ITEM 32/**< taille donnée au item */
+#define TAILLE_SPRITE 128/**< taille donné au sprite*/  
+#define TAILLE_MENU 128/**< taille des menus */
 //items
-#define NB_ITEM 2//nombre d'items dans le jeu 
+#define NB_ITEM 3/**< nombre d'items dans le jeu */ 
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 

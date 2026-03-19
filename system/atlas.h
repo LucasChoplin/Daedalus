@@ -2,7 +2,12 @@
 #define atlas_h
 #include <SDL2/SDL.h>
 #include "../def.h"
-
+/** \file atlas.h
+    \brief librairie pour gérer les atlas 
+    \author Myriam Laaqira
+    \version 1.0
+    \date février ??
+*/
 void initAtlas(SDL_Renderer* renderer);
 void initMobAtlas(SDL_Renderer* renderer);
 /** \brief initialise l'atlas des items  

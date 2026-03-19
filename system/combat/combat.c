@@ -7,6 +7,12 @@
 #include "combat_aff.h"
 #include "../inventaire.h"
 #include "../text.h"
+/** \file combat.c
+    \brief contenus des fonctions de combat.h
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
 
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };

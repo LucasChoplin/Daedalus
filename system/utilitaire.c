@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "utilitaire.h"
 #include "../def.h"
-/** \file Inventaire.c
+/** \file utilitaire.c
     \brief contenus des fonctions de utilitaire.h.
     \author Patrick Leguillon
     \version 1.0

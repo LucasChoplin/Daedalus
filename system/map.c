@@ -5,7 +5,12 @@
 #include "map.h"
 #include "atlas.h"
 #include "../def.h"
-
+/** \file map.c
+    \brief contenus des fonctions de map.h 
+    \author Myriam Laaqira
+    \version 1.0
+    \date février ??
+*/
 
 // 0-1 = sol normal, 2 = sol combat, 3-4 = sol spe, 5-7 = sol bord normal, 8-9 = sol bord combat, 10 = sol bord spe, 
 //11-13 = mur bas normal, 14 = vide bas, 15-17 = mur gauche, 18 = mur haut, 19-20 = mur haut spe, 21-23 = mur droite
