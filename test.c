@@ -4,6 +4,7 @@
 #include "system/combat/combat.h"
 
 int main(int argc, char *argv[]){
+    Fighter player1 = {40, 140, 120, 100};
     if(SDL_Init(SDL_INIT_VIDEO)<0){
         printf("erreur");
         return 1;
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]){
     }
 
     printf("lancement ...");
-    lancerCombat(renderer);
+    lancerCombat(renderer, &player1);
     printf("combat fini");
 
     SDL_DestroyRenderer(renderer);

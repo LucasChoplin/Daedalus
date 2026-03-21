@@ -9,13 +9,6 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_image.h>
 
-/** \file combat.h
-    \brief libraire pour jouer un combat 
-    \author Lucas Choplin
-    \version 1.0
-    \date février ??
-*/
-
-int lancerCombat(SDL_Renderer *renderer);
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item);
 
 #endif
