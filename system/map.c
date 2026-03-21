@@ -5,15 +5,14 @@
 #include "map.h"
 #include "atlas.h"
 #include "../def.h"
+
 /** \file map.c
     \brief contenus des fonctions de map.h 
     \author Myriam Laaqira
     \version 1.0
-    \date février ??
+    \date 14 février 2026
 */
 
-// 0-1 = sol normal, 2 = sol combat, 3-4 = sol spe, 5-7 = sol bord normal, 8-9 = sol bord combat, 10 = sol bord spe, 
-//11-13 = mur bas normal, 14 = vide bas, 15-17 = mur gauche, 18 = mur haut, 19-20 = mur haut spe, 21-23 = mur droite
 
 Salle* currentMap = NULL;
 Salle* etage[ETAGE_TAILLE * ETAGE_TAILLE];
@@ -158,6 +157,11 @@ void connecterSalles(Salle* salle1, Salle* salle2, int direction){
 //verifie si tile est un mur ou pas
 int isWall(int tile){
     return (tile > ATLAS_MAP -1); //la premiere ligne de l atlas est faite de sol
+}
+
+//verifie si tile est un sol de combat ou pas
+int isCombatTile(int tile){
+    return (tile == 2 || tile == 8 || tile == 9); //sols de combat
 }
 
 void initMap(void) {

@@ -7,16 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../text.h"
-#include "../inventaire.h"
 
-/** \file combat_aff.c
-    \brief contenus des fonctions de combat_aff.h 
-    \author Lucas Choplin
-    \version 1.0
-    \date février ??
-*/
-
-void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]){
+void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
     TTF_Font* font = getCombatFont();
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
@@ -40,7 +32,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL
     SDL_RenderClear(renderer);
 
     // Barre de vie ennemi
-    SDL_Rect enemy_hp = {1000, 40, ennemi->hp * 3, 30};
+    SDL_Rect enemy_hp = {1000, 40, ennemi.hp * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemy_hp);
     
@@ -77,6 +69,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL
     if(inv){//si inv != 0 afficher l'inventaire 
         combat_afficher_inventaire(renderer,l);
     }
+
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(monImage);
 }
@@ -114,7 +107,7 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
             SDL_RenderCopy(renderer, texture, NULL, &position);
             SDL_RenderPresent(renderer);
 
-            SDL_Delay(5000);
+            SDL_Delay(2000);
 
             SDL_DestroyTexture(texture);
         }

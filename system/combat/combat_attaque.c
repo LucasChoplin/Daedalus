@@ -14,7 +14,7 @@
 */
 
 // attaque normale 
-void attaque(Fighter *joueur, Fighter *ennemi, GameState *state){
+void attaque(Fighter *joueur, Mob *ennemi, GameState *state){
         if(ennemi->hp<(50*joueur->attack)/100){
         ennemi->hp=0;
     }
@@ -25,7 +25,7 @@ void attaque(Fighter *joueur, Fighter *ennemi, GameState *state){
 
 
 // attaque forte
-void attaqueForte(Fighter *joueur, Fighter *ennemi, GameState *state){
+void attaqueForte(Fighter *joueur, Mob *ennemi, GameState *state){
     if(ennemi->hp<(30*joueur->attack)/100){
         ennemi->hp=0;
     }
@@ -36,7 +36,7 @@ void attaqueForte(Fighter *joueur, Fighter *ennemi, GameState *state){
 }
 
 // attaque de l'ennemi
-void attaqueEnnemi(Fighter *joueur, Fighter *ennemi, GameState *state){
+void attaqueEnnemi(Fighter *joueur, Mob *ennemi, GameState *state){
     srand( time( NULL ) );
     int degats;
     switch(rand()%2) {

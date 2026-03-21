@@ -16,6 +16,6 @@
     \date février ??
 */
 
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item);
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item);
 
 #endif

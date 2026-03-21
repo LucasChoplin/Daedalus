@@ -4,12 +4,14 @@
 #include "../structs.h"
 #include "../def.h"
 #include "text.h"
+
 /** \file text.c
     \brief contenu des fonctions de text.h 
     \author Myriam Laaqira
     \version 1.0
-    \date mars ??
+    \date 11 mars 2026
 */
+
 static TTF_Font* defaultFont = NULL;
 static TTF_Font* titleFont = NULL;
 static TTF_Font* combatFont = NULL;

@@ -4,17 +4,17 @@
 #include <stdlib.h>
 #include "../../structs.h"
 #include "combat.h"
-#include "combat_aff.h"
 #include "combat_attaque.h"
+#include "combat_aff.h"
 #include "../inventaire.h"
 #include "../text.h"
+
 /** \file combat.c
     \brief contenus des fonctions de combat.h
     \author Lucas Choplin
     \version 1.0
     \date février ??
 */
-
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };
 const SDL_Rect attack_btn = { 800, 850, 200, 40 };
@@ -26,18 +26,16 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
             y >= rect.y && y <= rect.y + rect.h);
 }
 
-
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item){
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item) {
 
     int x=10,y=10;
     TTF_Font* font = getEndScreenFont();
 
-    Fighter ennemi  = {80,  80,  115, 20};
-
     GameState state = PLAYER;
     int running = 1;
-    int inv = 0;//pour savoir si on doit afficher l'inventaire 
-    while (running &&(joueur->hp>0 && ennemi.hp>0)) {
+    int inv = 0; //variable pour savoir si on affiche l'inventaire ou pas
+    
+    while (running &&(joueur->hp>0 && ennemi->hp>0)) {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
@@ -47,17 +45,18 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
                 int mx = e.button.x;
                 int my = e.button.y;                
 
+                
                 if (is_point_in_rect(mx, my, attack_btn)) {
-                    attaque(joueur, &ennemi, &state);
+                    attaque(joueur, ennemi, &state);
                 }
 
                 if (is_point_in_rect(mx, my, forte)) {
-                    attaqueForte(joueur, &ennemi, &state);
+                    attaqueForte(joueur, ennemi, &state);
                 }
 
 
                 if (is_point_in_rect(mx, my, fuite)) {
-                    if(joueur->speed>ennemi.speed){
+                    if(joueur->speed>ennemi->speed){
                         return 0;
                     }
                     else{
@@ -74,12 +73,15 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
             }
 
         }
+
+
+
         if (state == ENNEMY) {
             SDL_Delay(500);
-            attaqueEnnemi(joueur, &ennemi, &state);
+            attaqueEnnemi(joueur, ennemi, &state);
         }
         // RENDER
-        afficherCombat(renderer, joueur, &ennemi, fuite, attack_btn, forte, inventaire,inv,listeItem);
+        afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
         SDL_Delay(16);
     }
     SDL_Delay(2000);
@@ -88,5 +90,8 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
     SDL_RenderClear(renderer);
 
     endScreen(renderer,state, &x ,&y, font);
+    if(ennemi){
+        ennemi->vaincu = (state == VICTOIRE) ? 1 : 0;
+    }
     return 0;
 }
