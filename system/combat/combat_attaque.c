@@ -6,6 +6,13 @@
 #include <stdio.h>
 #include <time.h>
 
+/** \file combat_attaque.h
+    \brief contenus des fonctions de combat_attaque.h
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
+
 // attaque normale 
 void attaque(Fighter *joueur, Fighter *ennemi, GameState *state){
         if(ennemi->hp<(50*joueur->attack)/100){
