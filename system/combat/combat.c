@@ -5,7 +5,15 @@
 #include "../../structs.h"
 #include "combat.h"
 #include "combat_aff.h"
+#include "combat_attaque.h"
 #include "../inventaire.h"
+#include "../text.h"
+/** \file combat.c
+    \brief contenus des fonctions de combat.h
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
 
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };
@@ -19,21 +27,17 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 }
 
 
-int lancerCombat(SDL_Renderer *renderer){
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], SDL_Texture * item){
 
     int x=10,y=10;
+    TTF_Font* font = getEndScreenFont();
 
-    TTF_Init();
-
-    TTF_Font* font = TTF_OpenFont("times.ttf", 100);
-
-    Fighter joueur = {100, 100, 120, 100, 60};
     Fighter ennemi  = {80,  80,  115, 20};
 
     GameState state = PLAYER;
     int running = 1;
     
-    while (running &&(joueur.hp>0 && ennemi.hp>0)) {
+    while (running &&(joueur->hp>0 && ennemi.hp>0)) {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
@@ -44,53 +48,35 @@ int lancerCombat(SDL_Renderer *renderer){
                 int my = e.button.y;                
 
                 if (is_point_in_rect(mx, my, attack_btn)) {
-                    if(ennemi.hp<50*(joueur.attack/100)){
-                        ennemi.hp=0;
-                    }
-                    else
-                        ennemi.hp -= 50*(joueur.attack/100);
-                    state = (ennemi.hp <= 0) ? VICTOIRE : ENNEMY;
+                    attaque(joueur, &ennemi, &state);
                 }
 
                 if (is_point_in_rect(mx, my, forte)) {
-                    if(ennemi.hp<30*(joueur.attack/100)){
-                        ennemi.hp=0;
-                    }
-                    else{
-                        ennemi.hp -= 30*(joueur.attack/100);
-                    }
-                    state = (ennemi.hp <= 0) ? VICTOIRE : ENNEMY;
+                    attaqueForte(joueur, &ennemi, &state);
                 }
 
 
                 if (is_point_in_rect(mx, my, fuite)) {
-                    if(joueur.speed>ennemi.speed){
-                        TTF_CloseFont(font);
-                        TTF_Quit();
+                    if(joueur->speed>ennemi.speed){
                         return 0;
                     }
                     else{
                         state = ENNEMY;
                     }
                 }
+
+                if (is_point_in_rect(mx, my, inventaire)) {
+                    afficherInventaire(renderer,item,listeItem,joueur);
+                }
             }
 
         }
-
-
-
         if (state == ENNEMY) {
             SDL_Delay(500);
-            switch(rand()%2) {
-                case 0:joueur.hp = (joueur.hp<30*(ennemi.attack/100)) ? 0 : joueur.hp-30*(ennemi.attack/100);break;
-                case 1:joueur.hp = (joueur.hp<50*(ennemi.attack/100)) ? 0 : joueur.hp-50*(ennemi.attack/100);break;
-            }
-                   
-            state = (joueur.hp <= 0) ? DEFAITE : PLAYER;
+            attaqueEnnemi(joueur, &ennemi, &state);
         }
-
         // RENDER
-        afficherCombat(renderer, &joueur, &ennemi, fuite, attack_btn, forte, inventaire);
+        afficherCombat(renderer, joueur, &ennemi, fuite, attack_btn, forte, inventaire);
         SDL_Delay(16);
     }
     SDL_Delay(2000);
@@ -99,8 +85,5 @@ int lancerCombat(SDL_Renderer *renderer){
     SDL_RenderClear(renderer);
 
     endScreen(renderer,state, &x ,&y, font);
-
-    TTF_CloseFont(font);
-    TTF_Quit();
     return 0;
 }

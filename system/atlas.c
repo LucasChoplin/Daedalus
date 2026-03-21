@@ -3,7 +3,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "atlas.h"
-
+/** \file atlas.c
+    \brief contenus des fonctions de atlas.h
+    \author Myriam Laaqira
+    \version 1.0
+    \date février ??
+*/
 static SDL_Texture* atlas = NULL;
 static SDL_Texture* mobAtlas = NULL;
 static SDL_Texture * atlasItem = NULL;//texture qui sert à stocker l'atlas des items 
@@ -18,7 +23,7 @@ static SDL_Texture * atlasPerso = NULL;//texture qui sert à stocker l'atlas des
 
 //initialise l'atlas en chargeant la texture
 void initAtlas(SDL_Renderer* renderer){
-    atlas = IMG_LoadTexture(renderer, "assets/atlas_b1.png"); // path du sprite de l'atlas
+    atlas = IMG_LoadTexture(renderer, "assets/atlas_etage1.png"); // path du sprite de l'atlas
     if(!atlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (map) : %s", SDL_GetError());
         exit(1);

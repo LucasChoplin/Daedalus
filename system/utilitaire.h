@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include "../structs.h"
 #include "../def.h"
-/** \file Inventaire.c
+/** \file utilitaire.h
     \brief bibliothèque des fonctions générals 
     \author Patrick Leguillon
     \version 1.0

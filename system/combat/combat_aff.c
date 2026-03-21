@@ -6,9 +6,22 @@
 #include "../../def.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../text.h"
+
+/** \file combat_aff.c
+    \brief contenus des fonctions de combat_aff.h 
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
 
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
+    TTF_Font* font = getCombatFont();
+    Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
+    Bouton boutonForte = {forte, {50, 50, 200, 255}, {255, 255, 255, 255}, "Attaque forte", font};
+    Bouton boutonFuite = {fuite, {250, 250, 250, 255}, {0, 0, 0, 255}, "Fuite", font};
+    Bouton boutonInventaire = {inventaire, {250, 0, 250, 255}, {255, 255, 255, 255}, "Inventaire", font};
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
     SDL_FreeSurface(image);
@@ -35,24 +48,20 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL
     SDL_RenderFillRect(renderer, &player_hp);
 
     // Bouton Attaquer
-    SDL_SetRenderDrawColor(renderer, 200, 50, 50, 255);
-    SDL_RenderFillRect(renderer, &attack_btn);
+    drawButton(renderer, &boutonAttaquer);
 
     // Barre de vie joueur
     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     SDL_RenderFillRect(renderer, &player_hp);
     
     // Bouton Attaque forte
-    SDL_SetRenderDrawColor(renderer, 50, 50, 200, 255);
-    SDL_RenderFillRect(renderer, &forte);
+    drawButton(renderer, &boutonForte);
 
     //bouton fuite
-    SDL_SetRenderDrawColor(renderer, 250, 250, 250, 255);
-    SDL_RenderFillRect(renderer, &fuite);
+    drawButton(renderer, &boutonFuite);
     
     //bouton inventaire
-    SDL_SetRenderDrawColor(renderer, 250, 0, 250, 255);
-    SDL_RenderFillRect(renderer, &inventaire);
+    drawButton(renderer, &boutonInventaire);
 
     //bouton xp necessaire
     SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
@@ -83,22 +92,28 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
         case VICTOIRE:
             couleur = (SDL_Color){0, 200, 0, 255};
             message="VICTORY";
-            break;        
+            break;
     }
 
-    texte = TTF_RenderText_Blended(font, message, couleur);
+    if (message) {
+        texte = TTF_RenderText_Blended(font, message, couleur);
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, texte);
-    SDL_FreeSurface(texte);
+        if (texte) {
+            SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, texte);
+            SDL_FreeSurface(texte);
 
-    SDL_GetRendererOutputSize(renderer, &x, &y);
-    SDL_Rect position = {500, 500, 0, 0};
-    SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
+            SDL_GetRendererOutputSize(renderer, x, y);
+            SDL_Rect position = {0, 0, 0, 0};
+            SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
+            position.x = (*x - position.w) / 2;
+            position.y = (*y - position.h) / 2;
 
-    SDL_RenderCopy(renderer, texture, NULL, &position);
-    SDL_RenderPresent(renderer);
+            SDL_RenderCopy(renderer, texture, NULL, &position);
+            SDL_RenderPresent(renderer);
 
-    SDL_Delay(5000);
+            SDL_Delay(5000);
 
-    SDL_DestroyTexture(texture);
+            SDL_DestroyTexture(texture);
+        }
+    }
 }

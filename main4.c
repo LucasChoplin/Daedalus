@@ -15,7 +15,7 @@
 #include "def.h"
 
 //commande de compilation 
-//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c ./system/combat/combat.c ./system/combat/combat_aff.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Game game;
 Player player;
@@ -42,9 +42,14 @@ int initSDL(void){
         fprintf(stderr, "Erreur SDL_Init : %s", SDL_GetError());
         return -1;
     }
-
-    game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
-
+    SDL_DisplayMode dm;
+    SDL_GetCurrentDisplayMode(0, &dm);
+    if((dm.h>SCREEN_HEIGHT)&&(dm.w>SCREEN_WIDTH)){
+        game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+    }
+    else{
+        game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, dm.w, dm.h, windowFlags);
+    }
     if(!game.window){
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
         return -1;
@@ -63,8 +68,13 @@ int initSDL(void){
         return -1;
     }
 
+    if(initText() < 0){
+        return -1;
+    }
+
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-    
+
+    SDL_SetWindowIcon(game.window, IMG_Load("assets/logo_labyrinthe.png"));
     initAtlas(game.renderer);
     initAtlasItem(game.renderer);
     initAtlasMenu(game.renderer);
@@ -118,6 +128,7 @@ void cleanup(void){
     cleanupAtlasMenu();
     cleanupMobAtlas();
     cleanupAtlasPerso();
+    cleanupText();
     cleanupMap();
     if(game.renderer != NULL)
         SDL_DestroyRenderer(game.renderer);
@@ -132,10 +143,11 @@ int main(int argc, char *argv[]){
     memset(&player, 0, sizeof(Player));
 
     initSDL();
-    TTF_Font* font = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
+    SDL_RenderSetLogicalSize(game.renderer, 1280, 960);
+    TTF_Font* btnfont = getDefaultFont();
 
     //apres l'init de TTF, on fini d'init le bouton d'interaction
-    btnF.font = font;
+    btnF.font = btnfont;
     btnF.rect.w = 30;  //bouton carre
     btnF.rect.h = 30;
 
@@ -145,6 +157,7 @@ int main(int argc, char *argv[]){
     int mapOffsetY = (SCREEN_HEIGHT - mapPixelHeight) / 2;
 
     initMap();
+    mobTest.mapID = getIDSalleRandom();
 //----------------------------------------création des items -----------------------------------
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
     int sortie = 0;/* variable servant à arrêter le programme */
@@ -175,6 +188,24 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
     SDL_Rect play = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect continu = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect quit = {SCREEN_WIDTH/2-TAILLE_MENU,SCREEN_HEIGHT/1.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
+    TTF_Font* titleFont = getTitleFont();
+    SDL_Texture* titleTexture = NULL;
+    SDL_Rect titleRect = {0, 0, 0, 0};
+    if(titleFont != NULL){
+        SDL_Color titleColor = {240, 230, 180, 255};
+        SDL_Surface* titleSurface = TTF_RenderUTF8_Blended(titleFont, "DAEDALUS", titleColor);
+        if(titleSurface != NULL){
+            titleTexture = SDL_CreateTextureFromSurface(game.renderer, titleSurface);
+            titleRect.w = titleSurface->w;
+            titleRect.h = titleSurface->h;
+            titleRect.x = (SCREEN_WIDTH - titleRect.w) / 2;
+            titleRect.y = play.y - titleRect.h - 30;
+            if(titleRect.y < 20){
+                titleRect.y = 20;
+            }
+            SDL_FreeSurface(titleSurface);
+        }
+    }
     SDL_Rect playF;
     SDL_Rect quitF;
     SDL_Rect continuF;
@@ -187,6 +218,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     sortie = 2;
                 }
                 else if (detecterButtonClique(&event,&quit)){
+                    if(titleTexture != NULL)
+                        SDL_DestroyTexture(titleTexture);
                     SDL_DestroyTexture(Chiffre);
                     cleanup();
                     return 0;
@@ -211,6 +244,9 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
+        if(titleTexture != NULL){
+            SDL_RenderCopy(game.renderer, titleTexture, NULL, &titleRect);
+        }
         if(fichierExiste(FICHIER_DATA)){
             if((continu.x<sourisX)&&(continu.x+TAILLE_MENU>sourisX)&&(continu.y<sourisY)&&(continu.y+TAILLE_MENU>sourisY)){
                 continuF = getTileRect(7,ATLAS_BOUTON);
@@ -225,6 +261,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
+    if(titleTexture != NULL)
+        SDL_DestroyTexture(titleTexture);
 //-------------------lecture des données -----------------------------------------
     FILE * f;
     if(sortie==2){//si le fichier data.txt on le créé
@@ -311,7 +349,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     if ((abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
                         //si appuie sur F, lance combat
                         if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            lancerCombat(game.renderer);
+                            lancerCombat(game.renderer,&player1,listeItem,Chiffre);
                         }
                     }
                 }
@@ -371,7 +409,7 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
                     }
                 }
                 if(e.type == SDL_KEYUP){
-                    if(e.key.keysym.sym == SDLK_TAB){//si la touche est tab est préssé
+                    if(e.key.keysym.sym == SDLK_TAB){//si la touche est tab est presse
                         if(pause==0){
                             pause = 1;
                         }
@@ -412,7 +450,8 @@ SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bou
             drawButton(game.renderer, &btnF);
         }
         if(pause){
-            afficherInventaire(game.renderer,Chiffre,listeItem,&player1);
+            afficherInventaire(game.renderer,listeItem,&player1);
+            //combat_afficher_inventaire(game.renderer,listeItem);
         }
         if(menu){
             afficherItemObtenu(game.renderer,menu,itemObtenu);

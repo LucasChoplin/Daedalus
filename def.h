@@ -6,18 +6,20 @@
 #define SCREEN_HEIGHT 960
 
 //dimension de l'etage entier
-#define ETAGE_WIDTH 3
-#define ETAGE_HEIGHT 3
+#define ETAGE_TAILLE 4
 
 //dimension d'une salle
 #define SALLE_WIDTH 20
 #define SALLE_HEIGHT 15
 
+//nbr salles dans l'etage
+#define NB_SALLES_ACTIVES 8
+
 //dimension d'une tile
 #define TILE_SIZE 64
 
-//taille des atlas 
-#define ATLAS_MAP 7
+//taille des atlas/nbr de colonne
+#define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
 #define ATLAS_ITEM 2
 #define ATLAS_PERSO 2
@@ -27,11 +29,11 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 
 //dimension des sprites 
 #define TAILLE_CHIFFRE 32 //taille des chiffres 32*32px
-#define TAILLE_ITEM 32//taille donnée au item
-#define TAILLE_SPRITE 128//taille donné au sprite  
-#define TAILLE_MENU 128//taille des menus 
+#define TAILLE_ITEM 32/**< taille donnée au item */
+#define TAILLE_SPRITE 128/**< taille donné au sprite*/  
+#define TAILLE_MENU 128/**< taille des menus */
 //items
-#define NB_ITEM 2//nombre d'items dans le jeu 
+#define NB_ITEM 3/**< nombre d'items dans le jeu */ 
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 

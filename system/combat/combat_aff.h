@@ -7,6 +7,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/** \file combat_aff.h
+    \brief librairie qui gère les visuels de combat 
+    \author Lucas Choplin
+    \version 1.0
+    \date février ??
+*/
+
 // afficher 
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire);
 
