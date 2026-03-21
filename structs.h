@@ -4,11 +4,11 @@
 #include <SDL2/SDL_ttf.h>
 #include "def.h"
 
-/** \file combat_aff.c
-    \brief contenus des fonctions de combat_aff.h 
-    \author Lucas Choplin
+/** \file inventaire.c
+    \brief contient les structs du projets
+    \author Myriam Laaqira
     \version 1.0
-    \date février ??
+    \date 12 février 2026
 */
 
 typedef struct{
@@ -18,6 +18,7 @@ typedef struct{
 
 typedef struct{
     int xTile, yTile, facing;
+    int spriteID;
     SDL_Texture *texture;
 } Player;
 
@@ -27,11 +28,12 @@ typedef struct{
 } Salle;
 
 typedef struct{
-    int mapID, xTile, yTile;
+    int mapID, xTile, yTile, vaincu;
+    int hp, max_hp, attack, speed;
 } Mob;
 
 typedef struct {
-    int classeID;/**< indique la classe du personnage */
+    int classeID;/** indique la classe du personnage */
     int hp;
     int max_hp;
     int attack;
@@ -42,7 +44,7 @@ typedef struct {
 /** \brief structure pour les items  */
 typedef struct{
     int nb;/**< quantité de l'item */
-    void (*f) (Fighter * p);/**< pointeur vers la fonction pour utiliser un item*/ 
+    void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 
 typedef struct{
