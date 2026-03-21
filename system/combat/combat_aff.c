@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../text.h"
+#include "../inventaire.h"
 
 /** \file combat_aff.c
     \brief contenus des fonctions de combat_aff.h 
@@ -15,7 +16,7 @@
     \date février ??
 */
 
-void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire){
+void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
     TTF_Font* font = getCombatFont();
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
@@ -73,7 +74,9 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Fighter *ennemi,SDL
 
     SDL_RenderCopy(renderer, monImage, NULL, &personnage);
     SDL_RenderCopy(renderer, monImage, NULL, &ennemy);
-
+    if(inv){//si inv != 0 afficher l'inventaire 
+        combat_afficher_inventaire(renderer,l);
+    }
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(monImage);
 }

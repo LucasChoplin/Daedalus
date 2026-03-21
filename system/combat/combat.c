@@ -36,7 +36,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
 
     GameState state = PLAYER;
     int running = 1;
-    
+    int inv = 0;//pour savoir si on doit afficher l'inventaire 
     while (running &&(joueur->hp>0 && ennemi.hp>0)) {
         SDL_Event e;
         while (SDL_PollEvent(&e)) {
@@ -64,9 +64,12 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
                         state = ENNEMY;
                     }
                 }
+                if((inv)&&(detecterItemUtilise(&e,listeItem,joueur))){
+                    //repasser au tour de l'ennemi car on vient d'utiliser un item
+                }
 
                 if (is_point_in_rect(mx, my, inventaire)) {
-                    afficherInventaire(renderer,item,listeItem,joueur);
+                    inv = !inv;//si on appuie sur inventaire on change la valeur de inv 
                 }
             }
 
@@ -76,7 +79,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, item_t * listeItem[], 
             attaqueEnnemi(joueur, &ennemi, &state);
         }
         // RENDER
-        afficherCombat(renderer, joueur, &ennemi, fuite, attack_btn, forte, inventaire);
+        afficherCombat(renderer, joueur, &ennemi, fuite, attack_btn, forte, inventaire,inv,listeItem);
         SDL_Delay(16);
     }
     SDL_Delay(2000);
