@@ -1,5 +1,5 @@
 start : main4.o map.o atlas.o inventaire.o utilitaire.o text.o combat.o combat_aff.o combat_attaque.o
-	gcc main4.o map.o atlas.o inventaire.o utilitaire.o text.o combat.o combat_aff.o combat_attaque.o -o start -lSDL2 -lSDL2_image -lSDL2_ttf
+	gcc main4.o map.o atlas.o inventaire.o utilitaire.o text.o combat.o combat_aff.o combat_attaque.o -o start -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 main4.o : main4.c structs.h
 	gcc -c main4.c

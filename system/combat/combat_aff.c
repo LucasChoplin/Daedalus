@@ -7,6 +7,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../text.h"
+#include "../inventaire.h"
+
+/** \file combat_aff.c
+    \brief  contenu des fonction pour afficher l'interface de combat
+    \author Lucas Choplin
+    \version 1.0
+    \date 8 février 2026
+*/
 
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");

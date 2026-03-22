@@ -10,7 +10,7 @@
     \brief contenus des fonctions de combat_attaque.h
     \author Lucas Choplin
     \version 1.0
-    \date février ??
+    \date 8 février 2026
 */
 
 // attaque normale 

@@ -1,0 +1,7 @@
+classeID=1
+pv_max=200
+stat_attaque=120
+stat_speed=100
+nb_potions=0
+nb_superpotions=0
+nb_clés=0

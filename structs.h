@@ -4,7 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "def.h"
 
-/** \file inventaire.c
+/** \file structs.h
     \brief contient les structs du projets
     \author Myriam Laaqira
     \version 1.0
