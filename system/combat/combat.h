@@ -23,6 +23,6 @@
     \param listeItem liste des item contenu dans l'inventaire
     \param item affichage des nombres d'items dans l'inventaire
 */
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item);
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[]);
 
 #endif

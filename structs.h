@@ -32,7 +32,7 @@ typedef struct{
 } Salle;
 
 typedef struct{
-    int mapID, spriteID, xTile, yTile;
+    int mapID, spriteID, xTile, yTile, vaincu;
     int hp, max_hp, attack, speed;
 } Mob;
 
@@ -43,6 +43,7 @@ typedef struct {
     int attack;
     int speed;
     int xp;
+    int argent;
 } Fighter;
 
 /** \brief structure pour les items  */

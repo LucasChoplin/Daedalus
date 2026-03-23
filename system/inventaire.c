@@ -7,20 +7,20 @@
 #include "text.h"
 /** \file inventaire.c
     \brief contient les structs du projets
-    \author Myriam Laaqira
+    \author Patrick Leguillon
     \version 1.0
     \date février ?
 */
 
-void soin1PV(Fighter * p){
-    p->hp++;
+void soin50PV(Fighter * p){
+    p->hp+= 50;
     if(p->hp>p->max_hp){
         p->hp = p->max_hp;
     }
 }
 
-void soin5PV(Fighter * p){
-    p->hp+= 5;
+void soin200PV(Fighter * p){
+    p->hp+= 200;
     if(p->hp>p->max_hp){
         p->hp = p->max_hp;
     }
@@ -145,5 +145,44 @@ void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
         imgItem = getTileRect(tItemObtenu[i],ATLAS_ITEM);
         SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
         destI.x += 100;
+    }
+}
+
+void afficherMagasin(SDL_Renderer * r,Fighter * p){
+    SDL_Rect destMenu = {50,50,SCREEN_WIDTH/1.1,SCREEN_HEIGHT-50};
+    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
+    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
+    SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
+    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+    SDL_Rect TexItem;
+    int prixItem[2] = {1,15};
+    SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
+    SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
+    int x = 100;
+    for(int i =0; i<2;i++){
+            TexItem = getTileRect(i,ATLAS_ITEM);
+            SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
+            drawChiffre(r,prixItem[i],c.x,c.y);
+            x+=100;
+            item.x = x;
+            c.x = x+10;
+    }
+    drawChiffre(r,p->argent,SCREEN_WIDTH/1.1,SCREEN_HEIGHT/10);
+}
+
+void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[]){
+    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    int prixItem[2] = {1,15};
+    int x = 100;
+    for(int i = 0;i<2;i++){
+        if(detecterButtonClique(event,&item)){
+            if(p->argent>=prixItem[i]){
+                p->argent-=prixItem[i];
+                l[i]->nb++;
+            }
+        }
+        x+=100;
+        item.x = x;
     }
 }

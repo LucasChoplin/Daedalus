@@ -27,7 +27,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
             y >= rect.y && y <= rect.y + rect.h);
 }
 
-int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item) {
+int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[]) {
 
     int x=10,y=10;
     int xp=0;

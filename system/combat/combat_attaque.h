@@ -1,3 +1,4 @@
+
 #ifndef COMBAT_ATTAQUE_H
 #define COMBAT_ATTAQUE_H    
 #include "../../structs.h"
