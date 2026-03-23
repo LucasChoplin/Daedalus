@@ -13,7 +13,7 @@
     \brief contenus des fonctions de combat.h
     \author Lucas Choplin
     \version 1.0
-    \date 8 février 2026
+    \date février ??
 */
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };
@@ -40,15 +40,8 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
                 running = 0;
-            
-            // 1. DÉTECTION DU CLAVIER (Indépendant du clic)
-            if (e.type == SDL_KEYDOWN) {
-                if (e.key.keysym.sym == SDLK_TAB) {
-                    inv = !inv; // Alterne l'affichage de l'inventaire
-                }
-            }
 
-            if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) {
+            if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) { 
                 int mx = e.button.x;
                 int my = e.button.y;                
 
@@ -91,14 +84,19 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
         SDL_Delay(16);
     }
+
+    if(joueur->hp <= 0){
+        state = DEFAITE;
+    }
+    else if(ennemi->hp <= 0){
+        state = VICTOIRE;
+    }
+
     SDL_Delay(2000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
     endScreen(renderer,state, &x ,&y, font);
-    if(ennemi){
-        ennemi->vaincu = (state == VICTOIRE) ? 1 : 0;
-    }
     return 0;
 }

@@ -13,16 +13,9 @@
     \brief librairie qui gère les combats
     \author Lucas Choplin
     \version 1.0
-    \date 8 février 2026
+    \date février ??
 */
 
-/** \brief fonction qui lance le combat 
-    \param renderer dimmension de l'écran
-    \param joueur structure des statistique du joueur
-    \param ennemi structure des ennemis
-    \param listeItem liste des item contenu dans l'inventaire
-    \param item affichage des nombres d'items dans l'inventaire
-*/
 int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item);
 
 #endif

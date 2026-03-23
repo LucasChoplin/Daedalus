@@ -9,15 +9,12 @@
 #include "../text.h"
 #include "../inventaire.h"
 
-/** \file combat_aff.c
-    \brief  contenu des fonction pour afficher l'interface de combat
-    \author Lucas Choplin
-    \version 1.0
-    \date 8 février 2026
-*/
-
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
+    if(!image){
+        fprintf(stderr, "Erreur SDL_LoadBMP (combat): %s\n", SDL_GetError());
+        return;
+    }
     TTF_Font* font = getCombatFont();
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
     Bouton boutonForte = {forte, {50, 50, 200, 255}, {255, 255, 255, 255}, "Attaque forte", font};
@@ -26,6 +23,10 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
     SDL_FreeSurface(image);
+    if(!monImage){
+        fprintf(stderr, "Erreur SDL_CreateTextureFromSurface (combat): %s\n", SDL_GetError());
+        return;
+    }
 
     SDL_Rect xp_possede = { 50, 935, joueur->xp *3, 10 };
     SDL_Rect xp_necessaire = { 50, 935, 100*3, 10 };
@@ -39,12 +40,21 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
     SDL_RenderClear(renderer);
 
+    int ennemiHpPositif = ennemi.hp; //pour eviter d'avoir une barre de vie negative
+    int playerHpPositif = joueur->hp;
+    if(ennemiHpPositif < 0){
+        ennemiHpPositif = 0;
+    }
+    if(playerHpPositif < 0){
+        playerHpPositif = 0;
+    }
+
     // Barre de vie ennemi
-    SDL_Rect enemy_hp = {1000, 40, ennemi.hp * 3, 30};
+    SDL_Rect enemy_hp = {1000, 40, ennemiHpPositif * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemy_hp);
     
-    SDL_Rect player_hp = {50, 900, joueur->hp * 3, 30};
+    SDL_Rect player_hp = {50, 900, playerHpPositif * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &player_hp);
 

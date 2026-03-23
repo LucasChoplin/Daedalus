@@ -33,7 +33,7 @@ void initAtlas(SDL_Renderer* renderer){
 }
 
 void initMobAtlas(SDL_Renderer* renderer){
-    mobAtlas = IMG_LoadTexture(renderer, "assets/jokere.png");
+    mobAtlas = IMG_LoadTexture(renderer, "assets/atlas_mob.png");
     if(!mobAtlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (mob) : %s", SDL_GetError());
         exit(1);

@@ -82,29 +82,10 @@ SDL_Texture* loadTexture(char * filename){
     return texture;
 }
 
-void drawPlayer(Player * player){
-    SDL_Rect src;
-    SDL_Rect dest;
-    SDL_RendererFlip flip = SDL_FLIP_NONE;
-
-    if(!player || !player->texture){ 
-        return;
-    }
-    src = getTileRect(player->spriteID, ATLAS_PERSO);
-    if(player->facing == GAUCHE){
-        flip = SDL_FLIP_HORIZONTAL;
-    }
-    dest.x = player->xTile * TILE_SIZE;
-    dest.y = player->yTile * TILE_SIZE;
-    dest.w = TILE_SIZE;
-    dest.h = TILE_SIZE;
-    SDL_RenderCopyEx(game.renderer, player->texture, &src, &dest, 0.0, NULL, flip);
-}
-
 //evite collision avec les mobs
-int checkMobCollision(int x, int y , Mob mobTest){
-    if (currentMap->mapID == mobTest.mapID) {
-        if (mobTest.xTile == x && mobTest.yTile == y) {
+int checkMobCollision(int x, int y , Mob mob){
+    if (currentMap->mapID == mob.mapID) {
+        if (mob.xTile == x && mob.yTile == y) {
             return 1; //si mob
         }
     }
@@ -127,26 +108,78 @@ void cleanup(void){
     SDL_Quit();
 }
 
+void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
+    FILE *f = fopen(FICHIER_DATA, "w");
+    if(!f){
+        return;
+    }
+
+    fprintf(f,"classeID=%d\n",fighter->classeID);
+    fprintf(f,"pv=%d\n",fighter->hp);
+    fprintf(f,"stat_attaque=%d\n",fighter->attack);
+    fprintf(f,"stat_speed=%d\n",fighter->speed);
+    fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
+    fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
+    fprintf(f,"nb_clés=%d\n",listeItem[2]->nb);
+    fprintf(f,"etage=%d\n",etageActuel);
+    fclose(f);
+}
+
+void setupBossForFloor(int etageActuel, int bossRoomID, int miniBossRoomID, Mob *miniBoss, Mob *boss){
+    Mob *bossActif = (etageActuel >= 3) ? boss : miniBoss;
+    Mob *bossInactif = (etageActuel >= 3) ? miniBoss : boss;
+
+    bossActif->mapID = bossRoomID;
+    bossActif->xTile = SALLE_WIDTH / 2;
+    bossActif->yTile = SALLE_HEIGHT / 2;
+    bossActif->hp = bossActif->max_hp;
+
+    if(etageActuel >= 3){
+        bossInactif->mapID = miniBossRoomID;
+        bossInactif->xTile = SALLE_WIDTH / 2;
+        bossInactif->yTile = SALLE_HEIGHT / 2;
+        bossInactif->hp = bossInactif->max_hp;
+    }
+    else{
+        bossInactif->mapID = -1;
+        bossInactif->xTile = -1;
+        bossInactif->yTile = -1;
+    }
+}
+
 int main(int argc, char *argv[]){
 
     Fighter fighter; 
-    Mob mobTest; 
-    Mob mobLambda;
+    Mob miniBoss, boss, mob1, mob2, mob3;
     Bouton btnF; 
+    int etageActuel = 1;
+    int portailActif = 0; //indique si le portail d'etage est actif
+    int portailMapID = -1; //indique la salle ou le portail est actif
+    int portailX = -1;
+    int portailY = -1;
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
     memset(&player, 0, sizeof(Player));
     memset(&fighter, 0, sizeof(Fighter));
-    memset(&mobTest, 0, sizeof(Mob));
-    memset(&mobLambda, 0, sizeof(Mob));
+    memset(&mob1, 0, sizeof(Mob));
+    memset(&mob2, 0, sizeof(Mob));
+    memset(&mob3, 0, sizeof(Mob));
+    memset(&miniBoss, 0, sizeof(Mob));
+    memset(&boss, 0, sizeof(Mob));
     memset(&btnF, 0, sizeof(Bouton));
 
     initSDL();
     TTF_Font* btnfont = getDefaultFont();
+
+    //-----------------------initialisation des variables de jeu --------------------------------
     fighter = (Fighter){.classeID=0, .hp=40, .max_hp=140, .attack=120, .speed=100};
-    mobTest = (Mob){.mapID=1, .xTile=5, .yTile=5, .vaincu=0, .hp=80, .max_hp=80, .attack=80, .speed=20};
-    mobLambda = (Mob){.mapID=-1, .xTile=-1, .yTile=-1, .vaincu=0, .hp=60, .max_hp=60, .attack=50, .speed=30};
+    miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=200, .max_hp=200, .attack=80, .speed=60};
+    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=150, .max_hp=150, .attack=100, .speed=50};
+    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
+    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=80, .attack=70, .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
+    Mob Mobs[] = {miniBoss, boss, mob1, mob2, mob3};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
 
     //apres l'init de TTF, on fini d'init le bouton d'interaction
@@ -160,8 +193,6 @@ int main(int argc, char *argv[]){
     int mapOffsetY = (SCREEN_HEIGHT - mapPixelHeight) / 2;
     
     srand(time(NULL));
-    initMap();
-    mobTest.mapID = getIDSalleRandom();
 //----------------------------------------création des items -----------------------------------
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
     int sortie = 0;/* variable servant à arrêter le programme */
@@ -290,21 +321,21 @@ int main(int argc, char *argv[]){
                 if(event.type == SDL_MOUSEBUTTONDOWN){
                     if(detecterButtonClique(&event,&DestGla)){
                         fprintf(f,"classeID=%d\n",GLADIATEUR);
-                        fprintf(f,"pv_max=%d\n",GLADIATEUR_MAX_HP);
+                        fprintf(f,"pv=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
                         fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
                         choixPerso++;
                     }
                     else if(detecterButtonClique(&event,&DestArc)){
                         fprintf(f,"classeID=%d\n",ARCHER);
-                        fprintf(f,"pv_max=%d\n",ARCHER_MAX_HP);
+                        fprintf(f,"pv=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
                         choixPerso++;
                     }
                     else if(detecterButtonClique(&event,&DestLan)){
                         fprintf(f,"classeID=%d\n",LANCIER);
-                        fprintf(f,"pv_max=%d\n",LANCIER_MAX_HP);
+                        fprintf(f,"pv=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",LANCIER_SPEED);
                         choixPerso++;
@@ -315,19 +346,43 @@ int main(int argc, char *argv[]){
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_clés=%d\n",0);
+        fprintf(f,"etage=%d\n",1);
         fclose(f);
     }
-    f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locals 
+    f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locales 
     fscanf(f,"classeID=%d\n",&(fighter.classeID));
-    fscanf(f,"pv_max=%d\n",&(fighter.max_hp));
+    fscanf(f,"pv=%d\n",&(fighter.hp));
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_clés=%d\n",&(listeItem[2]->nb));
-    fclose(f);
-    fighter.hp = fighter.max_hp;    
+    switch(fighter.classeID){
+        case GLADIATEUR:
+            fighter.max_hp = GLADIATEUR_MAX_HP;
+            break;
+        case ARCHER:
+            fighter.max_hp = ARCHER_MAX_HP;
+            break;
+        case LANCIER:
+            fighter.max_hp = LANCIER_MAX_HP;
+            break;
+        default:
+            fighter.max_hp = 100; //si classeID invalide
+    }
+    if(fscanf(f,"etage=%d\n",&(etageActuel)) != 1){
+        etageActuel = 1;
+    }
+    if(etageActuel < 1){
+        etageActuel = 1;
+    }
+    fclose(f);   
     sortie = 0;
+
+    int IDSalleBoss = -1;
+    int IDSalleMiniBoss = -1;
+    initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss);
+    setupBossForFloor(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
 //----------------------------------------------------------------------------------------------
     //position de depart du player
     player.xTile = 9;
@@ -340,10 +395,13 @@ int main(int argc, char *argv[]){
     while(sortie==0){
         prepareScene();
         SDL_Event e;
+        Mob *bossFinal = (etageActuel >= 3) ? &boss : &miniBoss;
+        Mob *miniBossActif = (etageActuel >= 3) ? &miniBoss : NULL;
         
         //gestion des evenements
         while(SDL_PollEvent(&e)){
             if(e.type == SDL_QUIT){
+                saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
             if(menu==0){
@@ -351,79 +409,162 @@ int main(int argc, char *argv[]){
                     SDL_DestroyTexture(Chiffre);
                     sortie = 1;
                 }
-                //si joueur a cote du mob
-                if(currentMap->mapID == mobTest.mapID){
-                    if ((abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
-                        //si appuie sur F, lance combat
-                        if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            lancerCombat(game.renderer, &fighter, &mobTest, listeItem, Chiffre);
-                            if(mobTest.vaincu){
-                                mobTest.vaincu = 0;
-                                mobTest.xTile = -1; //enleve le mob de la map
-                                mobTest.yTile = -1;
+                if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec le portail ou le boss
+                    int procheBossFinal = 0;
+                    int procheMiniBoss = 0;
+                    int prochePortail = 0;
+
+                    if(currentMap->mapID == bossFinal->mapID){
+                        procheBossFinal = ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1); 
+                    }
+                    if(miniBossActif && currentMap->mapID == miniBossActif->mapID){
+                        procheMiniBoss = ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
+                    }
+                    if(portailActif && currentMap->mapID == portailMapID){
+                        prochePortail = ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
+                    }
+
+                    if(prochePortail){ //quand on passe a l'etage suivant
+                        etageActuel++; 
+                        initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss);
+                        player.xTile = 9;
+                        player.yTile = 7;
+                        setupBossForFloor(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+
+                        portailActif = 0;
+                        portailMapID = -1;
+                        portailX = -1;
+                        portailY = -1;
+
+                        saveGameData(&fighter, listeItem, etageActuel);
+                    }
+                    else if(procheMiniBoss){
+                        lancerCombat(game.renderer, &fighter, miniBossActif, listeItem, Chiffre);
+                        if(miniBossActif->hp <= 0){
+                            // miniBoss battu: disparition sur cet etage
+                            miniBossActif->mapID = -1;
+                            miniBossActif->xTile = -1;
+                            miniBossActif->yTile = -1;
+                            miniBossActif->hp = miniBossActif->max_hp;
+
+                            if(etageActuel == 3){
+                                // TODO ETAGE 3: action speciale apres miniBoss (pas de drop d'item)
+                                // TODO exemple: ouvrir un accès, activer un mécanisme, donner un bonus, etc.
                             }
                         }
                     }
-                }
-                if(isCombatTile(currentMap->tiles[player.yTile][player.xTile])){
-                    if(rand() % 100 < 20){ //20% de chance de lancer un combat sur une tile de combat
-                        lancerCombat(game.renderer, &fighter, &mobLambda, listeItem, Chiffre);
+                    else if(procheBossFinal){ 
+                        lancerCombat(game.renderer, &fighter, bossFinal, listeItem, Chiffre);
+                        if(bossFinal->hp <= 0){
+                            if(etageActuel < 3){
+                                // avant l'etage 3, le boss (miniBoss) donne l'accès à l'etage suivant
+                                portailActif = 1;
+                                portailMapID = bossFinal->mapID;
+                                portailX = bossFinal->xTile;
+                                portailY = bossFinal->yTile;
+
+                                bossFinal->mapID = -1; //enleve le boss de la map
+                                bossFinal->xTile = -1;
+                                bossFinal->yTile = -1;
+                                bossFinal->hp = bossFinal->max_hp;
+                            }
+                            else{
+                                // boss battu: fin de partie
+                                saveGameData(&fighter, listeItem, etageActuel);
+                                sortie = 1;
+                            }
+                        }
                     }
                 }
                 if(e.type == SDL_KEYDOWN){
                     int newX = player.xTile;
                     int newY = player.yTile;
+                    int toucheDeplacement = 0;
+                    int deplacement = 0;
 
                     switch(e.key.keysym.sym){
                         case SDLK_UP:
+                            toucheDeplacement = 1;
                             newY --;
                             break;
                         case SDLK_DOWN:
+                            toucheDeplacement = 1;
                             newY ++;
                             break;
                         case SDLK_LEFT:
+                            toucheDeplacement = 1;
                             player.facing = GAUCHE;
                             newX --;
                             break;
                         case SDLK_RIGHT:
+                            toucheDeplacement = 1;
                             player.facing = DROITE;
                             newX ++;
                             break;
                     }
+
+                    if(!toucheDeplacement){
+                        continue;
+                    }
+
                     //on verifie les collisions et le changement de salle
                     if(newX >= SALLE_WIDTH){
                         changeRoom(DROITE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, mobTest)){
+                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
+                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
+                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
                             player.xTile = newX;
                             player.yTile = newY;
+                            deplacement = 1;
                         }
                     }else if(newX < 0){
                         changeRoom(GAUCHE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, mobTest)){
+                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
+                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
+                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
                             player.xTile = newX;
                             player.yTile = newY;
+                            deplacement = 1;
                         }
                     }else if(newY >= SALLE_HEIGHT){
                         changeRoom(BAS, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, mobTest)){
+                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
+                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
+                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
                             player.xTile = newX;
                             player.yTile = newY;
+                            deplacement = 1;
                         }
                     }else if(newY < 0){
                         changeRoom(HAUT, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, mobTest)){
+                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
+                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
+                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
                             player.xTile = newX;
                             player.yTile = newY;
+                            deplacement = 1;
                         }
                     }else{
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, mobTest)){
+                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
+                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
+                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
                             player.xTile = newX;
                             player.yTile = newY;
+                            deplacement = 1;
+                        }
+                    }
+
+                    if(deplacement && !pause && isCombatTile(currentMap->tiles[player.yTile][player.xTile])){
+                        if(rand() % 100 < 20){ //20% de chance de lancer un combat sur une tile de combat
+                            int randomMob = rand() % 3 + 2; //choisit un mob aléatoire parmi les 3 mobs lambda
+                            Mob ennemiCombat = Mobs[randomMob];
+                            ennemiCombat.hp = ennemiCombat.max_hp;
+                            lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem, Chiffre);
                         }
                     }
                 }
@@ -437,7 +578,7 @@ int main(int argc, char *argv[]){
                         }
                     }
                     if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
-                        drawPlayer(&player);
+                        drawPlayer(game.renderer, &player);
                         menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
@@ -454,15 +595,29 @@ int main(int argc, char *argv[]){
             }
         }
         drawMap(game.renderer);
-        if (currentMap->mapID == mobTest.mapID) {
-            drawMob(game.renderer, &mobTest);
+        if (currentMap->mapID == bossFinal->mapID) {
+            drawMob(game.renderer, bossFinal);
+        }
+        if (miniBossActif && currentMap->mapID == miniBossActif->mapID) {
+            drawMob(game.renderer, miniBossActif);
+        }
+
+        if(portailActif && currentMap->mapID == portailMapID){
+            SDL_Rect srcItem = getTileRect(2, ATLAS_ITEM);
+            SDL_Rect destItem = {portailX * TILE_SIZE, portailY * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+            SDL_RenderCopy(game.renderer, getAtlasItem(), &srcItem, &destItem);
         }
         
-        drawPlayer(&player);
+        drawPlayer(game.renderer, &player);
 
-        //dessine le bouton si a cote du mob
-        if (currentMap->mapID == mobTest.mapID &&
-            (abs(player.xTile - mobTest.xTile) + abs(player.yTile - mobTest.yTile)) == 1){
+        //dessine le bouton si a cote du boss ou du portail d'etage
+        int procheBossFinal = (currentMap->mapID == bossFinal->mapID) &&
+            ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
+        int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) &&
+            ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
+        int prochePortail = portailActif && (currentMap->mapID == portailMapID) &&
+            ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
+        if (procheBossFinal || procheMiniBoss || prochePortail){
             btnF.rect.x = player.xTile * TILE_SIZE + 50;
             btnF.rect.y = player.yTile * TILE_SIZE - 20;
             drawButton(game.renderer, &btnF);
@@ -476,6 +631,7 @@ int main(int argc, char *argv[]){
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
+    saveGameData(&fighter, listeItem, etageActuel);
     SDL_DestroyTexture(Chiffre);
     cleanup();
     return 0;

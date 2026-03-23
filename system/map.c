@@ -21,9 +21,48 @@ Salle* etage[ETAGE_TAILLE * ETAGE_TAILLE];
 static int listeActives[NB_SALLES_ACTIVES]; 
 static int nbrSallesActives = 0;
 
+static void connecterSalles(Salle* salle1, Salle* salle2, int direction);
+
+static void reinitialiserEventSalle(Salle* salle){
+    salle->itemAtlasID = -1;
+    salle->itemX = -1;
+    salle->itemY = -1;
+}
+
+static void placerEventSalle(Salle* salle, int itemAtlasID){
+    int minX = 1;
+    int maxX = SALLE_WIDTH - 2;
+    int minY = 2;
+    int maxY = SALLE_HEIGHT - 3;
+
+    salle->itemAtlasID = itemAtlasID;
+    salle->itemX = minX + rand() % (maxX - minX + 1);
+    salle->itemY = minY + rand() % (maxY - minY + 1);
+}
+
 int getIDSalleRandom(void){ //pour positionner le mini boss dans une salle random et mettre le spawn
     if(nbrSallesActives == 0) return 0;
     return listeActives[rand() % nbrSallesActives];
+}
+
+//retourne un ID de salle active different de celui passé en paramètre, ou celui passé si aucune autre salle disponible
+int getIDSalleRandomExcluant(int mapIDExclu){
+    if(nbrSallesActives == 0)return 0;
+    if(nbrSallesActives == 1)return listeActives[0];
+
+    for(int tentative = 0; tentative < 32; tentative++){
+        int id = listeActives[rand() % nbrSallesActives];
+        if(id != mapIDExclu){
+            return id;
+        }
+    }
+
+    for(int i = 0; i < nbrSallesActives; i++){
+        if(listeActives[i] != mapIDExclu){
+            return listeActives[i];
+        }
+    }
+    return mapIDExclu;
 }
 
 //init la seed du random 
@@ -64,8 +103,10 @@ static int getIDSalleVoisine(int idSalle, int direction){
     return y * ETAGE_TAILLE + x;
 }
 
-//genere salle normale avec murs en bords et sols
-void genererSalle(Salle* salle){
+//une salle normale (tiles de combat)
+static void genererSalleNormale(Salle* salle){
+    salle->type = SALLE_NORMALE;
+    reinitialiserEventSalle(salle);
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
             if(y == SALLE_HEIGHT - 1){
@@ -98,7 +139,132 @@ void genererSalle(Salle* salle){
     salle->tiles[SALLE_HEIGHT-2][SALLE_WIDTH-1] = 26;
 }
 
-void connecterSalles(Salle* salle1, Salle* salle2, int direction){
+//salle de boss (sol simple avec le boss au milieu)
+static void genererSalleBoss(Salle* salle){
+    salle->type = SALLE_BOSS;
+    reinitialiserEventSalle(salle);
+    for(int y = 0; y < SALLE_HEIGHT; y++){
+        for(int x = 0; x < SALLE_WIDTH; x++){
+            if(y == SALLE_HEIGHT - 1){
+                // mur bas/vide
+                salle->tiles[y][x] = 16;
+            } else if(x == 0){
+                // mur gauche
+                salle->tiles[y][x] = 17; 
+            } else if(x == SALLE_WIDTH - 1){
+                // mur droite
+                salle->tiles[y][x] = 24; 
+            } else if(y == 0){
+                // mur haut
+                salle->tiles[y][x] = 21; 
+            } else if(y == SALLE_HEIGHT - 2){
+                // mur bas
+                salle->tiles[y][x] = 14;
+            } else if(y == 1){
+                // sol relié au mur du haut
+                salle->tiles[y][x] = 5;
+            } else {
+                // sol milieu
+                salle->tiles[y][x] = 0;
+            } 
+        }
+    }
+    salle->tiles[SALLE_HEIGHT-2][0] = 19; 
+    salle->tiles[SALLE_HEIGHT-2][SALLE_WIDTH-1] = 26;
+}
+
+static void genererSalleCoffre(Salle* salle){
+    genererSalleBoss(salle);
+    salle->type = SALLE_COFFRE;
+    placerEventSalle(salle, 2);
+}
+
+static void genererSalleTroc(Salle* salle){
+    genererSalleBoss(salle);
+    salle->type = SALLE_TROC;
+    placerEventSalle(salle, 1);
+}
+
+//genere une salle en fonction de son type
+void genererSalle(Salle* salle, SalleType type){
+    if(!salle) return;
+    
+    switch(type){
+        case SALLE_NORMALE:
+            genererSalleNormale(salle);
+            break;
+        case SALLE_COFFRE:
+            genererSalleCoffre(salle);
+            break;
+        case SALLE_TROC:
+            genererSalleTroc(salle);
+            break;  
+        case SALLE_BOSS:
+            genererSalleBoss(salle);
+            break;
+        default:
+            genererSalleNormale(salle);
+            break;
+    }
+}
+
+static void regenererSalleByID(int mapID, SalleType type){
+    if(mapID < 0 || mapID >= ETAGE_TAILLE * ETAGE_TAILLE){
+        return;
+    }
+    if(etage[mapID] == NULL){
+        return;
+    }
+
+    genererSalle(etage[mapID], type);
+
+    Salle *salle = etage[mapID];
+    int voisinID;
+
+    voisinID = getIDSalleVoisine(mapID, DROITE);
+    if(voisinID != -1 && etage[voisinID] != NULL){
+        connecterSalles(salle, etage[voisinID], DROITE);
+    }
+
+    voisinID = getIDSalleVoisine(mapID, BAS);
+    if(voisinID != -1 && etage[voisinID] != NULL){
+        connecterSalles(salle, etage[voisinID], BAS);
+    }
+
+    voisinID = getIDSalleVoisine(mapID, GAUCHE);
+    if(voisinID != -1 && etage[voisinID] != NULL){
+        connecterSalles(salle, etage[voisinID], GAUCHE);
+    }
+
+    voisinID = getIDSalleVoisine(mapID, HAUT);
+    if(voisinID != -1 && etage[voisinID] != NULL){
+        connecterSalles(salle, etage[voisinID], HAUT);
+    }
+}
+
+static int getIDSalleRandomExcluantDeux(int mapIDExclu1, int mapIDExclu2){
+    if(nbrSallesActives == 0){
+        return 0;
+    }
+
+    for(int tentative = 0; tentative < 32; tentative++){
+        int id = listeActives[rand() % nbrSallesActives];
+        if(id != mapIDExclu1 && id != mapIDExclu2){
+            return id;
+        }
+    }
+
+    for(int i = 0; i < nbrSallesActives; i++){
+        int id = listeActives[i];
+        if(id != mapIDExclu1 && id != mapIDExclu2){
+            return id;
+        }
+    }
+
+    return getIDSalleRandomExcluant(mapIDExclu1);
+}
+
+static void connecterSalles(Salle* salle1, Salle* salle2, int direction){
     int xDebut = (SALLE_WIDTH - 4) / 2 ;
     int yDebut = (SALLE_HEIGHT - 4) / 2 + 1;
     //en fct de la direction on creuse un passage pour les salles
@@ -188,7 +354,7 @@ void initMap(void) {
     listeActives[nbrSallesActives++] = premiereSalle;
 
     while(nbrSallesActives < NB_SALLES_ACTIVES){
-        int frontParents[ETAGE_TAILLE * ETAGE_TAILLE * 4]; 
+        int frontParents[ETAGE_TAILLE * ETAGE_TAILLE * 4];
         int frontEnfants[ETAGE_TAILLE * ETAGE_TAILLE * 4];
         int frontDirections[ETAGE_TAILLE * ETAGE_TAILLE * 4];
         int nbrFront = 0;
@@ -236,7 +402,7 @@ void initMap(void) {
         etage[i]->mapID = i;
         etage[i]->xSalle = i % ETAGE_TAILLE;
         etage[i]->ySalle = i / ETAGE_TAILLE;
-        genererSalle(etage[i]);
+        genererSalle(etage[i], SALLE_NORMALE);
     }
 
     for(int i = 0; i < nbConnexions; i++){
@@ -264,6 +430,40 @@ void initMap(void) {
     currentMap = etage[getIDSalleRandom()];
 }
 
+void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID){
+    initMap();
+
+    int miniBossID = getIDSalleRandom(); //choisit salle pour miniBoss
+    int salleSpecialeID = getIDSalleRandomExcluant(miniBossID);
+    int bossID = getIDSalleRandomExcluantDeux(miniBossID, salleSpecialeID); //et Boss (forcement dans une salle diff)
+
+    regenererSalleByID(salleSpecialeID, (rand() % 2 == 0) ? SALLE_COFFRE : SALLE_TROC);
+
+    if(etageActuel >= 3){
+        genererSalleBossByID(miniBossID);
+
+        int spawnID = getIDSalleRandomExcluantDeux(miniBossID, salleSpecialeID);
+        setCurrentMapByID(spawnID);
+
+        bossID = getIDSalleRandomExcluantDeux(miniBossID, salleSpecialeID);
+        if(nbrSallesActives > 3 && (bossID == spawnID || bossID == salleSpecialeID)){
+            for(int tentative = 0; tentative < 16; tentative++){
+                bossID = getIDSalleRandomExcluantDeux(miniBossID, salleSpecialeID);
+                if(bossID != spawnID && bossID != salleSpecialeID){
+                    break;
+                }
+            }
+        }
+    }
+
+    if(bossRoomID){
+        *bossRoomID = miniBossID;
+    }
+    if(miniBossRoomID){
+        *miniBossRoomID = bossID;
+    }
+}
+
 void drawMap(SDL_Renderer* renderer){
     if(!currentMap){
         return;
@@ -280,6 +480,17 @@ void drawMap(SDL_Renderer* renderer){
             SDL_RenderCopy(renderer, atlas, &src, &destRect);
         }
     }
+
+    if(currentMap->itemAtlasID >= 0){
+        SDL_Rect srcItem = getTileRect(currentMap->itemAtlasID, ATLAS_ITEM);
+        SDL_Rect destItem = {
+            currentMap->itemX * TILE_SIZE,
+            currentMap->itemY * TILE_SIZE,
+            TILE_SIZE,
+            TILE_SIZE
+        };
+        SDL_RenderCopy(renderer, getAtlasItem(), &srcItem, &destItem);
+    }
 }
 
 void drawMob(SDL_Renderer* renderer, Mob* mob) {
@@ -287,10 +498,29 @@ void drawMob(SDL_Renderer* renderer, Mob* mob) {
         return;
     }
 
-    SDL_Rect src = getTileRect(0, ATLAS_PERSO);
+    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO);
     SDL_Texture* mobAtlas = getMobAtlasTexture();
     SDL_Rect destRect = {mob->xTile * TILE_SIZE, mob->yTile * TILE_SIZE, TILE_SIZE, TILE_SIZE};
     SDL_RenderCopy(renderer, mobAtlas, &src, &destRect);
+}
+
+void drawPlayer(SDL_Renderer* renderer, Player * player){
+    SDL_Rect src;
+    SDL_Rect dest;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
+
+    if(!player || !player->texture){ 
+        return;
+    }
+    src = getTileRect(player->spriteID, ATLAS_PERSO);
+    if(player->facing == GAUCHE){
+        flip = SDL_FLIP_HORIZONTAL;
+    }
+    dest.x = player->xTile * TILE_SIZE;
+    dest.y = player->yTile * TILE_SIZE;
+    dest.w = TILE_SIZE;
+    dest.h = TILE_SIZE;
+    SDL_RenderCopyEx(renderer, player->texture, &src, &dest, 0.0, NULL, flip);
 }
 
 void cleanupMap(void) {
@@ -345,4 +575,20 @@ void changeSalle(int direction, int* playerX, int* playerY) {
 
 void changeRoom(int direction, int* playerX, int* playerY) {
     changeSalle(direction, playerX, playerY);
+}
+
+void setCurrentMapByID(int mapID){
+    if(mapID < 0 || mapID >= ETAGE_TAILLE * ETAGE_TAILLE){
+        return;
+    }
+    if(etage[mapID] == NULL){
+        return;
+    }
+
+    currentMap = etage[mapID];
+}
+
+//genere une salle de boss a partir de son ID 
+void genererSalleBossByID(int mapID){
+    regenererSalleByID(mapID, SALLE_BOSS); 
 }

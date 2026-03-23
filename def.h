@@ -15,6 +15,14 @@
 //nbr salles dans l'etage
 #define NB_SALLES_ACTIVES 8
 
+/** \brief enum des types de salles disponibles */
+typedef enum {
+     SALLE_NORMALE,
+     SALLE_COFFRE,
+     SALLE_TROC,
+     SALLE_BOSS,
+} SalleType;
+
 //dimension d'une tile
 #define TILE_SIZE 64
 
@@ -52,6 +60,10 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 #define LANCIER_ATTACK 120
 #define LANCIER_SPEED 200
 
+//multiplicateur de difficulte par etage
+#define MULT_ETAGE_1 1
+#define MULT_ETAGE_2 1.5
+#define MULT_ETAGE_3 2
 
 typedef enum {
     DEFAITE,
