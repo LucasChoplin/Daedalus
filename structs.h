@@ -4,7 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "def.h"
 
-/** \file structs.h
+/** \file inventaire.c
     \brief contient les structs du projets
     \author Myriam Laaqira
     \version 1.0
@@ -25,10 +25,14 @@ typedef struct{
 typedef struct{
     int mapID, xSalle, ySalle;
     int tiles[SALLE_HEIGHT][SALLE_WIDTH];
+    int itemAtlasID;
+    int itemX;
+    int itemY;
+    SalleType type;
 } Salle;
 
 typedef struct{
-    int mapID, xTile, yTile, vaincu;
+    int mapID, spriteID, xTile, yTile;
     int hp, max_hp, attack, speed;
 } Mob;
 
