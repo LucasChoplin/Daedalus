@@ -10,15 +10,30 @@
     \brief librairie qui gère les visuels de combat 
     \author Lucas Choplin
     \version 1.0
-    \date février ??
+    \date 8 février 2026
 */
 
 // afficher 
 
-/** \param inv si =1 on affiche l'inventaire
+/** \brief affiche l'interface du combat avec les boutons et la barre de vie  
+    \param renderer dimmension de l'écran
+    \param joueur structure des statistique du joueur
+    \param ennemi structure des statistique de l'ennemi
+    \param fuite coordone du bouton fuite
+    \param attack_btn coordone du bouton d'attaque
+    \param forte coordone du bouton de l'attaque forte
+    \param inventaire coordone du bouton pour acceder à l'inventaire 
+    \param inv si =1 on affiche l'inventaire
     \param l pointeur vers la liste d'items pour afficher l'inventaire 
 */
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]);
 
+/** \brief afficher l'écran de fin de combat
+    \param renderer dimmension de l'écran
+    \param state structure du deroulement de la partie 
+    \param x coordonnée x du texte de fin 
+    \param y coordonnée y du texte de fin 
+    \param font police d'écriture pour le texte 
+*/
 void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font);
 #endif

@@ -13,7 +13,7 @@
     \brief contenus des fonctions de combat.h
     \author Lucas Choplin
     \version 1.0
-    \date février ??
+    \date 8 février 2026
 */
 
 const SDL_Rect fuite = { 800, 900, 425, 40 };
@@ -40,6 +40,13 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_QUIT)
                 running = 0;
+            
+            // 1. DÉTECTION DU CLAVIER (Indépendant du clic)
+            if (e.type == SDL_KEYDOWN) {
+                if (e.key.keysym.sym == SDLK_TAB) {
+                    inv = !inv; // Alterne l'affichage de l'inventaire
+                }
+            }
 
             if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) { 
                 int mx = e.button.x;
