@@ -2,6 +2,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "../../structs.h"
 #include "combat.h"
 #include "combat_attaque.h"
@@ -29,6 +30,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[], SDL_Texture * item) {
 
     int x=10,y=10;
+    int xp=0;
     TTF_Font* font = getEndScreenFont();
 
     GameState state = PLAYER;
@@ -48,7 +50,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                 }
             }
 
-            if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) { 
+            if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) {
                 int mx = e.button.x;
                 int my = e.button.y;                
 
@@ -71,7 +73,8 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                     }
                 }
                 if((inv)&&(detecterItemUtilise(&e,listeItem,joueur))){
-                    //repasser au tour de l'ennemi car on vient d'utiliser un item
+                    inv = !inv;
+                    state = ENNEMY;
                 }
 
                 if (is_point_in_rect(mx, my, inventaire)) {
@@ -87,23 +90,26 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
             SDL_Delay(500);
             attaqueEnnemi(joueur, ennemi, &state);
         }
+
+        if(state==VICTOIRE){
+            srand( time( NULL ) );
+            xp= (rand() % (20 - 10 + 1)) + 10;
+            joueur->xp+=xp;
+
+        }
+
         // RENDER
         afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
         SDL_Delay(16);
     }
-
-    if(joueur->hp <= 0){
-        state = DEFAITE;
-    }
-    else if(ennemi->hp <= 0){
-        state = VICTOIRE;
-    }
-
     SDL_Delay(2000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    endScreen(renderer,state, &x ,&y, font);
+    endScreen(renderer,state, &x ,&y, font, xp);
+    if(ennemi){
+        ennemi->vaincu = (state == VICTOIRE) ? 1 : 0;
+    }
     return 0;
 }

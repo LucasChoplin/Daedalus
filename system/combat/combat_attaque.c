@@ -15,22 +15,22 @@
 
 // attaque normale 
 void attaque(Fighter *joueur, Mob *ennemi, GameState *state){
-        if(ennemi->hp<(50*joueur->attack)/100){
+    if(ennemi->hp<(30*joueur->attack)/100){
         ennemi->hp=0;
     }
     else
-        ennemi->hp -= (50*joueur->attack)/100;
+        ennemi->hp -= (30*joueur->attack)/100;
     *state = (ennemi->hp <= 0) ? VICTOIRE : ENNEMY;
 }
 
 
 // attaque forte
 void attaqueForte(Fighter *joueur, Mob *ennemi, GameState *state){
-    if(ennemi->hp<(30*joueur->attack)/100){
+    if(ennemi->hp<(50*joueur->attack)/100){
         ennemi->hp=0;
     }
     else{
-        ennemi->hp -= (30*joueur->attack)/100;
+        ennemi->hp -= (50*joueur->attack)/100;
     }
     *state = (ennemi->hp <= 0) ? VICTOIRE : ENNEMY;
 }
@@ -41,10 +41,10 @@ void attaqueEnnemi(Fighter *joueur, Mob *ennemi, GameState *state){
     int degats;
     switch(rand()%2) {
         case 0:
-            degats = (30 * ennemi->attack) / 100;
+            degats = (100 * ennemi->attack) / 100;
             joueur->hp = (joueur->hp < degats) ? 0 : joueur->hp - degats; break;
         case 1:
-            degats = (50 * ennemi->attack) / 100;
+            degats = (100 * ennemi->attack) / 100;
             joueur->hp = (joueur->hp < degats) ? 0 : joueur->hp - degats; break;
     }
             

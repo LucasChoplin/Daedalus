@@ -34,6 +34,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     \param x coordonnée x du texte de fin 
     \param y coordonnée y du texte de fin 
     \param font police d'écriture pour le texte 
+    \param xp xp gagner à la fin du combat
 */
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font);
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font, int xp);
 #endif
