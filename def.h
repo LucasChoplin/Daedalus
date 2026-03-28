@@ -30,7 +30,7 @@ typedef enum {
 //taille des atlas/nbr de colonne
 #define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
-#define ATLAS_ITEM 2
+#define ATLAS_ITEM 6
 #define ATLAS_PERSO 2
 
 //direction
@@ -42,7 +42,7 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 #define TAILLE_SPRITE 128/**< taille donné au sprite*/  
 #define TAILLE_MENU 128/**< taille des menus */
 //items
-#define NB_ITEM 3/**< nombre d'items dans le jeu */ 
+#define NB_ITEM 4/**< nombre d'items dans le jeu */ 
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 

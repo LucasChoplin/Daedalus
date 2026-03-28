@@ -155,10 +155,10 @@ int main(int argc, char *argv[]){
     int etageActuel = 1;
     int IDSalleTroc = -1;
     int menuMarchand = 0; //1 si le menu du marchand est ouvert
-    int portailActif = 0; //indique si le portail d'etage est actif
-    int portailMapID = -1; //indique la salle ou le portail est actif
-    int portailX = -1;
-    int portailY = -1;
+    int echelleActif = 0; //indique si le echelle d'etage est actif
+    int echelleMapID = -1; //indique la salle ou le echelle est actif
+    int echelleX = -1;
+    int echelleY = -1;
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -425,7 +425,8 @@ int main(int argc, char *argv[]){
             fighter.max_hp = LANCIER_MAX_HP;
             break;
         default:
-            fighter.max_hp = 100; //si classeID invalide
+            printf("ClasseID invalide dans le fichier de sauvegarde, classe par défaut attribuée\n");
+            fighter.max_hp = 100;
     }
     if(fscanf(f,"etage=%d\n",&(etageActuel)) != 1){
         etageActuel = 1;
@@ -473,10 +474,10 @@ int main(int argc, char *argv[]){
                     SDL_DestroyTexture(Chiffre);
                     sortie = 1;
                 }
-                if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec le portail ou le boss
+                if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec l'echelle ou le boss
                     int procheBossFinal = 0;
                     int procheMiniBoss = 0;
-                    int prochePortail = 0;
+                    int procheEchelle = 0;
 
                     if(currentMap->mapID == bossFinal->mapID){
                         procheBossFinal = ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1); 
@@ -484,13 +485,13 @@ int main(int argc, char *argv[]){
                     if(miniBossActif && currentMap->mapID == miniBossActif->mapID){
                         procheMiniBoss = ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
                     }
-                    if(portailActif && currentMap->mapID == portailMapID){
-                        prochePortail = ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
+                    if(echelleActif && currentMap->mapID == echelleMapID){
+                        procheEchelle = ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
                     }
                     int procheMarchand = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
                         ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
 
-                    if(prochePortail){ //quand on passe a l'etage suivant
+                    if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
                         initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                         player.xTile = 9;
@@ -504,10 +505,10 @@ int main(int argc, char *argv[]){
                             marchand.mapID = -1;
                         }
 
-                        portailActif = 0;
-                        portailMapID = -1;
-                        portailX = -1;
-                        portailY = -1;
+                        echelleActif = 0;
+                        echelleMapID = -1;
+                        echelleX = -1;
+                        echelleY = -1;
 
                         saveGameData(&fighter, listeItem, etageActuel);
                     }else if(procheMiniBoss){
@@ -525,25 +526,25 @@ int main(int argc, char *argv[]){
                         }
                     }
                     else if(procheMarchand){
-                        menuMarchand = 1; //placeholder : affichage marchand a implementer
+                        menuMarchand = 1; //troc avec le marchand a implementer!
                     }
                     else if(procheBossFinal){ 
                         lancerCombat(game.renderer, &fighter, bossFinal, listeItem, Chiffre);
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
                                 // avant l'etage 3, battre le miniboss fait apparaitre l'item pour continuer
-                                portailActif = 1;
-                                portailMapID = bossFinal->mapID;
-                                portailX = bossFinal->xTile;
-                                portailY = bossFinal->yTile;
+                                echelleActif = 1;
+                                echelleMapID = bossFinal->mapID;
+                                echelleX = bossFinal->xTile;
+                                echelleY = bossFinal->yTile;
 
                                 bossFinal->mapID = -1; //enleve le boss de la map
                                 bossFinal->xTile = -1;
                                 bossFinal->yTile = -1;
                                 bossFinal->hp = bossFinal->max_hp;
                             }else{
-                                // boss battu: fin de partie
-                                saveGameData(&fighter, listeItem, etageActuel);
+                                //boss battu: fin de partie
+                                //affichage fin du jeu a implementer
                                 sortie = 1;
                             }
                         }
@@ -678,9 +679,14 @@ int main(int argc, char *argv[]){
             drawMob(game.renderer, &marchand);
         }
 
-        if(portailActif && currentMap->mapID == portailMapID){
-            SDL_Rect srcItem = getTileRect(2, ATLAS_ITEM);
-            SDL_Rect destItem = {portailX * TILE_SIZE, portailY * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+        if(echelleActif && currentMap->mapID == echelleMapID){
+            SDL_Rect srcItem = getItemRect(5);
+            SDL_Rect destItem = {
+                echelleX * TILE_SIZE + (TILE_SIZE - TAILLE_ITEM) / 2,
+                echelleY * TILE_SIZE + (TILE_SIZE - TAILLE_ITEM) / 2,
+                TAILLE_ITEM,
+                TAILLE_ITEM
+            };
             SDL_RenderCopy(game.renderer, getAtlasItem(), &srcItem, &destItem);
         }
         
@@ -691,11 +697,11 @@ int main(int argc, char *argv[]){
             ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
         int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) &&
             ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
-        int prochePortail = portailActif && (currentMap->mapID == portailMapID) &&
-            ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
+        int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) &&
+            ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
         int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
             ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
-        if (procheBossFinal || procheMiniBoss || prochePortail || procheMarchandRendu){
+        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu){
             btnF.rect.x = player.xTile * TILE_SIZE + 50;
             btnF.rect.y = player.yTile * TILE_SIZE - 20;
             drawButton(game.renderer, &btnF);

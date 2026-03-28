@@ -4,12 +4,11 @@
 #include "inventaire.h"
 #include "atlas.h"
 #include "../def.h"
-#include "text.h"
-/** \file inventaire.c
-    \brief contient les structs du projets
-    \author Myriam Laaqira
+/** \file Inventaire.c
+    \brief contenus des fonctions de inventaire.h.
+    \author Patrick Leguillon
     \version 1.0
-    \date février ?
+    \date 20 février 2026
 */
 
 void soin1PV(Fighter * p){
@@ -43,7 +42,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     drawChiffre(r,p->hp,pv.x,pv.y);
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
-            TexItem = getTileRect(i,ATLAS_ITEM);
+            TexItem = getItemRect(i);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
@@ -63,7 +62,7 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     int x = 100;
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
-            TexItem = getTileRect(i,ATLAS_ITEM);
+            TexItem = getItemRect(i);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
@@ -73,7 +72,7 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     }
 }
 
-int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
+int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
     for(int i = 0;i < NB_ITEM;i++){
@@ -92,7 +91,7 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p){
     return 0;
 }
 
-int dropItem2(SDL_Renderer * r,int itemObtenu,item_t * l[],int ennemi, int itemdrop[]){
+int dropItem2(SDL_Renderer * r, int itemObtenu, item_t * l[], int ennemi, int itemdrop[]){
     SDL_Rect item = {100*(itemObtenu+1),100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect destItem;
     switch (ennemi){
@@ -142,7 +141,7 @@ void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
     SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     for(int i = 0;i<itemObtenu;i++){
-        imgItem = getTileRect(tItemObtenu[i],ATLAS_ITEM);
+        imgItem = getItemRect(tItemObtenu[i]);
         SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
         destI.x += 100;
     }

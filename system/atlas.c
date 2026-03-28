@@ -41,7 +41,7 @@ void initMobAtlas(SDL_Renderer* renderer){
 }
 
 void initAtlasItem(SDL_Renderer * r){
-    atlasItem = IMG_LoadTexture(r, "assets/Item.png");
+    atlasItem = IMG_LoadTexture(r, "assets/items.png");
     if(!atlasItem){
         fprintf(stderr, "Erreur IMG_LoadTexture (atlasItem) : %s", SDL_GetError());
         exit(1);
@@ -126,11 +126,20 @@ SDL_Texture * getAtlasPerso(void){
 
 //retourne le 'rectange' de l'atlas correspondant à un ID de tile
 
-SDL_Rect getTileRect(int ID,int TAILLE_ATLAS){
+SDL_Rect getTileRect(int ID, int TAILLE_ATLAS){
     SDL_Rect rect;
     rect.x = (ID % TAILLE_ATLAS) * TILE_SIZE;
     rect.y = (ID / TAILLE_ATLAS) * TILE_SIZE;
     rect.w = TILE_SIZE;
     rect.h = TILE_SIZE;
+    return rect;
+}
+
+SDL_Rect getItemRect(int ID){
+    SDL_Rect rect;
+    rect.x = (ID % ATLAS_ITEM) * TAILLE_ITEM;
+    rect.y = (ID / ATLAS_ITEM) * TAILLE_ITEM;
+    rect.w = TAILLE_ITEM;
+    rect.h = TAILLE_ITEM;
     return rect;
 }

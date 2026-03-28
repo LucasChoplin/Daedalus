@@ -55,9 +55,8 @@ int dropItem(SDL_Renderer * r,item_t * l[],int itemDrop[], int e1,int e2,int e3,
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
-    \param t pointeur vers la texture à afficher 
-    \param time entier indiquant le nombre de fois que la texture à été affiché 
-    \return retourne 0 quand a fini d'affcher l'item sinon retourne 1
+    \param itemObtenu nombre d'items obtenus
+    \param tItemObtenu tableau des IDs des items obtenus
 */
 void afficherItemObtenu(SDL_Renderer * r, int itemObtenu, int tItemObtenu[]);
 
