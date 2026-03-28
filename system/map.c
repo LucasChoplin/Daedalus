@@ -23,21 +23,79 @@ static int nbrSallesActives = 0;
 
 static void connecterSalles(Salle* salle1, Salle* salle2, int direction);
 
-static void reinitialiserEventSalle(Salle* salle){
-    salle->itemAtlasID = -1;
-    salle->itemX = -1;
-    salle->itemY = -1;
+static int estSalleCompacte(const Salle* salle){
+    return salle && (salle->type == SALLE_COFFRE || salle->type == SALLE_TROC);
 }
 
-static void placerEventSalle(Salle* salle, int itemAtlasID){
-    int minX = 1;
-    int maxX = SALLE_WIDTH - 2;
-    int minY = 2;
-    int maxY = SALLE_HEIGHT - 3;
+static int directionOpposee(int direction){
+    switch(direction){
+        case DROITE: return GAUCHE;
+        case GAUCHE: return DROITE;
+        case BAS: return HAUT;
+        case HAUT: return BAS;
+        default: return direction;
+    }
+}
 
-    salle->itemAtlasID = itemAtlasID;
-    salle->itemX = minX + rand() % (maxX - minX + 1);
-    salle->itemY = minY + rand() % (maxY - minY + 1);
+static void prolongerCouloirSalleCompacte(Salle* salle, int direction, int xDebut, int yDebut){
+    if(!estSalleCompacte(salle)){
+        return;
+    }
+
+    switch(direction){
+        case DROITE:
+            for(int x = SALLE_WIDTH - 6; x < SALLE_WIDTH; x++){
+                    salle->tiles[yDebut -1][x] = 5 + rand() % 3;
+                    salle->tiles[yDebut -2][x] = 21;
+                    salle->tiles[yDebut +3][x] = 14 + rand() % 2;
+            }
+            for(int y = yDebut; y < yDebut + 3; y++){
+                for(int x = SALLE_WIDTH - 6; x < SALLE_WIDTH; x++){
+                    salle->tiles[y][x] = rand() % 2;
+                }
+            }
+            salle->tiles[yDebut + 3][SALLE_WIDTH - 6] = 27;
+            break;
+        case GAUCHE:
+            for(int x = 0; x <= 5; x++){
+                    salle->tiles[yDebut -1][x] = 5 + rand() % 3;
+                    salle->tiles[yDebut -2][x] = 21;
+                    salle->tiles[yDebut +3][x] = 14 + rand() % 2;
+        }
+            for(int y = yDebut; y < yDebut + 3; y++){
+                for(int x = 0; x <= 5; x++){
+                    salle->tiles[y][x] = rand() % 2;
+                }
+            }
+            salle->tiles[yDebut + 3][5] = 20;
+            break;
+        case BAS:
+            for(int y = SALLE_HEIGHT - 4; y < SALLE_HEIGHT; y++){
+                    salle->tiles[y][xDebut -1] = 17;
+                    salle->tiles[y][xDebut +4] = 24;
+            }
+            for(int y = SALLE_HEIGHT - 4; y < SALLE_HEIGHT; y++){
+                for(int x = xDebut; x < xDebut + 4; x++){
+                    salle->tiles[y][x] = rand() % 2;
+                }
+            }
+            salle->tiles[SALLE_HEIGHT - 4][xDebut - 1] = 20;
+            salle->tiles[SALLE_HEIGHT - 4][xDebut + 4] = 27;
+            break;
+        case HAUT:
+            for(int y = 0; y <= 2; y++){
+                    salle->tiles[y][xDebut -1] = 17;
+                    salle->tiles[y][xDebut +4] = 24;
+            }
+            for(int y = 0; y <= 3; y++){
+                for(int x = xDebut; x < xDebut + 4; x++){
+                    salle->tiles[y][x] = rand() % 2;
+                }
+            }
+            salle->tiles[2][xDebut - 1] = 21;
+            salle->tiles[2][xDebut + 4] = 21;
+            break;
+    }
 }
 
 int getIDSalleRandom(void){ //pour positionner le mini boss dans une salle random et mettre le spawn
@@ -106,7 +164,6 @@ static int getIDSalleVoisine(int idSalle, int direction){
 //le spawn
 static void genererSalleSpawn(Salle* salle){
     salle->type = SALLE_SPAWN;
-    reinitialiserEventSalle(salle);
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
             if(y == SALLE_HEIGHT - 1){
@@ -126,10 +183,10 @@ static void genererSalleSpawn(Salle* salle){
                 salle->tiles[y][x] = 14;
             } else if(y == 1){
                 // sol relié au mur du haut
-                salle->tiles[y][x] = 5;
+                salle->tiles[y][x] = 5 + rand() % 3;
             } else {
                 // sol milieu
-                salle->tiles[y][x] = 0;
+                salle->tiles[y][x] = rand() % 2;
             } 
         }
     }
@@ -140,7 +197,6 @@ static void genererSalleSpawn(Salle* salle){
 //une salle normale (tiles de combat)
 static void genererSalleNormale(Salle* salle){
     salle->type = SALLE_NORMALE;
-    reinitialiserEventSalle(salle);
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
             if(y == SALLE_HEIGHT - 1){
@@ -179,16 +235,42 @@ static void genererSalleBoss(Salle* salle){
     salle->type = SALLE_BOSS;
 }
 
-static void genererSalleCoffre(Salle* salle){
-    genererSalleSpawn(salle);
-    salle->type = SALLE_COFFRE;
-    placerEventSalle(salle, 2);
+static void genererSalleTroc(Salle* salle){
+    salle->type = SALLE_TROC;
+    //tout en vide d'abord
+    for(int y = 0; y < SALLE_HEIGHT; y++){
+        for(int x = 0; x < SALLE_WIDTH; x++){
+            salle->tiles[y][x] = 16;
+        }
+    }
+
+    //murs internes de la petite pièce
+    for(int y = 2; y <= SALLE_HEIGHT - 4; y++){
+        salle->tiles[y][5] = 17;
+        salle->tiles[y][SALLE_WIDTH - 6] = 24;
+    }
+    for(int x = 6; x <= SALLE_WIDTH - 7; x++){
+        salle->tiles[2][x] = 21;
+        salle->tiles[3][x] = 5 + rand() % 3;
+        salle->tiles[SALLE_HEIGHT - 4][x] = 14 + rand() % 2;
+    }
+    salle->tiles[SALLE_HEIGHT - 4][5] = 19;
+    salle->tiles[SALLE_HEIGHT - 4][SALLE_WIDTH - 6] = 26;
+
+    //sol interieur
+    for(int y = 4; y <= SALLE_HEIGHT - 5; y++){
+        for(int x = 6; x <= SALLE_WIDTH - 7; x++){
+            salle->tiles[y][x] = rand() % 2;
+        }
+    }
+    //le marchand est un mob special gere hors generation de tiles
 }
 
-static void genererSalleTroc(Salle* salle){
-    genererSalleSpawn(salle);
-    salle->type = SALLE_TROC;
-    placerEventSalle(salle, 1);
+static void genererSalleCoffre(Salle* salle){
+    salle->type = SALLE_COFFRE;
+    genererSalleTroc(salle);
+    //tuile coffre au centre de la salle
+    salle->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] = 11;
 }
 
 //genere une salle en fonction de son type
@@ -341,6 +423,9 @@ static void connecterSalles(Salle* salle1, Salle* salle2, int direction){
             }
             break;
     }
+
+    prolongerCouloirSalleCompacte(salle1, direction, xDebut, yDebut);
+    prolongerCouloirSalleCompacte(salle2, directionOpposee(direction), xDebut, yDebut);
 }
 
 //verifie si tile est un mur ou pas
@@ -354,7 +439,7 @@ int isCombatTile(int tile){
 }
 
 //met en place la carte en fct de l'etage
-void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID){
+void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int *trocRoomID){
     initRandom(); 
     cleanupMap();
 
@@ -422,7 +507,11 @@ void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID){
     int idSalleBoss = -1;
     int idSalleMiniBoss = -1;
     typeParSalle[idSalleSpawn] = SALLE_SPAWN;
-    typeParSalle[idSalleSpeciale] = (rand() % 2 == 0) ? SALLE_COFFRE : SALLE_TROC;
+    SalleType typeSpeciale = (rand() % 2 == 0) ? SALLE_COFFRE : SALLE_TROC;
+    typeParSalle[idSalleSpeciale] = typeSpeciale;
+    if(trocRoomID){
+        *trocRoomID = (typeSpeciale == SALLE_TROC) ? idSalleSpeciale : -1;
+    }
     if(etageActuel >= 3){
         int exclusBoss[2] = {idSalleSpawn, idSalleSpeciale};
         idSalleBoss = getIDSalleRandomExcluantListe(exclusBoss, 2);
@@ -487,12 +576,6 @@ void drawMap(SDL_Renderer* renderer){
             SDL_Rect destRect = {x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE};
             SDL_RenderCopy(renderer, atlas, &src, &destRect);
         }
-    }
-
-    if(currentMap->itemAtlasID >= 0){
-        SDL_Rect srcItem = getTileRect(currentMap->itemAtlasID, ATLAS_ITEM);
-        SDL_Rect destItem = {currentMap->itemX * TILE_SIZE,currentMap->itemY * TILE_SIZE,TILE_SIZE,TILE_SIZE};
-        SDL_RenderCopy(renderer, getAtlasItem(), &srcItem, &destItem);
     }
 }
 

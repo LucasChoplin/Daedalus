@@ -68,7 +68,7 @@ int initSDL(void){
 
 ////////////////////drawing///////////////////////  
 void prepareScene(void){
-    SDL_SetRenderDrawColor(game.renderer, 159, 139, 122, 255);
+    SDL_SetRenderDrawColor(game.renderer, 26, 23, 11, 255);
     SDL_RenderClear(game.renderer);
 }
 
@@ -125,7 +125,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fclose(f);
 }
 
-void setupBossForFloor(int etageActuel, int bossRoomID, int miniBossRoomID, Mob *miniBoss, Mob *boss){
+void setupBossParEtage(int etageActuel, int bossRoomID, int miniBossRoomID, Mob *miniBoss, Mob *boss){
     Mob *bossActif = (etageActuel >= 3) ? boss : miniBoss;
     Mob *bossInactif = (etageActuel >= 3) ? miniBoss : boss;
 
@@ -150,9 +150,11 @@ void setupBossForFloor(int etageActuel, int bossRoomID, int miniBossRoomID, Mob 
 int main(int argc, char *argv[]){
 
     Fighter fighter; 
-    Mob miniBoss, boss, mob1, mob2, mob3;
+    Mob miniBoss, boss, mob1, mob2, mob3, marchand;
     Bouton btnF; 
     int etageActuel = 1;
+    int IDSalleTroc = -1;
+    int menuMarchand = 0; //1 si le menu du marchand est ouvert
     int portailActif = 0; //indique si le portail d'etage est actif
     int portailMapID = -1; //indique la salle ou le portail est actif
     int portailX = -1;
@@ -167,6 +169,7 @@ int main(int argc, char *argv[]){
     memset(&mob3, 0, sizeof(Mob));
     memset(&miniBoss, 0, sizeof(Mob));
     memset(&boss, 0, sizeof(Mob));
+    memset(&marchand, 0, sizeof(Mob));
     memset(&btnF, 0, sizeof(Bouton));
 
     initSDL();
@@ -175,6 +178,7 @@ int main(int argc, char *argv[]){
     //-----------------------initialisation des variables de jeu --------------------------------
     fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100};
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
+    marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
     mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=6, .attack=50, .speed=30};
     mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=8, .attack=70, .speed=40};
@@ -222,6 +226,11 @@ int main(int argc, char *argv[]){
     SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect quit = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/1.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
+
+    const int menuRectH = TAILLE_MENU / 2;
+    SDL_Rect playRect = {play.x, play.y + (play.h - menuRectH) / 2, play.w, menuRectH};
+    SDL_Rect continuRect = {continu.x, continu.y + (continu.h - menuRectH) / 2, continu.w, menuRectH};
+    SDL_Rect quitRect = {quit.x, quit.y + (quit.h - menuRectH) / 2, quit.w, menuRectH};
     TTF_Font* titleFont = getTitleFont();
     SDL_Texture* titleTexture = NULL;
     SDL_Rect titleRect = {0, 0, 0, 0};
@@ -246,34 +255,33 @@ int main(int argc, char *argv[]){
     SDL_Rect quitF;
     SDL_Rect continuF;
     int sourisX,sourisY;
-
     while(sortie==0){
         SDL_Event event;
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_MOUSEBUTTONDOWN){
-                if(detecterButtonClique(&event,&play)){
+                if(detecterButtonClique(&event,&playRect)){
                     sortie = 2;
                 }
-                else if (detecterButtonClique(&event,&quit)){
+                else if (detecterButtonClique(&event,&quitRect)){
                     if(titleTexture != NULL)
                         SDL_DestroyTexture(titleTexture);
                     SDL_DestroyTexture(Chiffre);
                     cleanup();
                     return 0;
                 }
-                else if(detecterButtonClique(&event,&continu)){
+                else if(detecterButtonClique(&event,&continuRect)){
                     sortie =1;
                 }
             }
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
-        if((play.x<sourisX)&&(play.x+TAILLE_MENU>sourisX)&&(play.y<sourisY)&&(play.y+TAILLE_MENU>sourisY)){
+        if((playRect.x<sourisX)&&(playRect.x+playRect.w>sourisX)&&(playRect.y<sourisY)&&(playRect.y+playRect.h>sourisY)){
             playF = getTileRect(1,ATLAS_BOUTON);
         }
         else{
             playF = getTileRect(0,ATLAS_BOUTON);     
         }
-        if((quit.x<sourisX)&&(quit.x+TAILLE_MENU>sourisX)&&(quit.y<sourisY)&&(quit.y+TAILLE_MENU>sourisY)){
+        if((quitRect.x<sourisX)&&(quitRect.x+quitRect.w>sourisX)&&(quitRect.y<sourisY)&&(quitRect.y+quitRect.h>sourisY)){
             quitF = getTileRect(3,ATLAS_BOUTON);
         }
         else{
@@ -285,7 +293,7 @@ int main(int argc, char *argv[]){
             SDL_RenderCopy(game.renderer, titleTexture, NULL, &titleRect);
         }
         if(fichierExiste(FICHIER_DATA)){
-            if((continu.x<sourisX)&&(continu.x+TAILLE_MENU>sourisX)&&(continu.y<sourisY)&&(continu.y+TAILLE_MENU>sourisY)){
+            if((continuRect.x<sourisX)&&(continuRect.x+continuRect.w>sourisX)&&(continuRect.y<sourisY)&&(continuRect.y+continuRect.h>sourisY)){
                 continuF = getTileRect(7,ATLAS_BOUTON);
             }
             else{
@@ -304,36 +312,85 @@ int main(int argc, char *argv[]){
     FILE * f;
     if(sortie==2){//si le fichier data.txt on le créé
         f = fopen(FICHIER_DATA,"w");
-        SDL_Rect DestGla = {200,100,TAILLE_SPRITE,TAILLE_SPRITE};
+        
+        int cardWidth = 200;
+        int cardHeight = 400;
+        int spacing = 40;
+        int totalWidth = 3 * cardWidth + 2 * spacing;
+        int startX = (SCREEN_WIDTH - totalWidth) / 2;
+        int startY = (SCREEN_HEIGHT - cardHeight) / 2;
+        int persoOffX = (cardWidth - TAILLE_SPRITE) / 2; //centrage horizontal du sprite dans la carte
+        
+        SDL_Rect DestGla = {startX + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
+        SDL_Rect DestArc = {startX + cardWidth + spacing + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
+        SDL_Rect DestLan = {startX + 2 * (cardWidth + spacing) + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect glaF = getTileRect(1,ATLAS_PERSO);
         SDL_Rect archerF = getTileRect(0,ATLAS_PERSO);
-        SDL_Rect DestArc = {400,100,TAILLE_SPRITE,TAILLE_SPRITE};
-        SDL_Rect DestLan = {600,100,TAILLE_SPRITE,TAILLE_SPRITE};
         SDL_Rect lanF = getTileRect(2,ATLAS_PERSO);
-        SDL_RenderCopy(game.renderer,getAtlasPerso(),&glaF,&DestGla); 
-        SDL_RenderCopy(game.renderer,getAtlasPerso(),&archerF,&DestArc);
-        SDL_RenderCopy(game.renderer,getAtlasPerso(),&lanF,&DestLan);
-        SDL_RenderPresent(game.renderer);
+        
+        //fond pour chaque carte (aussi utilisé pour la détection du clic)
+        SDL_Rect fondGla = {startX, startY, cardWidth, cardHeight};
+        SDL_Rect fondArc = {startX + cardWidth + spacing, startY, cardWidth, cardHeight};
+        SDL_Rect fondLan = {startX + 2 * (cardWidth + spacing), startY, cardWidth, cardHeight};
+        
+        TTF_Font* nameFont = getClassNameFont();
+        TTF_Font* statsFont = getClassStatsFont();
+        SDL_Color textColor = {240, 230, 180, 255};
+        SDL_Color titleColor = {255, 255, 200, 255};
+        
         int choixPerso = 0;
-        while(choixPerso==0){//choix de la classe 
+        while(choixPerso==0){//choix de la classe
+            //on affiche le fond et les cartes
+            SDL_SetRenderDrawColor(game.renderer, 30, 30, 30, 255);
+            SDL_RenderClear(game.renderer);
+            SDL_SetRenderDrawColor(game.renderer, 60, 60, 80, 255);
+            SDL_RenderFillRect(game.renderer, &fondGla);
+            SDL_RenderFillRect(game.renderer, &fondArc);
+            SDL_RenderFillRect(game.renderer, &fondLan);
+            SDL_RenderCopy(game.renderer, getAtlasPerso(), &glaF, &DestGla);
+            SDL_RenderCopy(game.renderer, getAtlasPerso(), &archerF, &DestArc);
+            SDL_RenderCopy(game.renderer, getAtlasPerso(), &lanF, &DestLan);
+
+            drawText(game.renderer, titleFont, "CHOIX DE LA CLASSE", titleColor, 240, startY - 120);
+            
+            //GLADIATEUR
+            drawText(game.renderer, nameFont, "GLADIATEUR", titleColor, startX + 8, startY + 200);
+            drawText(game.renderer, statsFont, "PV: 200", textColor, startX + 10, startY + 240);
+            drawText(game.renderer, statsFont, "ATQ: 120", textColor, startX + 10, startY + 280);
+            drawText(game.renderer, statsFont, "VIT: 100", textColor, startX + 10, startY + 320);
+            
+            //ARCHER
+            drawText(game.renderer, nameFont, "ARCHER", titleColor, startX + cardWidth + spacing + 25, startY + 200);
+            drawText(game.renderer, statsFont, "PV: 100", textColor, startX + cardWidth + spacing + 10, startY + 240);
+            drawText(game.renderer, statsFont, "ATQ: 220", textColor, startX + cardWidth + spacing + 10, startY + 280);
+            drawText(game.renderer, statsFont, "VIT: 100", textColor, startX + cardWidth + spacing + 10, startY + 320);
+            
+            //LANCIER
+            drawText(game.renderer, nameFont, "LANCIER", titleColor, startX + 2*(cardWidth + spacing) + 18, startY + 200);
+            drawText(game.renderer, statsFont, "PV: 100", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 240);
+            drawText(game.renderer, statsFont, "ATQ: 120", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 280);
+            drawText(game.renderer, statsFont, "VIT: 200", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 320);
+            
+            SDL_RenderPresent(game.renderer);
+            
             SDL_Event event;
             while(SDL_PollEvent(&event)){
                 if(event.type == SDL_MOUSEBUTTONDOWN){
-                    if(detecterButtonClique(&event,&DestGla)){
+                    if(detecterButtonClique(&event,&fondGla)){
                         fprintf(f,"classeID=%d\n",GLADIATEUR);
                         fprintf(f,"pv=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
                         fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
                         choixPerso++;
                     }
-                    else if(detecterButtonClique(&event,&DestArc)){
+                    else if(detecterButtonClique(&event,&fondArc)){
                         fprintf(f,"classeID=%d\n",ARCHER);
                         fprintf(f,"pv=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
                         choixPerso++;
                     }
-                    else if(detecterButtonClique(&event,&DestLan)){
+                    else if(detecterButtonClique(&event,&fondLan)){
                         fprintf(f,"classeID=%d\n",LANCIER);
                         fprintf(f,"pv=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
@@ -381,8 +438,15 @@ int main(int argc, char *argv[]){
 
     int IDSalleBoss = -1;
     int IDSalleMiniBoss = -1;
-    initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss);
-    setupBossForFloor(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+    initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+    setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+    if(IDSalleTroc >= 0){
+        marchand.mapID = IDSalleTroc;
+        marchand.xTile = SALLE_WIDTH / 2;
+        marchand.yTile = SALLE_HEIGHT / 2 - 1;
+    } else {
+        marchand.mapID = -1;
+    }
 //----------------------------------------------------------------------------------------------
     //position de depart du player
     player.xTile = 9;
@@ -423,13 +487,22 @@ int main(int argc, char *argv[]){
                     if(portailActif && currentMap->mapID == portailMapID){
                         prochePortail = ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
                     }
+                    int procheMarchand = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
+                        ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
 
                     if(prochePortail){ //quand on passe a l'etage suivant
                         etageActuel++; 
-                        initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss);
+                        initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                         player.xTile = 9;
                         player.yTile = 7;
-                        setupBossForFloor(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+                        setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+                        if(IDSalleTroc >= 0){
+                            marchand.mapID = IDSalleTroc;
+                            marchand.xTile = SALLE_WIDTH / 2;
+                            marchand.yTile = SALLE_HEIGHT / 2 - 1;
+                        } else {
+                            marchand.mapID = -1;
+                        }
 
                         portailActif = 0;
                         portailMapID = -1;
@@ -450,6 +523,9 @@ int main(int argc, char *argv[]){
                                 //ouvre les portes du boss final
                             }
                         }
+                    }
+                    else if(procheMarchand){
+                        menuMarchand = 1; //placeholder : affichage marchand a implementer
                     }
                     else if(procheBossFinal){ 
                         lancerCombat(game.renderer, &fighter, bossFinal, listeItem, Chiffre);
@@ -598,6 +674,9 @@ int main(int argc, char *argv[]){
         if (miniBossActif && currentMap->mapID == miniBossActif->mapID) {
             drawMob(game.renderer, miniBossActif);
         }
+        if(marchand.mapID >= 0 && currentMap->mapID == marchand.mapID){
+            drawMob(game.renderer, &marchand);
+        }
 
         if(portailActif && currentMap->mapID == portailMapID){
             SDL_Rect srcItem = getTileRect(2, ATLAS_ITEM);
@@ -614,7 +693,9 @@ int main(int argc, char *argv[]){
             ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
         int prochePortail = portailActif && (currentMap->mapID == portailMapID) &&
             ((abs(player.xTile - portailX) + abs(player.yTile - portailY)) == 1);
-        if (procheBossFinal || procheMiniBoss || prochePortail){
+        int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
+            ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
+        if (procheBossFinal || procheMiniBoss || prochePortail || procheMarchandRendu){
             btnF.rect.x = player.xTile * TILE_SIZE + 50;
             btnF.rect.y = player.yTile * TILE_SIZE - 20;
             drawButton(game.renderer, &btnF);

@@ -54,6 +54,8 @@ void initAtlasMenu(SDL_Renderer * r){
         fprintf(stderr, "Erreur IMG_LoadTexture (atlasMenu) : %s", SDL_GetError());
         exit(1);
     }
+    //evite le bleeding entre tuiles adjacentes (petit trait visible)
+    SDL_SetTextureScaleMode(atlasMenu, SDL_ScaleModeNearest);
 }
 
 void initAtlasPerso(SDL_Renderer * r){
@@ -62,6 +64,7 @@ void initAtlasPerso(SDL_Renderer * r){
         fprintf(stderr, "Erreur IMG_LoadTexture (atlasPerso) : %s", SDL_GetError());
         exit(1);
     }
+    SDL_SetTextureScaleMode(atlasPerso, SDL_ScaleModeNearest);
 }
 
 //libere la memoire
