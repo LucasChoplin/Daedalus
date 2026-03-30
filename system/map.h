@@ -29,16 +29,13 @@ int isCombatTile(int tile);
 */
 void genererSalle(Salle* salle, SalleType type);
 
-/** \brief initialise un etage entier 
-*/
-void initMap(void);
-
 /** \brief initialise un etage en tenant compte du floor
     \param etageActuel numero d'etage courant
     \param bossRoomID id de la salle boss choisie (sortie)
     \param miniBossRoomID id de la salle miniBoss choisie (sortie, hors salle boss)
+    \param trocRoomID id de la salle troc si presente, -1 sinon (sortie)
 */
-void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID);
+void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int *trocRoomID);
 
 /** \brief retourne l'ID d'une salle aléatoire
     \return ID de la salle
