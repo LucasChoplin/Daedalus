@@ -217,7 +217,7 @@ int main(int argc, char *argv[]){
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(game.window);
     SDL_Texture * Chiffre = NULL;
-    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
+    if (chargerImage("Img/Chiffretest.bmp", game.renderer, &Chiffre) != 0) {
         fprintf(stderr, "Erreur chargement Chiffre\n");
         cleanup();
         return 1;
