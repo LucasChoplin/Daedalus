@@ -42,8 +42,12 @@ typedef struct {
     int max_hp;
     int attack;
     int speed;
+    int max_xp;
     int xp;
+    int gold;
+    int lvl;
 } Fighter;
+
 
 /** \brief structure pour les items  */
 typedef struct{

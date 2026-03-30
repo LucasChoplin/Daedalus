@@ -176,7 +176,7 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100};
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
@@ -400,6 +400,8 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+        fprintf(f,"xp=%d\n",fighter.xp);
+        fprintf(f,"niveau=%d\n",fighter.lvl);
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_clés=%d\n",0);
@@ -411,6 +413,8 @@ int main(int argc, char *argv[]){
     fscanf(f,"pv=%d\n",&(fighter.hp));
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
+    fprintf(f,"xp=%d\n",fighter.xp);
+    fprintf(f,"niveau=%d\n",fighter.lvl);
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_clés=%d\n",&(listeItem[2]->nb));
