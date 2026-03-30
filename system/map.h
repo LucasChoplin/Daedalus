@@ -11,29 +11,29 @@
     \date 14 février 2026
 */
 
-/** \brief verifie si une tile est un mur
-    \param tile numero de la tile a verifier
+/** \brief vérifie si une tuile est un mur
+    \param tile numéro de la tuile à vérifier
     \return 1 si c'est un mur 0 sinon
 */
 int isWall(int tile);
 
-/** \brief verifie si une tile est un sol de combat
-    \param tile numero de la tile a verifier
+/** \brief vérifie si une tuile est un sol de combat
+    \param tile numéro de la tuile à vérifier
     \return 1 si c'est un sol de combat 0 sinon
 */
 int isCombatTile(int tile);
 
-/** \brief genere une salle en fct de son type
-     \param salle pointeur vers la salle a generer
+/** \brief génère une salle en fonction de son type
+     \param salle pointeur vers la salle à générer
      \param type type de salle (SALLE_NORMALE, SALLE_BOSS, etc)
 */
 void genererSalle(Salle* salle, SalleType type);
 
-/** \brief initialise un etage en tenant compte du floor
-    \param etageActuel numero d'etage courant
-    \param bossRoomID id de la salle boss choisie (sortie)
-    \param miniBossRoomID id de la salle miniBoss choisie (sortie, hors salle boss)
-    \param trocRoomID id de la salle troc si presente, -1 sinon (sortie)
+/** \brief initialise un étage en tenant compte de l'étage
+    \param etageActuel numéro de l'étage actuel (1 à 3)
+    \param bossRoomID id de la salle boss choisie 
+    \param miniBossRoomID id de la salle miniBoss choisie
+    \param trocRoomID id de la salle troc si presente, sinon on met une salle de coffre
 */
 void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int *trocRoomID);
 
@@ -43,31 +43,31 @@ void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int 
 int getIDSalleRandom(void);
 
 /** \brief retourne l'ID d'une salle active aléatoire différente de celle passée en paramètre
-    \param mapIDExclu ID de salle a exclure
+    \param mapIDExclu ID de salle à exclure
     \return ID de salle active (ou mapIDExclu si aucune autre salle disponible)
 */
 int getIDSalleRandomExcluant(int mapIDExclu);
 
-/** \brief force la salle courante à une salle donnée
+/** \brief change la salle actuelle où le joueur se trouve
     \param mapID ID de la salle à afficher
 */
 void setCurrentMapByID(int mapID);
 
-/** \brief dessine la map actuelle (l'etage)
-    \param renderer pointeur vers le renderer
+/** \brief dessine la map actuelle (l'étage)
+    \param renderer pointeur vers le moteur de rendu
 */
 void drawMap(SDL_Renderer* renderer);
 
-/** \brief dessine un mob sur la map
-    \param renderer pointeur vers le renderer
-    \param mob pointeur vers le mob a dessiner
+/** \brief dessine un mob sur la map (miniboss, boss ou marchand)
+    \param renderer pointeur vers le moteur de rendu
+    \param mob pointeur vers le mob à dessiner
 */
 void drawMob(SDL_Renderer* renderer, Mob* mob);
 
 
 /** \brief dessine le joueur sur la map
-    \param renderer pointeur vers le renderer
-    \param player pointeur vers le player a dessiner
+    \param renderer pointeur vers le moteur de rendu
+    \param player pointeur vers le joueur à dessiner
 */
 void drawPlayer(SDL_Renderer* renderer, Player* player);
 
@@ -75,17 +75,12 @@ void drawPlayer(SDL_Renderer* renderer, Player* player);
 */
 void cleanupMap(void);
 
-/** \brief change l'affichage de la salle en fct de la direction du perso
+/** \brief change l'affichage de la salle en fonction de la direction du joueur
     \param direction direction du changement de salle
     \param playerX pointeur vers la position X du joueur
     \param playerY pointeur vers la position Y du joueur
 */
 void changeSalle(int direction, int* playerX, int* playerY);
-
-/** \brief transforme une salle active en salle de boss via genererSalleBoss
-    \param mapID id de la salle a transformer
-*/
-void genererSalleBossByID(int mapID);
 
 extern Salle* currentMap;
 extern Salle* salles[];

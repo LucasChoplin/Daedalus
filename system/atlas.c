@@ -24,20 +24,21 @@ static SDL_Texture * atlasPerso = NULL;//texture qui sert à stocker l'atlas des
 //on a aussi un atlas pour les diff mobs 
 
 //initialise l'atlas en chargeant la texture
-void initAtlas(SDL_Renderer* renderer){
-    atlas = IMG_LoadTexture(renderer, "assets/atlas_etage1.png"); // path du sprite de l'atlas
+void initAtlasMap(SDL_Renderer* r){
+    atlas = IMG_LoadTexture(r, "assets/atlas_etage1.png"); // path du sprite de l'atlas
     if(!atlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (map) : %s", SDL_GetError());
         exit(1);
     }
 }
 
-void initMobAtlas(SDL_Renderer* renderer){
-    mobAtlas = IMG_LoadTexture(renderer, "assets/atlas_mob.png");
+void initAtlasMob(SDL_Renderer* r){
+    mobAtlas = IMG_LoadTexture(r, "assets/atlas_mob.png");
     if(!mobAtlas){
         fprintf(stderr, "Erreur IMG_LoadTexture (mob) : %s", SDL_GetError());
         exit(1);
     }
+    SDL_SetTextureScaleMode(mobAtlas, SDL_ScaleModeNearest);
 }
 
 void initAtlasItem(SDL_Renderer * r){
@@ -46,6 +47,7 @@ void initAtlasItem(SDL_Renderer * r){
         fprintf(stderr, "Erreur IMG_LoadTexture (atlasItem) : %s", SDL_GetError());
         exit(1);
     }
+    SDL_SetTextureScaleMode(atlasItem, SDL_ScaleModeNearest);
 }
 
 void initAtlasMenu(SDL_Renderer * r){
@@ -67,15 +69,14 @@ void initAtlasPerso(SDL_Renderer * r){
     SDL_SetTextureScaleMode(atlasPerso, SDL_ScaleModeNearest);
 }
 
-//libere la memoire
-void cleanupAtlas(void){
+void cleanupAtlasMap(void){
     if(atlas){
         SDL_DestroyTexture(atlas);
         atlas = NULL;
     }
 }
 
-void cleanupMobAtlas(void){
+void cleanupAtlasMob(void){
     if(mobAtlas){
         SDL_DestroyTexture(mobAtlas);
         mobAtlas = NULL;
@@ -104,11 +105,11 @@ void cleanupAtlasPerso(void){
 }
 
 //pour obtenir la texture de l'atlas
-SDL_Texture* getAtlasTexture(void){
+SDL_Texture* getAtlasMap(void){
     return atlas;
 }
 
-SDL_Texture* getMobAtlasTexture(void){
+SDL_Texture* getAtlasMob(void){
     return mobAtlas;
 }
 
@@ -125,21 +126,11 @@ SDL_Texture * getAtlasPerso(void){
 }
 
 //retourne le 'rectange' de l'atlas correspondant à un ID de tile
-
-SDL_Rect getTileRect(int ID, int TAILLE_ATLAS){
+SDL_Rect getTileRect(int ID, int tailleAtlas, int tailleTuile){
     SDL_Rect rect;
-    rect.x = (ID % TAILLE_ATLAS) * TILE_SIZE;
-    rect.y = (ID / TAILLE_ATLAS) * TILE_SIZE;
-    rect.w = TILE_SIZE;
-    rect.h = TILE_SIZE;
-    return rect;
-}
-
-SDL_Rect getItemRect(int ID){
-    SDL_Rect rect;
-    rect.x = (ID % ATLAS_ITEM) * TAILLE_ITEM;
-    rect.y = (ID / ATLAS_ITEM) * TAILLE_ITEM;
-    rect.w = TAILLE_ITEM;
-    rect.h = TAILLE_ITEM;
+    rect.x = (ID % tailleAtlas) * tailleTuile;
+    rect.y = (ID / tailleAtlas) * tailleTuile;
+    rect.w = tailleTuile;
+    rect.h = tailleTuile;
     return rect;
 }

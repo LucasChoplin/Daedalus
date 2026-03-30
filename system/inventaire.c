@@ -27,10 +27,10 @@ void soin5PV(Fighter * p){
 
 void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
-    SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
+    SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON, TAILLE_TUILE);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect pv = {SCREEN_WIDTH/1.7,SCREEN_HEIGHT/3+128,TAILLE_SPRITE,TAILLE_SPRITE};
-    SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
+    SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO, TAILLE_TUILE);
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
@@ -42,7 +42,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     drawChiffre(r,p->hp,pv.x,pv.y);
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
-            TexItem = getItemRect(i);
+            TexItem = getTileRect(i, ATLAS_ITEM, TAILLE_ITEM);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
@@ -54,7 +54,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
 
 void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/1.1,SCREEN_HEIGHT-50};
-    SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
+    SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON, TAILLE_TUILE);
     SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
@@ -62,7 +62,7 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     int x = 100;
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
-            TexItem = getItemRect(i);
+            TexItem = getTileRect(i, ATLAS_ITEM, TAILLE_ITEM);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
@@ -135,13 +135,13 @@ void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
     SDL_Rect destMenu = {50,50,1280-100,960-200};
     SDL_Rect destI ={100,100,TAILLE_ITEM,TAILLE_ITEM};
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
-    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
-    SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON);
+    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON, TAILLE_TUILE);
+    SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON, TAILLE_TUILE);
     SDL_Rect imgItem;
     SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     for(int i = 0;i<itemObtenu;i++){
-        imgItem = getItemRect(tItemObtenu[i]);
+        imgItem = getTileRect(tItemObtenu[i], ATLAS_ITEM, TAILLE_ITEM);
         SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
         destI.x += 100;
     }

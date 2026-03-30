@@ -9,15 +9,12 @@
 #include "../text.h"
 #include "../inventaire.h"
 
-/** \file combat_aff.c
-    \brief  contenu des fonction pour afficher l'interface de combat
-    \author Lucas Choplin
-    \version 1.0
-    \date 8 février 2026
-*/
-
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
+    if(!image){
+        fprintf(stderr, "Erreur SDL_LoadBMP (combat): %s\n", SDL_GetError());
+        return;
+    }
     TTF_Font* font = getCombatFont();
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
     Bouton boutonForte = {forte, {50, 50, 200, 255}, {255, 255, 255, 255}, "Attaque forte", font};
@@ -26,9 +23,13 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
     SDL_FreeSurface(image);
+    if(!monImage){
+        fprintf(stderr, "Erreur SDL_CreateTextureFromSurface (combat): %s\n", SDL_GetError());
+        return;
+    }
 
     SDL_Rect xp_possede = { 50, 935, joueur->xp *3, 10 };
-    SDL_Rect xp_necessaire = { 50, 935, joueur->max_xp*3, 10 };
+    SDL_Rect xp_necessaire = { 50, 935, 100*3, 10 };
 
     SDL_Rect personnage = {150, 800, 0, 0};
     SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
@@ -39,29 +40,23 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
     SDL_RenderClear(renderer);
 
+    int ennemiHpPositif = ennemi.hp; //pour eviter d'avoir une barre de vie negative
+    int playerHpPositif = joueur->hp;
+    if(ennemiHpPositif < 0){
+        ennemiHpPositif = 0;
+    }
+    if(playerHpPositif < 0){
+        playerHpPositif = 0;
+    }
+
     // Barre de vie ennemi
-    SDL_Rect enemy_hp = {1000, 40, ennemi.hp * 3, 30};
+    SDL_Rect enemy_hp = {1000, 40, ennemiHpPositif * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemy_hp);
-
-    char E_hp [40];
-    sprintf(E_hp,"%d/%d",ennemi.hp,ennemi.max_hp);
-
-    drawText(renderer,font,E_hp,(SDL_Color){255, 255, 255, 255},1000,40);
-
-    SDL_Rect player_hp = {50, 900, joueur->hp * 3, 30};
+    
+    SDL_Rect player_hp = {50, 900, playerHpPositif * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &player_hp);
-
-    char P_hp [40];
-    sprintf(P_hp,"%d/%d",joueur->hp,joueur->max_hp);
-    
-    drawText(renderer,font,P_hp,(SDL_Color){255, 255, 255, 255},50,800);
-
-    char P_lvl [40];
-    sprintf(P_lvl,"lvl:%d",joueur->lvl);
-    
-    drawText(renderer,font,P_lvl,(SDL_Color){255, 255, 255, 255},50,825);
 
     // Bouton Attaquer
     drawButton(renderer, &boutonAttaquer);
@@ -87,14 +82,9 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(renderer, &xp_possede);
 
-    char P_xp [40];
-    sprintf(P_xp,"xp:%d",joueur->xp); 
-      
-    drawText(renderer,font,P_xp,(SDL_Color){255, 255, 255, 255},50,850);
-
     SDL_RenderCopy(renderer, monImage, NULL, &personnage);
     SDL_RenderCopy(renderer, monImage, NULL, &ennemy);
-    if(inv){        //si inv != 0 afficher l'inventaire 
+    if(inv){//si inv != 0 afficher l'inventaire 
         combat_afficher_inventaire(renderer,l);
     }
 
@@ -102,12 +92,10 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_DestroyTexture(monImage);
 }
 
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp, int gold) {
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font) {
     SDL_Surface* texte=NULL;
     char* message = NULL; 
     SDL_Color couleur;
-    SDL_GetRendererOutputSize(renderer, x, y);
-    SDL_Rect position = {0, 0, 0, 0};
 
     switch(state){
         case DEFAITE:
@@ -128,25 +116,13 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
             SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, texte);
             SDL_FreeSurface(texte);
 
+            SDL_GetRendererOutputSize(renderer, x, y);
+            SDL_Rect position = {0, 0, 0, 0};
             SDL_QueryTexture(texture, NULL, NULL, &position.w, &position.h);
             position.x = (*x - position.w) / 2;
             position.y = (*y - position.h) / 2;
 
             SDL_RenderCopy(renderer, texture, NULL, &position);
-
-            if(state==VICTOIRE){
-                char xp_text[20];
-                char gold_text[20];
-                sprintf(xp_text, "XP: %d",xp);
-
-                sprintf(gold_text, "OR: %d",gold);
-
-                SDL_Color blanc = {255, 255, 255, 255};
-
-                drawText(renderer, font, xp_text, blanc, 50, 500);
-                drawText(renderer, font, gold_text, blanc, 50, 600);
-            }
-            
             SDL_RenderPresent(renderer);
 
             SDL_Delay(2000);

@@ -34,7 +34,7 @@ int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t){
 int detecterButtonClique(SDL_Event * e,SDL_Rect * r){
     SDL_Point p = {e->button.x,e->button.y};//je crée un point à partir des coordonnées de la souris 
     return SDL_PointInRect(&p,r); 
-    //j'utilise la fonction PointInRect qui vérifie si p et dans le rectangle de l'image pour Rect r
+    //j'utilise la fonction PointInRect qui vérifie si p est dans le rectangle de l'image pour Rect r
 }
 
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
@@ -60,8 +60,6 @@ void sauvegarder(Fighter p,item_t * l[]){
     fprintf(f,"pv_max=%d\n",p.max_hp);
     fprintf(f,"stat_attaque=%d\n",p.attack);
     fprintf(f,"stat_speed=%d\n",p.speed);
-    fprintf(f,"xp=%d\n",p.xp);
-    fprintf(f,"niveau=%d\n",p.lvl);
     fprintf(f,"nb_potions=%d\n",l[0]->nb);
     fprintf(f,"nb_Superpotions=%d\n",l[1]->nb);
     fprintf(f,"nb_clés=%d\n",l[2]->nb);
