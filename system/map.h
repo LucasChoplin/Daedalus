@@ -83,7 +83,7 @@ void cleanupMap(void);
     \param playerX pointeur vers la position X du joueur
     \param playerY pointeur vers la position Y du joueur
 */
-void changeRoom(int direction, int* playerX, int* playerY);
+void changeSalle(int direction, int* playerX, int* playerY);
 
 /** \brief transforme une salle active en salle de boss via genererSalleBoss
     \param mapID id de la salle a transformer

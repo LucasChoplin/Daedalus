@@ -17,6 +17,7 @@
 
 /** \brief enum des types de salles disponibles */
 typedef enum {
+     SALLE_SPAWN,
      SALLE_NORMALE,
      SALLE_COFFRE,
      SALLE_TROC,
