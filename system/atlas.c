@@ -137,8 +137,8 @@ SDL_Rect getTileRect(int ID, int TAILLE_ATLAS){
 
 SDL_Rect getItemRect(int ID){
     SDL_Rect rect;
-    rect.x = (ID % ATLAS_ITEM) * TAILLE_ITEM;
-    rect.y = (ID / ATLAS_ITEM) * TAILLE_ITEM;
+    rect.x = ID * TAILLE_ITEM;
+    rect.y =  0;
     rect.w = TAILLE_ITEM;
     rect.h = TAILLE_ITEM;
     return rect;

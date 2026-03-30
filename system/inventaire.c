@@ -26,6 +26,13 @@ void soin200PV(Fighter * p){
     }
 }
 
+void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y){
+    SDL_Rect src = getItemRect(4);
+    SDL_Rect dest = {x+100,y,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    drawChiffre(r,nbPiece,x,y);
+    SDL_RenderCopy(r,getAtlasItem(),&src,&dest);
+}
+
 void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
@@ -33,8 +40,8 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect pv = {SCREEN_WIDTH/1.7,SCREEN_HEIGHT/3+128,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
     int x = 100;
-    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
-    SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    SDL_Rect c = {150,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
     SDL_RenderCopy(r,getAtlasPerso(),&persoF,&Perso);
@@ -48,15 +55,16 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
             item.x = x;
-            c.x = x+10;
+            c.x = x+50;
         }
     }
+    afficherPiece(r,p->argent,SCREEN_WIDTH*0.8,SCREEN_HEIGHT*0.1);
 }
 
 void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/1.1,SCREEN_HEIGHT-50};
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
-    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
@@ -75,7 +83,7 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
 
 int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
     int x = 100;
-    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     for(int i = 0;i < NB_ITEM;i++){
         if(l[i]->nb>0){
             if(detecterButtonClique(event,&item)){
@@ -92,29 +100,25 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
     return 0;
 }
 
-int dropItem2(SDL_Renderer * r, int itemObtenu, item_t * l[], int ennemi, int itemdrop[]){
-    SDL_Rect item = {100*(itemObtenu+1),100,TAILLE_ITEM,TAILLE_ITEM};
-    SDL_Rect destItem;
+void dropItem2(item_t * l[], int ennemi,Fighter * p, int itemdrop[]){
     switch (ennemi){
         case 1:
-            if(rand()%10>=9){
+            if(rand()%10>=-1){
                 l[0]->nb++;
-                itemdrop[itemObtenu] = 0;
-                itemObtenu++;
-                itemdrop[itemObtenu] = 1;
-                itemObtenu++;
+                itemdrop[itemdrop[0]+2] = 0;
+                itemdrop[0]++;
             }
+            p->argent+=10;
+            itemdrop[1]+=10;
             break;
     }
-    return itemObtenu;
 }
 
-int dropItem(SDL_Renderer * r,item_t * l[],int itemDrop[], int e1,int e2,int e3,int e4, int e5, int e6){
-    int itemObtenu = 0;
+void dropItem(item_t * l[],int itemDrop[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5, int e6*/){
     if(e1!=0){
-        itemObtenu = dropItem2(r,itemObtenu,l,e1,itemDrop);
+        dropItem2(l,e1,p,itemDrop);
     }
-    if(e2!=0){
+    /*if(e2!=0){
         itemObtenu = dropItem2(r,itemObtenu,l,e2,itemDrop);
     }
     if(e3!=0){
@@ -128,24 +132,24 @@ int dropItem(SDL_Renderer * r,item_t * l[],int itemDrop[], int e1,int e2,int e3,
     }
     if(e6!=0){
         itemObtenu = dropItem2(r,itemObtenu,l,e6,itemDrop);
-    }
-    return itemObtenu;
+    }*/
 }
 
-void afficherItemObtenu(SDL_Renderer * r,int itemObtenu, int tItemObtenu[]){
+void afficherItemObtenu(SDL_Renderer * r, int itemObtenu[]){
     SDL_Rect destMenu = {50,50,1280-100,960-200};
-    SDL_Rect destI ={100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect destI ={100,SCREEN_HEIGHT-400,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
     SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
     SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect imgItem;
-    SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
-    SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
-    for(int i = 0;i<itemObtenu;i++){
-        imgItem = getItemRect(tItemObtenu[i]);
+    //SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
+    //SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
+    for(int i = 2;i<itemObtenu[0]+2;i++){
+        imgItem = getItemRect(itemObtenu[i]);
         SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
         destI.x += 100;
     }
+    afficherPiece(r,itemObtenu[1],SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.8);
 }
 
 void afficherMagasin(SDL_Renderer * r,Fighter * p){
@@ -153,7 +157,7 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p){
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
     SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
-    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
     int prixItem[2] = {1,15};
@@ -161,7 +165,7 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p){
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     int x = 100;
     for(int i =0; i<2;i++){
-            TexItem = getTileRect(i,ATLAS_ITEM);
+            TexItem = getItemRect(i);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,prixItem[i],c.x,c.y);
             x+=100;
@@ -172,7 +176,7 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p){
 }
 
 void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[]){
-    SDL_Rect item = {100,100,TAILLE_ITEM,TAILLE_ITEM};
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     int prixItem[2] = {1,15};
     int x = 100;
     for(int i = 0;i<2;i++){

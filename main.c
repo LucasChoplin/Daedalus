@@ -16,7 +16,7 @@
 #include "def.h"
 
 //commande de compilation 
-//gcc -o main4 main4.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+//gcc -o main main.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Game game;
 Player player;
@@ -31,7 +31,14 @@ int initSDL(void){
         return -1;
     }
 
-    game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+    SDL_DisplayMode mode;
+    SDL_GetCurrentDisplayMode(0, &mode);
+    if((mode.w<SCREEN_WIDTH)||(mode.h<SCREEN_HEIGHT)){//si l'écran est trop petit la fenêtre est crée en fonction de sa taille 
+        game.window = SDL_CreateWindow("Daedalus",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,mode.w,mode.h,windowFlags);
+    }
+    else{
+        game.window = SDL_CreateWindow("Daedalus", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
+    }
 
     if(!game.window){
         fprintf(stderr, "Erreur SDL_CreateWindow : %s", SDL_GetError());
@@ -45,7 +52,7 @@ int initSDL(void){
         fprintf(stderr, "Erreur SDL_CreateRenderer : %s", SDL_GetError());
         return -1;
     }
-
+    SDL_RenderSetLogicalSize(game.renderer, SCREEN_WIDTH, SCREEN_HEIGHT);//pour réajuster la taille des sprites 
     if(TTF_Init() < 0){
         fprintf(stderr, "Erreur TTF_Init : %s", TTF_GetError());
         return -1;
@@ -118,8 +125,11 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"pv=%d\n",fighter->hp);
     fprintf(f,"stat_attaque=%d\n",fighter->attack);
     fprintf(f,"stat_speed=%d\n",fighter->speed);
+    fprintf(f,"xp=%d\n",fighter->xp);
+    fprintf(f,"argent=%d\n",fighter->argent);
     fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
     fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
+    fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
     fprintf(f,"nb_clés=%d\n",listeItem[2]->nb);
     fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
@@ -203,25 +213,20 @@ int main(int argc, char *argv[]){
     int menu = 0;/** variable servant à indiquer si un menu est ouvert */
     int itemObtenu[10]; 
     item_t potion;
-    potion.f = soin1PV;
+    potion.f = soin50PV;
     item_t potion2;
-    potion2.f = soin5PV;
+    potion2.f = soin200PV;
+    item_t potionEnergie;
+    potionEnergie.f = NULL;
     item_t key;
     key.f = NULL;
-    item_t * listeItem[3];
+    item_t * listeItem[4];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
-    listeItem[2] = &key;
+    listeItem[2] = &potionEnergie;
+    listeItem[3] = &key;
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
-//----------------------Chargement d'image ------------------------------------------
-    SDL_Surface * surface = SDL_GetWindowSurface(game.window);
-    SDL_Texture * Chiffre = NULL;
-    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
-        fprintf(stderr, "Erreur chargement Chiffre\n");
-        cleanup();
-        return 1;
-    }
 //---------------------------------------------menu de départ
     SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
@@ -263,9 +268,6 @@ int main(int argc, char *argv[]){
                     sortie = 2;
                 }
                 else if (detecterButtonClique(&event,&quitRect)){
-                    if(titleTexture != NULL)
-                        SDL_DestroyTexture(titleTexture);
-                    SDL_DestroyTexture(Chiffre);
                     cleanup();
                     return 0;
                 }
@@ -400,8 +402,11 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+        fprintf(f,"xp=%d\n",0);
+        fprintf(f,"argent=%d\n",0);
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_superpotions=%d\n",0);
+        fprintf(f,"nb_PotionEnergie=%d\n",0);
         fprintf(f,"nb_clés=%d\n",0);
         fprintf(f,"etage=%d\n",1);
         fclose(f);
@@ -411,9 +416,12 @@ int main(int argc, char *argv[]){
     fscanf(f,"pv=%d\n",&(fighter.hp));
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
+    fscanf(f,"xp=%d\n",&(fighter.xp));
+    fscanf(f,"argent=%d\n",&(fighter.argent));
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
-    fscanf(f,"nb_clés=%d\n",&(listeItem[2]->nb));
+    fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));
+    fscanf(f,"nb_clés=%d\n",&(listeItem[3]->nb));
     switch(fighter.classeID){
         case GLADIATEUR:
             fighter.max_hp = GLADIATEUR_MAX_HP;
@@ -469,9 +477,8 @@ int main(int argc, char *argv[]){
                 saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
-            if(menu==0){
+            if(menu==0 && menuMarchand == 0){ //si aucun menu n'est ouvert
                 if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
-                    SDL_DestroyTexture(Chiffre);
                     sortie = 1;
                 }
                 if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec l'echelle ou le boss
@@ -512,7 +519,7 @@ int main(int argc, char *argv[]){
 
                         saveGameData(&fighter, listeItem, etageActuel);
                     }else if(procheMiniBoss){
-                        lancerCombat(game.renderer, &fighter, miniBossActif, listeItem, Chiffre);
+                        lancerCombat(game.renderer, &fighter, miniBossActif, listeItem);
                         if(miniBossActif->hp <= 0){
                             //miniBoss battu: disparition sur cet etage
                             miniBossActif->mapID = -1;
@@ -526,10 +533,12 @@ int main(int argc, char *argv[]){
                         }
                     }
                     else if(procheMarchand){
-                        menuMarchand = 1; //troc avec le marchand a implementer!
+                        if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
+                            menuMarchand = 1; //troc avec le marchand a implementer!
+                        }
                     }
                     else if(procheBossFinal){ 
-                        lancerCombat(game.renderer, &fighter, bossFinal, listeItem, Chiffre);
+                        lancerCombat(game.renderer, &fighter, bossFinal, listeItem);
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
                                 // avant l'etage 3, battre le miniboss fait apparaitre l'item pour continuer
@@ -638,7 +647,7 @@ int main(int argc, char *argv[]){
                             int randomMob = rand() % 3 + 2; //choisit un mob aléatoire parmi les 3 mobs lambda
                             Mob ennemiCombat = Mobs[randomMob];
                             ennemiCombat.hp = ennemiCombat.max_hp;
-                            lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem, Chiffre);
+                            lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem);
                         }
                     }
                 }
@@ -653,7 +662,7 @@ int main(int argc, char *argv[]){
                     }
                     if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
                         drawPlayer(game.renderer, &player);
-                        menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
+                        //menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
                 if((e.type == SDL_MOUSEBUTTONDOWN)&&(pause)){
@@ -661,9 +670,15 @@ int main(int argc, char *argv[]){
                 }
             }
             else{
-                if(e.type == SDL_MOUSEBUTTONDOWN){
+                if(e.type == SDL_MOUSEBUTTONDOWN && menu){
                     if(detecterButtonClique(&e,&destEchap)){
                         menu = 0;
+                    }
+                }
+                else if (e.type == SDL_MOUSEBUTTONDOWN && menuMarchand){
+                    detecterAchat(&e,&fighter, listeItem);
+                    if(detecterButtonClique(&e,&destEchap)){
+                        menuMarchand = 0;
                     }
                 }
             }
@@ -710,13 +725,15 @@ int main(int argc, char *argv[]){
             afficherInventaire(game.renderer,listeItem,&fighter);
         }
         if(menu){
-            afficherItemObtenu(game.renderer,menu,itemObtenu);
+            //afficherItemObtenu(game.renderer,menu,itemObtenu);
+        }
+        if(menuMarchand){
+            afficherMagasin(game.renderer, &fighter);
         }
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
     saveGameData(&fighter, listeItem, etageActuel);
-    SDL_DestroyTexture(Chiffre);
     cleanup();
     return 0;
 }

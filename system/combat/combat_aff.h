@@ -36,5 +36,5 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     \param font police d'écriture pour le texte 
     \param xp xp gagner à la fin du combat
 */
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font, int xp);
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font, int xp,int itemDrop[]);
 #endif

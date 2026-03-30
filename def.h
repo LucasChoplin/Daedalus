@@ -37,10 +37,11 @@ typedef enum {
 enum Direction {DROITE, BAS, GAUCHE, HAUT};
 
 //dimension des sprites 
-#define TAILLE_CHIFFRE 32 //taille des chiffres 32*32px
+#define TAILLE_CHIFFRE 32/**<taille des chiffres */
 #define TAILLE_ITEM 32/**< taille donnée au item */
 #define TAILLE_SPRITE 128/**< taille donné au sprite*/  
 #define TAILLE_MENU 128/**< taille des menus */
+#define TAILLE_AFF_ITEM 64 /**< taille donné au items lors de l'affichage */
 //items
 #define NB_ITEM 4/**< nombre d'items dans le jeu */ 
 

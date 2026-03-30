@@ -106,8 +106,11 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-
-    endScreen(renderer,state, &x ,&y, font, xp);
+    int itemDrop[6] = {0,0}; //tableau pour stocker les items obtenus
+    if(state == VICTOIRE){
+        dropItem(listeItem,itemDrop,joueur,1);
+    }
+    endScreen(renderer,state, &x ,&y, font, xp,itemDrop);
     if(ennemi){
         ennemi->vaincu = (state == VICTOIRE) ? 1 : 0;
     }
