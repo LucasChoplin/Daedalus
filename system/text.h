@@ -36,6 +36,16 @@ TTF_Font* getCombatFont(void);
 */
 TTF_Font* getEndScreenFont(void);
 
+/** \brief retourne le font pour les noms des classes
+    \return pointeur vers le font pour les noms des classes
+*/
+TTF_Font* getClassNameFont(void);
+
+/** \brief retourne le font pour les stats des classes
+    \return pointeur vers le font pour les stats des classes
+*/
+TTF_Font* getClassStatsFont(void);
+
 /** \brief dessine du texte
     \param renderer pointeur vers le renderer
     \param font pointeur vers le font a utiliser
