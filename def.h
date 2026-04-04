@@ -44,6 +44,7 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 #define TAILLE_AFF_ITEM 64 /**< taille donné au items lors de l'affichage */
 //items
 #define NB_ITEM 4/**< nombre d'items dans le jeu */ 
+#define MAX_DROP 2
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 

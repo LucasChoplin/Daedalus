@@ -16,7 +16,7 @@
     \date 8 février 2026
 */
 
-void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[],int gold){
+void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
     SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
     TTF_Font* font = getCombatFont();
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
@@ -102,7 +102,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_DestroyTexture(monImage);
 }
 
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp,int itemDrop[],int gold){
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font,loot_t * d){
     SDL_Surface* texte=NULL;
     char* message = NULL; 
     SDL_Color couleur;
@@ -118,7 +118,7 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
         case VICTOIRE:
             couleur = (SDL_Color){0, 200, 0, 255};
             message="VICTORY";
-            afficherItemObtenu(renderer,itemDrop);
+            afficherItemObtenu(renderer,d);
             break;
     }
 
@@ -134,7 +134,7 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
             position.y = (*y - position.h) / 2;
 
             SDL_RenderCopy(renderer, texture, NULL, &position);
-
+            /*
             if(state==VICTOIRE){
                 char xp_text[20];
                 char gold_text[20];
@@ -147,7 +147,7 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
                 drawText(renderer, font, xp_text, blanc, 50, 500);
                 drawText(renderer, font, gold_text, blanc, 50, 600);
             }
-            
+            */
             SDL_RenderPresent(renderer);
 
             SDL_Delay(2000);
@@ -155,4 +155,5 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
             SDL_DestroyTexture(texture);
         }
     }
+
 }

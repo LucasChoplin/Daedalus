@@ -121,18 +121,20 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         }
 
         // RENDER
-        afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem,joueur->gold);
+        afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
         SDL_Delay(16);
     }
     SDL_Delay(2000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    int itemDrop[6] = {0,0}; //tableau pour stocker les items obtenus
+    loot_t drop; //tableau pour stocker les items obtenus
     if(state == VICTOIRE){
-        dropItem(listeItem,itemDrop,joueur,1);
+        drop = dropItem(listeItem,joueur,1);
+        drop.xp = xp;
+        drop.or = gold;
     }
-    endScreen(renderer,state, &x ,&y, font,xp,itemDrop,joueur->gold);
+    endScreen(renderer,state, &x ,&y, font,&drop);
     if(state==DEFAITE){
         joueur->hp=joueur->max_hp*0.01;
     }

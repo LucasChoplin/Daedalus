@@ -31,6 +31,8 @@ void soin200PV(Fighter * p);
  */
 void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y);
 
+void afficherXp(SDL_Renderer * r,int xp, int x, int y);
+
 /** \brief fonction qui affiche l'inventaire  
     \param r pointeur vers le moteur de rendu  
     \param l liste de pointeurs vers les item_t
@@ -57,7 +59,7 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
     \param ennemi numéro de l'ennemi vaincu 
     \param t pointeur vers la où doit être stocké l'image à afficher 
  */
-void dropItem2(item_t * l[],int ennemi,Fighter * p,int itemdrop[]);
+void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d);
 
 /** \brief fonction qui gère le loot pour un ennemi vaincu et ajoute les items correspondants, stocke les items obtenus dans itemDrop[]
     \param l liste des items 
@@ -65,7 +67,7 @@ void dropItem2(item_t * l[],int ennemi,Fighter * p,int itemdrop[]);
     \param p pointeur vers le perso du joueur
     \param e1 numéro du premier ennemi vaincu 
 */
-void dropItem(item_t * l[],int itemDrop[],Fighter* p, int e1/*,int e2,int e3,int e4, int e5, int e6*/);
+loot_t dropItem(item_t * l[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5, int e6*/);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
@@ -74,7 +76,7 @@ void dropItem(item_t * l[],int itemDrop[],Fighter* p, int e1/*,int e2,int e3,int
     \return retourne 0 quand a fini d'affcher l'item sinon retourne 1
 */
 
-void afficherItemObtenu(SDL_Renderer * r, int tItemObtenu[]);
+void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
 void afficherMagasin(SDL_Renderer * r,Fighter * p);
 

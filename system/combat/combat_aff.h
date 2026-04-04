@@ -26,7 +26,7 @@
     \param inv si =1 on affiche l'inventaire
     \param l pointeur vers la liste d'items pour afficher l'inventaire 
 */
-void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[],int gold);
+void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]);
 
 /** \brief afficher l'écran de fin de combat
     \param renderer dimmension de l'écran
@@ -37,5 +37,5 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     \param xp expérience gagnée
     \param gold or gagné
 */
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font, int xp,int itemDrop[], int gold);
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font,loot_t * d);
 #endif
