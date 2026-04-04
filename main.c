@@ -126,7 +126,8 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"stat_attaque=%d\n",fighter->attack);
     fprintf(f,"stat_speed=%d\n",fighter->speed);
     fprintf(f,"xp=%d\n",fighter->xp);
-    fprintf(f,"argent=%d\n",fighter->argent);
+    fprintf(f,"niveau=%d\n",fighter->lvl);
+    fprintf(f,"gold=%d\n",fighter->gold);
     fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
     fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
     fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
@@ -411,9 +412,8 @@ int main(int argc, char *argv[]){
             }
         }
         fprintf(f,"xp=%d\n",0);
-        fprintf(f,"argent=%d\n",0);
-        fprintf(f,"xp=%d\n",fighter.xp);
         fprintf(f,"niveau=%d\n",fighter.lvl);
+        fprintf(f,"gold=%d\n",0);
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_PotionEnergie=%d\n",0);
@@ -427,9 +427,8 @@ int main(int argc, char *argv[]){
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
     fscanf(f,"xp=%d\n",&(fighter.xp));
-    fscanf(f,"argent=%d\n",&(fighter.argent));
-    fprintf(f,"xp=%d\n",fighter.xp);
-    fprintf(f,"niveau=%d\n",fighter.lvl);
+    fscanf(f,"niveau=%d\n",&(fighter.lvl));
+    fscanf(f,"gold=%d\n",&(fighter.gold));
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));
