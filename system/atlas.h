@@ -10,23 +10,34 @@
     \date 12 février 2026
 */
 
-void initAtlas(SDL_Renderer* renderer);
-void initMobAtlas(SDL_Renderer* renderer);
+/** \brief initialise l'atlas de la map
+    \param r pointeur vers le moteur de rendu 
+*/
+void initAtlasMap(SDL_Renderer* r);
+/** \brief initialise l'atlas des mobs 
+    \param r pointeur vers le moteur de rendu 
+*/
+void initAtlasMob(SDL_Renderer* r);
 /** \brief initialise l'atlas des items  
-    \param t pointeur vers le moteur de rendu 
+    \param r pointeur vers le moteur de rendu 
 */
 void initAtlasItem(SDL_Renderer * r);
 /** \brief initialise l'atlas des menus
-    \param t pointeur vers le moteur de rendu 
+    \param r pointeur vers le moteur de rendu 
 */
 void initAtlasMenu(SDL_Renderer * r);
 /** \brief initialise l'atlas des Persos
-    \param t pointeur vers le moteur de rendu 
+    \param r pointeur vers le moteur de rendu 
 */
 void initAtlasPerso(SDL_Renderer * r);
 
-void cleanupAtlas(void);
-void cleanupMobAtlas(void);
+/**
+ * \brief supprime l'atlas de la map
+ */
+void cleanupAtlasMap(void);
+/** \brief supprime l'atlas des mobs 
+*/
+void cleanupAtlasMob(void);
 /** \brief supprime l'atlas des items 
 */
 void cleanupAtlasItem(void);
@@ -37,8 +48,12 @@ void cleanupAtlasMenu(void);
 */
 void cleanupAtlasPerso(void);
 
-SDL_Texture* getAtlasTexture(void);
-SDL_Texture* getMobAtlasTexture(void);
+/** \brief renvoie l'addresse de l'atlas de la map
+*/
+SDL_Texture* getAtlasMap(void);
+/** \brief renvoie l'addresse de l'atlas des mobs
+*/
+SDL_Texture* getAtlasMob(void);
 /** \brief renvoie l'addresse de l'atlas des items
 */
 SDL_Texture* getAtlasItem(void);
@@ -49,16 +64,13 @@ SDL_Texture * getAtlasMenu(void);
 */
 SDL_Texture * getAtlasPerso(void);
 
-SDL_Rect getTileRect(int ID, int TAILLE_ATLAS);
+/** \brief renvoie le découpage de la case numéro ID dans un atals de taille TAILLE_ATLAS * TAILLE_ATLAS (tiles 64x64)
+    \param ID numéro de l'image choisi partant de 0 à gauche en haut
+    \param tailleAtlas nombre de colonnes de l'atlas
+    \param tailleTuile taille d'une tuile
+*/
+SDL_Rect getTileRect(int ID, int tailleAtlas, int tailleTuile);
+
 SDL_Rect getItemRect(int ID);
-
-/** \brief renvoie le découpage de la case numéro ID dans un atals de taille TAILLE_ATLAS * TAILLE_ATLAS 
-    \param ID numéro de l'image choisi partant de 0 à gauche en haut
-    \param TAILLE_ATLAS taille d'un des cotés de l'atlas sachant qu'un atlas est un rectangle
-*/
-
-/** \brief renvoie le découpage de la case numéro ID de l'atlas item (tiles 32x32)
-    \param ID numéro de l'image choisi partant de 0 à gauche en haut
-*/
 
 #endif 

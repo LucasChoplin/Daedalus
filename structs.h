@@ -11,43 +11,48 @@
     \date 12 février 2026
 */
 
+/** \brief structure pour l'affichage du jeu  */
 typedef struct{
-    SDL_Renderer *renderer;
-    SDL_Window *window;
+    SDL_Renderer *renderer; /**< pointeur vers le moteur de rendu */
+    SDL_Window *window; /**< pointeur vers la fenêtre du jeu */
 } Game;
 
+/** \brief structure pour l'affichage du joueur  */
 typedef struct{
-    int xTile, yTile, facing;
-    int spriteID;
-    SDL_Texture *texture;
+    int xTile; /**< position x du joueur en tuile */
+    int yTile; /**< position y du joueur en tuile */
+    int facing; /**< direction vers laquelle le joueur fait face (DROITE, GAUCHE) */
+    int spriteID; /**< ID du sprite du joueur */
+    SDL_Texture *texture; /**< texture du joueur */
 } Player;
 
+/** \brief structure pour une salle de la carte */
 typedef struct{
-    int mapID, xSalle, ySalle;
-    int tiles[SALLE_HEIGHT][SALLE_WIDTH];
-    int itemAtlasID;
-    int itemX;
-    int itemY;
-    SalleType type;
+    int mapID; /**< ID de la salle dans l'étage */
+    int xSalle; /**< position x de la salle dans l'étage */
+    int ySalle; /**< position y de la salle dans l'étage */
+    int tiles[SALLE_HEIGHT][SALLE_WIDTH]; /**< tableau des tuiles de la salle */
+    SalleType type; /**< type de la salle (normale, boss, coffre, etc.) */
 } Salle;
 
+/** \brief structure pour un mob */
 typedef struct{
     int mapID, spriteID, xTile, yTile, vaincu;
     int hp, max_hp, attack, speed;
 } Mob;
 
+/** \brief structure pour le joueur en combat */
 typedef struct {
     int classeID;/** indique la classe du personnage */
-    int hp;
-    int max_hp;
-    int attack;
-    int speed;
-    int max_xp;
-    int xp;
-    int gold;
-    int lvl;
+    int hp; /** points de vie actuels du personnage */
+    int max_hp; /** points de vie maximum du personnage */
+    int attack; /** points d'attaque du personnage */
+    int speed; /** vitesse du personnage */
+    int xp; /** points d'expérience du personnage */
+    int max_xp; /** points d'expérience nécessaires pour monter de niveau */
+    int lvl; /** niveau du personnage */
+    int gold; /** quantité d'or possédée par le personnage */
 } Fighter;
-
 
 /** \brief structure pour les items  */
 typedef struct{
@@ -55,12 +60,13 @@ typedef struct{
     void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 
+/** \brief structure pour un bouton */
 typedef struct{
-    SDL_Rect rect;
-    SDL_Color couleurFond;
-    SDL_Color couleurTexte;
-    char *texte;
-    TTF_Font *font;
+    SDL_Rect rect; /**< rectangle de la zone cliquable du bouton */
+    SDL_Color couleurFond; /**< couleur de fond du bouton */
+    SDL_Color couleurTexte; /**< couleur du texte du bouton */
+    char *texte; /**< texte affiché sur le bouton */
+    TTF_Font *font; /**< police du texte du bouton */
 }Bouton;
 
 extern Game game;

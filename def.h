@@ -24,9 +24,6 @@ typedef enum {
      SALLE_BOSS,
 } SalleType;
 
-//dimension d'une tile
-#define TILE_SIZE 64
-
 //taille des atlas/nbr de colonne
 #define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
@@ -35,6 +32,9 @@ typedef enum {
 
 //direction
 enum Direction {DROITE, BAS, GAUCHE, HAUT};
+
+//dimension d'une tile
+#define TAILLE_TUILE 64
 
 //dimension des sprites 
 #define TAILLE_CHIFFRE 32/**<taille des chiffres */

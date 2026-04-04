@@ -34,7 +34,7 @@ int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t){
 int detecterButtonClique(SDL_Event * e,SDL_Rect * r){
     SDL_Point p = {e->button.x,e->button.y};//je crée un point à partir des coordonnées de la souris 
     return SDL_PointInRect(&p,r); 
-    //j'utilise la fonction PointInRect qui vérifie si p et dans le rectangle de l'image pour Rect r
+    //j'utilise la fonction PointInRect qui vérifie si p est dans le rectangle de l'image pour Rect r
 }
 
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){

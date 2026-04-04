@@ -65,10 +65,10 @@ int initSDL(void){
     IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
 
     SDL_SetWindowIcon(game.window, IMG_Load("assets/logo_labyrinthe.png"));
-    initAtlas(game.renderer);
+    initAtlasMap(game.renderer);
     initAtlasItem(game.renderer);
     initAtlasMenu(game.renderer);
-    initMobAtlas(game.renderer);
+    initAtlasMob(game.renderer);
     initAtlasPerso(game.renderer);
     return 0;
 }
@@ -90,10 +90,12 @@ SDL_Texture* loadTexture(char * filename){
 }
 
 //evite collision avec les mobs
-int checkMobCollision(int x, int y , Mob mob){
-    if (currentMap->mapID == mob.mapID) {
-        if (mob.xTile == x && mob.yTile == y) {
-            return 1; //si mob
+int checkMobCollision(int x, int y, Mob *mobs[], int nbMobs){
+    for (int i = 0; i < nbMobs; i++) {
+        if (currentMap->mapID == mobs[i]->mapID) {
+            if (mobs[i]->xTile == x && mobs[i]->yTile == y) {
+                return 1; //si mob
+            }
         }
     }
     return 0; 
@@ -101,10 +103,10 @@ int checkMobCollision(int x, int y , Mob mob){
 
 //nettoyage de la memoire
 void cleanup(void){
-    cleanupAtlas();
+    cleanupAtlasMap();
     cleanupAtlasItem();
     cleanupAtlasMenu();
-    cleanupMobAtlas();
+    cleanupAtlasMob();
     cleanupAtlasPerso();
     cleanupText();
     cleanupMap();
@@ -187,23 +189,23 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};
-    miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};    miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
     mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=6, .attack=50, .speed=30};
     mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=8, .attack=70, .speed=40};
     mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=10, .attack=30, .speed=90};
-    Mob Mobs[] = {miniBoss, boss, mob1, mob2, mob3};
+    Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
+    Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
 
     //apres l'init de TTF, on fini d'init le bouton d'interaction
     btnF.font = btnfont;
-    btnF.rect.w = 30;  //bouton carre
+    btnF.rect.w = 30;  
     btnF.rect.h = 30;
 
-    int mapPixelWidth = SALLE_WIDTH * TILE_SIZE;
-    int mapPixelHeight = SALLE_HEIGHT * TILE_SIZE;
+    int mapPixelWidth = SALLE_WIDTH * TAILLE_TUILE;
+    int mapPixelHeight = SALLE_HEIGHT * TAILLE_TUILE;
     int mapOffsetX = (SCREEN_WIDTH - mapPixelWidth) / 2;
     int mapOffsetY = (SCREEN_HEIGHT - mapPixelHeight) / 2;
     
@@ -231,7 +233,7 @@ int main(int argc, char *argv[]){
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(game.window);
     SDL_Texture * Chiffre = NULL;
-    if (chargerImage("Img/Chiffretest.bmp", game.renderer, &Chiffre) != 0) {
+    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
         fprintf(stderr, "Erreur chargement Chiffre\n");
         cleanup();
         return 1;
@@ -287,16 +289,16 @@ int main(int argc, char *argv[]){
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
         if((playRect.x<sourisX)&&(playRect.x+playRect.w>sourisX)&&(playRect.y<sourisY)&&(playRect.y+playRect.h>sourisY)){
-            playF = getTileRect(1,ATLAS_BOUTON);
+            playF = getTileRect(1,ATLAS_BOUTON, TAILLE_TUILE);
         }
         else{
-            playF = getTileRect(0,ATLAS_BOUTON);     
+            playF = getTileRect(0,ATLAS_BOUTON, TAILLE_TUILE);     
         }
         if((quitRect.x<sourisX)&&(quitRect.x+quitRect.w>sourisX)&&(quitRect.y<sourisY)&&(quitRect.y+quitRect.h>sourisY)){
-            quitF = getTileRect(3,ATLAS_BOUTON);
+            quitF = getTileRect(3,ATLAS_BOUTON, TAILLE_TUILE);
         }
         else{
-            quitF = getTileRect(2,ATLAS_BOUTON);
+            quitF = getTileRect(2,ATLAS_BOUTON, TAILLE_TUILE);
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
@@ -305,10 +307,10 @@ int main(int argc, char *argv[]){
         }
         if(fichierExiste(FICHIER_DATA)){
             if((continuRect.x<sourisX)&&(continuRect.x+continuRect.w>sourisX)&&(continuRect.y<sourisY)&&(continuRect.y+continuRect.h>sourisY)){
-                continuF = getTileRect(7,ATLAS_BOUTON);
+                continuF = getTileRect(7,ATLAS_BOUTON, TAILLE_TUILE);
             }
             else{
-                continuF = getTileRect(6,ATLAS_BOUTON);
+                continuF = getTileRect(6,ATLAS_BOUTON, TAILLE_TUILE);
             }
             SDL_RenderCopy(game.renderer,getAtlasMenu(),&continuF,&continu);
         }
@@ -335,9 +337,9 @@ int main(int argc, char *argv[]){
         SDL_Rect DestGla = {startX + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestArc = {startX + cardWidth + spacing + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestLan = {startX + 2 * (cardWidth + spacing) + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
-        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO);
-        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO);
-        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO);
+        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO, TAILLE_TUILE);
+        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO, TAILLE_TUILE);
+        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO, TAILLE_TUILE);
         
         //fond pour chaque carte (aussi utilisé pour la détection du clic)
         SDL_Rect fondGla = {startX, startY, cardWidth, cardHeight};
@@ -460,7 +462,7 @@ int main(int argc, char *argv[]){
     int IDSalleMiniBoss = -1;
     initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
     setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
-    if(IDSalleTroc >= 0){
+    if(IDSalleTroc >= 0){ 
         marchand.mapID = IDSalleTroc;
         marchand.xTile = SALLE_WIDTH / 2;
         marchand.yTile = SALLE_HEIGHT / 2 - 1;
@@ -605,9 +607,7 @@ int main(int argc, char *argv[]){
                     if(newX >= SALLE_WIDTH){
                         changeSalle(DROITE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
-                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
-                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -615,9 +615,7 @@ int main(int argc, char *argv[]){
                     }else if(newX < 0){
                         changeSalle(GAUCHE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
-                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
-                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -625,9 +623,7 @@ int main(int argc, char *argv[]){
                     }else if(newY >= SALLE_HEIGHT){
                         changeSalle(BAS, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
-                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
-                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -635,18 +631,14 @@ int main(int argc, char *argv[]){
                     }else if(newY < 0){
                         changeSalle(HAUT, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
-                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
-                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
                         }
                     }else{
                         int tile = currentMap->tiles[newY][newX];
-                        int collisionBossFinal = checkMobCollision(newX, newY, *bossFinal);
-                        int collisionMiniBoss = (miniBossActif != NULL) ? checkMobCollision(newX, newY, *miniBossActif) : 0;
-                        if(!isWall(tile) && !collisionBossFinal && !collisionMiniBoss){
+                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -656,7 +648,7 @@ int main(int argc, char *argv[]){
                     if(deplacement && !pause && isCombatTile(currentMap->tiles[player.yTile][player.xTile])){
                         if(rand() % 100 < 20){ //20% de chance de lancer un combat sur une tile de combat
                             int randomMob = rand() % 3 + 2; //choisit un mob aléatoire parmi les 3 mobs lambda
-                            Mob ennemiCombat = Mobs[randomMob];
+                            Mob ennemiCombat = MobCombat[randomMob];
                             ennemiCombat.hp = ennemiCombat.max_hp;
                             lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem);
                         }
@@ -706,10 +698,10 @@ int main(int argc, char *argv[]){
         }
 
         if(echelleActif && currentMap->mapID == echelleMapID){
-            SDL_Rect srcItem = getItemRect(5);
+            SDL_Rect srcItem = getTileRect(5, ATLAS_ITEM, TAILLE_ITEM);
             SDL_Rect destItem = {
-                echelleX * TILE_SIZE + (TILE_SIZE - TAILLE_ITEM) / 2,
-                echelleY * TILE_SIZE + (TILE_SIZE - TAILLE_ITEM) / 2,
+                echelleX * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
+                echelleY * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
                 TAILLE_ITEM,
                 TAILLE_ITEM
             };
@@ -719,17 +711,13 @@ int main(int argc, char *argv[]){
         drawPlayer(game.renderer, &player);
 
         //dessine le bouton si a cote du boss ou de l'item d'etage
-        int procheBossFinal = (currentMap->mapID == bossFinal->mapID) &&
-            ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
-        int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) &&
-            ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
-        int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) &&
-            ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
-        int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
-            ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
+        int procheBossFinal = (currentMap->mapID == bossFinal->mapID) && ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
+        int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) && ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
+        int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) && ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
+        int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) && ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
         if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu){
-            btnF.rect.x = player.xTile * TILE_SIZE + 50;
-            btnF.rect.y = player.yTile * TILE_SIZE - 20;
+            btnF.rect.x = player.xTile * TAILLE_TUILE + 50;
+            btnF.rect.y = player.yTile * TAILLE_TUILE - 20;
             drawButton(game.renderer, &btnF);
         }
         if(pause){

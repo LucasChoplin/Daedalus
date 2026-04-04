@@ -430,7 +430,7 @@ static void connecterSalles(Salle* salle1, Salle* salle2, int direction){
 
 //verifie si tile est un mur ou pas
 int isWall(int tile){
-    return (tile > ATLAS_MAP -1); //la premiere ligne de l atlas est faite de sol
+    return (tile > 10); //les tuiles de sol sont entre 0 et 10, les murs sont au dessus
 }
 
 //verifie si tile est un sol de combat ou pas
@@ -567,13 +567,13 @@ void drawMap(SDL_Renderer* renderer){
         return;
     }
     SDL_Rect src;
-    SDL_Texture* atlas = getAtlasTexture();
+    SDL_Texture* atlas = getAtlasMap();
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
             int tileID = currentMap->tiles[y][x];
-            src = getTileRect(tileID, ATLAS_MAP);
+            src = getTileRect(tileID, ATLAS_MAP, TAILLE_TUILE);
 
-            SDL_Rect destRect = {x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+            SDL_Rect destRect = {x * TAILLE_TUILE, y * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
             SDL_RenderCopy(renderer, atlas, &src, &destRect);
         }
     }
@@ -581,9 +581,9 @@ void drawMap(SDL_Renderer* renderer){
 
 void drawMob(SDL_Renderer* renderer, Mob* mob) {
     if(!mob)return; //mesure de securite
-    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO);
-    SDL_Texture* mobAtlas = getMobAtlasTexture();
-    SDL_Rect destRect = {mob->xTile * TILE_SIZE, mob->yTile * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO, TAILLE_TUILE);
+    SDL_Texture* mobAtlas = getAtlasMob();
+    SDL_Rect destRect = {mob->xTile * TAILLE_TUILE, mob->yTile * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
     SDL_RenderCopy(renderer, mobAtlas, &src, &destRect);
 }
 
@@ -593,13 +593,13 @@ void drawPlayer(SDL_Renderer* renderer, Player * player){
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if(!player || !player->texture)return; //mesure de securite
 
-    src = getTileRect(player->spriteID, ATLAS_PERSO);
+    src = getTileRect(player->spriteID, ATLAS_PERSO, TAILLE_TUILE);
     if(player->facing == GAUCHE){
         flip = SDL_FLIP_HORIZONTAL;}
-    dest.x = player->xTile * TILE_SIZE;
-    dest.y = player->yTile * TILE_SIZE;
-    dest.w = TILE_SIZE;
-    dest.h = TILE_SIZE;
+    dest.x = player->xTile * TAILLE_TUILE;
+    dest.y = player->yTile * TAILLE_TUILE;
+    dest.w = TAILLE_TUILE;
+    dest.h = TAILLE_TUILE;
     SDL_RenderCopyEx(renderer, player->texture, &src, &dest, 0.0, NULL, flip);
 }
 
