@@ -102,7 +102,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_DestroyTexture(monImage);
 }
 
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp, int gold,int itemDrop[]){
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp,int itemDrop[],int gold){
     SDL_Surface* texte=NULL;
     char* message = NULL; 
     SDL_Color couleur;

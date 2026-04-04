@@ -16,7 +16,7 @@
 #include "def.h"
 
 //commande de compilation 
-//gcc -o main main.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+//gcc -o main main.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c ./system/combat/combat_aff.c ./system/combat/combat.c ./system/combat/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 Game game;
 Player player;
@@ -133,7 +133,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
     fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
     fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
-    fprintf(f,"nb_clés=%d\n",listeItem[2]->nb);
+    fprintf(f,"nb_clés=%d\n",listeItem[3]->nb);
     fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
 }

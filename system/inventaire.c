@@ -50,7 +50,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     drawChiffre(r,p->hp,pv.x,pv.y);
     for(int i =0; i<NB_ITEM;i++){
         if(l[i]->nb>0){
-            TexItem = getTileRect(i, ATLAS_ITEM, TAILLE_ITEM);
+            TexItem = getItemRect(i);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
             drawChiffre(r,l[i]->nb,c.x,c.y);
             x+=100;
@@ -103,9 +103,14 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
 void dropItem2(item_t * l[], int ennemi,Fighter * p, int itemdrop[]){
     switch (ennemi){
         case 1:
-            if(rand()%10>=-1){
+            if(rand()%10>=5){
                 l[0]->nb++;
                 itemdrop[itemdrop[0]+2] = 0;
+                itemdrop[0]++;
+            }
+            if(rand()%20>=5){
+                l[1]->nb++;
+                itemdrop[itemdrop[0]+2] = 1;
                 itemdrop[0]++;
             }
             p->gold+=10;

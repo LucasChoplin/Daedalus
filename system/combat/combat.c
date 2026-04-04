@@ -121,7 +121,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         }
 
         // RENDER
-        afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
+        afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem,joueur->gold);
         SDL_Delay(16);
     }
     SDL_Delay(2000);
@@ -132,7 +132,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
     if(state == VICTOIRE){
         dropItem(listeItem,itemDrop,joueur,1);
     }
-    endScreen(renderer,state, &x ,&y, font,xp,gold,itemDrop);
+    endScreen(renderer,state, &x ,&y, font,xp,itemDrop,joueur->gold);
     if(state==DEFAITE){
         joueur->hp=joueur->max_hp*0.01;
     }

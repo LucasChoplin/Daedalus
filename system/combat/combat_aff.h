@@ -26,7 +26,7 @@
     \param inv si =1 on affiche l'inventaire
     \param l pointeur vers la liste d'items pour afficher l'inventaire 
 */
-void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]);
+void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[],int gold);
 
 /** \brief afficher l'écran de fin de combat
     \param renderer dimmension de l'écran
