@@ -149,7 +149,30 @@ loot_t dropItem(item_t * l[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5,
     }*/
 }
 
-void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
+loot_t dropCoffre(item_t * l[],Fighter * p){
+    loot_t drop;
+    drop.nbItem = 0;
+    drop.or = 0;
+    switch(rand()%3){
+        case 0: l[0]->nb+=10;
+            drop.nbItem = 10;
+            for (int i =0;i<10;i++){
+                drop.item[i]=0;
+            }
+            break;
+        case 1: l[1]->nb+=5;
+            drop.nbItem = 5;
+            for (int i =0;i<5;i++){
+                drop.item[i]=1;
+            }
+            break;
+        case 2: p->gold+=200;
+            drop.or = 200;
+    }
+    return drop;
+}
+
+void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d){
     SDL_Rect destMenu = {50,50,1280-100,960-200};
     SDL_Rect destI ={100,SCREEN_HEIGHT-400,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
@@ -165,6 +188,25 @@ void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
     }
     afficherXp(r,d->xp,SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.7);
     afficherPiece(r,d->or,SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.8);
+}
+
+void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
+    SDL_Rect destMenu = {50,50,1280-100,960-200};
+    SDL_Rect destI ={100,SCREEN_HEIGHT-400,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
+    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON, TAILLE_TUILE);
+    SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON, TAILLE_TUILE);
+    SDL_Rect imgItem;
+    SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
+    SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
+    for(int i = 0;i<d->nbItem;i++){
+        imgItem = getItemRect(d->item[i]);
+        SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
+        destI.x += 100;
+    }
+    if(d->or>0){
+        afficherPiece(r,d->or,SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.8);
+    }
 }
 
 void afficherMagasin(SDL_Renderer * r,Fighter * p){

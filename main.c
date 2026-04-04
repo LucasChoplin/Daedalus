@@ -168,10 +168,12 @@ int main(int argc, char *argv[]){
     int etageActuel = 1;
     int IDSalleTroc = -1;
     int menuMarchand = 0; //1 si le menu du marchand est ouvert
+    int coffre = 0;//0 si pas ouvert, 1 si menu de loot et 2 si ouvert
     int echelleActif = 0; //indique si le echelle d'etage est actif
     int echelleMapID = -1; //indique la salle ou le echelle est actif
     int echelleX = -1;
     int echelleY = -1;
+    loot_t lootCoffre;
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -490,7 +492,7 @@ int main(int argc, char *argv[]){
                 saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
-            if(menu==0 && menuMarchand == 0){ //si aucun menu n'est ouvert
+            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
                 if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
                     sortie = 1;
                 }
@@ -510,9 +512,10 @@ int main(int argc, char *argv[]){
                     }
                     int procheMarchand = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
                         ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
-
+                    int procheCoffre = 0;//A completer 
                     if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
+                        coffre =0;
                         initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                         player.xTile = 9;
                         player.yTile = 7;
@@ -547,7 +550,13 @@ int main(int argc, char *argv[]){
                     }
                     else if(procheMarchand){
                         if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            menuMarchand = 1; //troc avec le marchand a implementer!
+                            menuMarchand = 1;
+                        }
+                    }
+                    else if(procheCoffre){
+                        if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f && coffre == 0 && key.nb >0){
+                            lootCoffre = dropCoffre(listeItem,&fighter);
+                            coffre = 1;
                         }
                     }
                     else if(procheBossFinal){ 
@@ -725,6 +734,12 @@ int main(int argc, char *argv[]){
         }
         if(menu){
             //afficherItemObtenu(game.renderer,menu,itemObtenu);
+        }
+        if(coffre){
+            afficherItemObtenu(game.renderer,&lootCoffre);
+            if(detecterButtonClique(&e,&destEchap)){
+                menuMarchand = 2;
+            }
         }
         if(menuMarchand){
             afficherMagasin(game.renderer, &fighter);

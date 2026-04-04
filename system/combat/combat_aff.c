@@ -118,7 +118,7 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
         case VICTOIRE:
             couleur = (SDL_Color){0, 200, 0, 255};
             message="VICTORY";
-            afficherItemObtenu(renderer,d);
+            afficherItemObtenuCombat(renderer,d);
             break;
     }
 

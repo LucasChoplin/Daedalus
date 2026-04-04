@@ -69,12 +69,20 @@ void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d);
 */
 loot_t dropItem(item_t * l[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5, int e6*/);
 
+/** \brief fonction qui calcule les drops du coffre et les ajoutes
+    \param l pointeur vers la liste d'items du joueur 
+    \param p pointeur vers le perso 
+    \return renvoie un loot_t qui contient les infos des objets gagnés
+*/
+loot_t dropCoffre(item_t * l[],Fighter * p);
+
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
     \param int indique le nombre d'item obtenus 
     \param int itemObtenu[] tableau qui stocke les numéros des items obtenus
     \return retourne 0 quand a fini d'affcher l'item sinon retourne 1
 */
+void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
