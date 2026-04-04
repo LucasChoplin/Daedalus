@@ -28,7 +28,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_FreeSurface(image);
 
     SDL_Rect xp_possede = { 50, 935, joueur->xp *3, 10 };
-    SDL_Rect xp_necessaire = { 50, 935, 100*3, 10 };
+    SDL_Rect xp_necessaire = { 50, 935, joueur->max_xp*3, 10 };
 
     SDL_Rect personnage = {150, 800, 0, 0};
     SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
@@ -43,10 +43,25 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_Rect enemy_hp = {1000, 40, ennemi.hp * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemy_hp);
-    
+
+    char E_hp [40];
+    sprintf(E_hp,"%d/%d",ennemi.hp,ennemi.max_hp);
+
+    drawText(renderer,font,E_hp,(SDL_Color){255, 255, 255, 255},1000,40);
+
     SDL_Rect player_hp = {50, 900, joueur->hp * 3, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &player_hp);
+
+    char P_hp [40];
+    sprintf(P_hp,"%d/%d",joueur->hp,joueur->max_hp);
+    
+    drawText(renderer,font,P_hp,(SDL_Color){255, 255, 255, 255},50,800);
+
+    char P_lvl [40];
+    sprintf(P_lvl,"lvl:%d",joueur->lvl);
+    
+    drawText(renderer,font,P_lvl,(SDL_Color){255, 255, 255, 255},50,825);
 
     // Bouton Attaquer
     drawButton(renderer, &boutonAttaquer);
@@ -72,9 +87,14 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(renderer, &xp_possede);
 
+    char P_xp [40];
+    sprintf(P_xp,"xp:%d",joueur->xp); 
+      
+    drawText(renderer,font,P_xp,(SDL_Color){255, 255, 255, 255},50,850);
+
     SDL_RenderCopy(renderer, monImage, NULL, &personnage);
     SDL_RenderCopy(renderer, monImage, NULL, &ennemy);
-    if(inv){//si inv != 0 afficher l'inventaire 
+    if(inv){        //si inv != 0 afficher l'inventaire 
         combat_afficher_inventaire(renderer,l);
     }
 
@@ -82,15 +102,12 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_DestroyTexture(monImage);
 }
 
-void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp,int itemDrop[]){
+void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font, int xp, int gold,int itemDrop[]){
     SDL_Surface* texte=NULL;
-    SDL_Surface* xp_aff=NULL;
     char* message = NULL; 
     SDL_Color couleur;
     SDL_GetRendererOutputSize(renderer, x, y);
     SDL_Rect position = {0, 0, 0, 0};
-    char xp_gagne[3];
-    sprintf(xp_gagne, "%d", xp);
 
     switch(state){
         case DEFAITE:
@@ -119,16 +136,16 @@ void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font
             SDL_RenderCopy(renderer, texture, NULL, &position);
 
             if(state==VICTOIRE){
-                couleur = (SDL_Color){200, 200, 200, 255};
-                xp_aff = TTF_RenderText_Blended(font, xp_gagne, couleur);
-                SDL_Texture* xp_win = SDL_CreateTextureFromSurface(renderer, xp_aff);
-                SDL_FreeSurface(xp_aff);
+                char xp_text[20];
+                char gold_text[20];
+                sprintf(xp_text, "XP: %d",xp);
 
-                SDL_QueryTexture(xp_win, NULL, NULL, &position.w, &position.h);
-                position.x = (*x - position.w) / 2;
-                position.y = ((*y - position.h) / 3)*2;
+                sprintf(gold_text, "OR: %d",gold);
 
-                SDL_RenderCopy(renderer, xp_win, NULL, &position);
+                SDL_Color blanc = {255, 255, 255, 255};
+
+                drawText(renderer, font, xp_text, blanc, 50, 500);
+                drawText(renderer, font, gold_text, blanc, 50, 600);
             }
             
             SDL_RenderPresent(renderer);

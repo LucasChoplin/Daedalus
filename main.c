@@ -186,7 +186,7 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100};
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
@@ -227,6 +227,14 @@ int main(int argc, char *argv[]){
     listeItem[3] = &key;
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
+//----------------------Chargement d'image ------------------------------------------
+    SDL_Surface * surface = SDL_GetWindowSurface(game.window);
+    SDL_Texture * Chiffre = NULL;
+    if (chargerImage("Img/Chiffretest.bmp", game.renderer, &Chiffre) != 0) {
+        fprintf(stderr, "Erreur chargement Chiffre\n");
+        cleanup();
+        return 1;
+    }
 //---------------------------------------------menu de départ
     SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
     SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
@@ -404,6 +412,8 @@ int main(int argc, char *argv[]){
         }
         fprintf(f,"xp=%d\n",0);
         fprintf(f,"argent=%d\n",0);
+        fprintf(f,"xp=%d\n",fighter.xp);
+        fprintf(f,"niveau=%d\n",fighter.lvl);
         fprintf(f,"nb_potions=%d\n",0);
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_PotionEnergie=%d\n",0);
@@ -418,6 +428,8 @@ int main(int argc, char *argv[]){
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
     fscanf(f,"xp=%d\n",&(fighter.xp));
     fscanf(f,"argent=%d\n",&(fighter.argent));
+    fprintf(f,"xp=%d\n",fighter.xp);
+    fprintf(f,"niveau=%d\n",fighter.lvl);
     fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));

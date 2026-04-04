@@ -61,7 +61,8 @@ void sauvegarder(Fighter p,item_t * l[]){
     fprintf(f,"stat_attaque=%d\n",p.attack);
     fprintf(f,"stat_speed=%d\n",p.speed);
     fprintf(f,"xp=%d\n",p.xp);
-    fprintf(f,"argent=%d\n",p.argent);
+    fprintf(f,"niveau=%d\n",p.lvl);
+    fprintf(f,"gold=%d\n",p.gold);
     fprintf(f,"nb_potions=%d\n",l[0]->nb);
     fprintf(f,"nb_Superpotions=%d\n",l[1]->nb);
     fprintf(f,"nb_PotionEnergie=%d\n",l[2]->nb);

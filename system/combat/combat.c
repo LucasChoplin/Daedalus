@@ -30,7 +30,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[]) {
 
     int x=10,y=10;
-    int xp=0;
+    int xp=0,gold=15;
     TTF_Font* font = getEndScreenFont();
 
     GameState state = PLAYER;
@@ -92,10 +92,32 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         }
 
         if(state==VICTOIRE){
-            srand( time( NULL ) );
-            xp= (rand() % (20 - 10 + 1)) + 10;
-            joueur->xp+=xp;
-
+            float puissance_ennemi = (ennemi->attack * 1.5) + (ennemi->max_hp * 0.5) + ennemi->speed;
+            xp = (int)(puissance_ennemi / 5);
+            xp += (rand() % 5);
+            if((joueur->xp+=xp)>=joueur->max_xp){
+                joueur->lvl++;
+                joueur->xp=0;
+                joueur->max_xp*=1.25;
+                switch(joueur->classeID){
+                    case GLADIATEUR:
+                        joueur->max_hp *=1.25;
+                        joueur->attack *=1.1;
+                        joueur->speed *= 1.1;
+                        break;
+                    case ARCHER:
+                        joueur->max_hp *=1.1;
+                        joueur->attack *=1.25;
+                        joueur->speed *= 1.1;
+                        break;
+                    case LANCIER:
+                        joueur->max_hp *=1.1;
+                        joueur->attack *=1.1;
+                        joueur->speed *= 1.25;
+                        break;
+                }
+            }
+            joueur->gold+=gold;
         }
 
         // RENDER
@@ -110,9 +132,9 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
     if(state == VICTOIRE){
         dropItem(listeItem,itemDrop,joueur,1);
     }
-    endScreen(renderer,state, &x ,&y, font, xp,itemDrop);
-    if(ennemi){
-        ennemi->vaincu = (state == VICTOIRE) ? 1 : 0;
+    endScreen(renderer,state, &x ,&y, font,xp,gold,itemDrop);
+    if(state==DEFAITE){
+        joueur->hp=joueur->max_hp*0.01;
     }
     return 0;
 }
