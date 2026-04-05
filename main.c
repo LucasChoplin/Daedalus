@@ -124,6 +124,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     }
 
     fprintf(f,"classeID=%d\n",fighter->classeID);
+    fprintf(f,"pv_max=%d\n",fighter->max_hp);
     fprintf(f,"pv=%d\n",fighter->hp);
     fprintf(f,"stat_attaque=%d\n",fighter->attack);
     fprintf(f,"stat_speed=%d\n",fighter->speed);
@@ -134,6 +135,9 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
     fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
     fprintf(f,"nb_clés=%d\n",listeItem[3]->nb);
+    fprintf(f,"nb_corne=%d\n",listeItem[4]->nb);
+    fprintf(f,"nb_anneau=%d\n",listeItem[5]->nb);
+    fprintf(f,"nb_sabot=%d\n",listeItem[6]->nb);
     fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
 }
@@ -225,11 +229,21 @@ int main(int argc, char *argv[]){
     potionEnergie.f = NULL;
     item_t key;
     key.f = NULL;
-    item_t * listeItem[4];
+    item_t corne;
+    corne.f = augmenterAttaque;
+    item_t anneau;
+    anneau.f = augmenterPvmax;
+    item_t sabot;
+    sabot.f = augmenterVitesse;
+    item_t * listeItem[8];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
     listeItem[2] = &potionEnergie;
     listeItem[3] = &key;
+    listeItem[4] = &corne;
+    listeItem[5] = &anneau;
+    listeItem[6] = &sabot;
+    listeItem[7] = NULL;
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
 //----------------------Chargement d'image ------------------------------------------
@@ -393,6 +407,7 @@ int main(int argc, char *argv[]){
                 if(event.type == SDL_MOUSEBUTTONDOWN){
                     if(detecterButtonClique(&event,&fondGla)){
                         fprintf(f,"classeID=%d\n",GLADIATEUR);
+                        fprintf(f,"pv_max=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"pv=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
                         fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
@@ -400,6 +415,7 @@ int main(int argc, char *argv[]){
                     }
                     else if(detecterButtonClique(&event,&fondArc)){
                         fprintf(f,"classeID=%d\n",ARCHER);
+                        fprintf(f,"pv_max=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"pv=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
@@ -407,6 +423,7 @@ int main(int argc, char *argv[]){
                     }
                     else if(detecterButtonClique(&event,&fondLan)){
                         fprintf(f,"classeID=%d\n",LANCIER);
+                        fprintf(f,"pv_max=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"pv=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",LANCIER_SPEED);
@@ -422,11 +439,15 @@ int main(int argc, char *argv[]){
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_PotionEnergie=%d\n",0);
         fprintf(f,"nb_clés=%d\n",0);
+        fprintf(f,"nb_corne=%d\n",0);
+        fprintf(f,"nb_anneau=%d\n",0);
+        fprintf(f,"nb_sabot=%d\n",0);
         fprintf(f,"etage=%d\n",1);
         fclose(f);
     }
     f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locales 
     fscanf(f,"classeID=%d\n",&(fighter.classeID));
+    fscanf(f,"pv_max=%d\n",&(fighter.max_hp));
     fscanf(f,"pv=%d\n",&(fighter.hp));
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
@@ -437,7 +458,10 @@ int main(int argc, char *argv[]){
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));
     fscanf(f,"nb_clés=%d\n",&(listeItem[3]->nb));
-    switch(fighter.classeID){
+    fscanf(f,"nb_corne=%d\n",&(listeItem[4]->nb));
+    fscanf(f,"nb_anneau=%d\n",&(listeItem[5]->nb));
+    fscanf(f,"nb_sabot=%d\n",&(listeItem[6]->nb));
+    /*switch(fighter.classeID){
         case GLADIATEUR:
             fighter.max_hp = GLADIATEUR_MAX_HP;
             break;
@@ -450,7 +474,7 @@ int main(int argc, char *argv[]){
         default:
             printf("ClasseID invalide dans le fichier de sauvegarde, classe par défaut attribuée\n");
             fighter.max_hp = 100;
-    }
+    }*/
     if(fscanf(f,"etage=%d\n",&(etageActuel)) != 1){
         etageActuel = 1;
     }

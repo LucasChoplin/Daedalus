@@ -23,6 +23,12 @@ void soin50PV(Fighter * p);
 */
 void soin200PV(Fighter * p);
 
+void augmenterPvmax(Fighter * p);
+
+void augmenterAttaque(Fighter * p);
+
+void augmenterVitesse(Fighter * p);
+
 /** \brief fonction qui affiche un nombre à coté d'une image de pièce
     \param r pointeur vers le moteur de rendu 
     \param nbPiece nombre de pièces à afficher
@@ -58,12 +64,12 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
     \param l liste des items 
     \param ennemi numéro de l'ennemi vaincu 
     \param t pointeur vers la où doit être stocké l'image à afficher 
+    \param d pointeur vers le struct qui stocke les drops 
  */
 void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d);
 
 /** \brief fonction qui gère le loot pour un ennemi vaincu et ajoute les items correspondants, stocke les items obtenus dans itemDrop[]
     \param l liste des items 
-    \param itemDrop tableau qui stocke les numéros des items obtenus, itemDrop[0] correspond au nombre d'items obtenus, itemDrop[1] correspond au nombre de pièces gagnés
     \param p pointeur vers le perso du joueur
     \param e1 numéro du premier ennemi vaincu 
 */
@@ -78,12 +84,14 @@ loot_t dropCoffre(item_t * l[],Fighter * p);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
-    \param int indique le nombre d'item obtenus 
-    \param int itemObtenu[] tableau qui stocke les numéros des items obtenus
-    \return retourne 0 quand a fini d'affcher l'item sinon retourne 1
+    \param d struct loot_t qui contient les infos de loot  
 */
 void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 
+/** \brief afficher items obtenus 
+    \param r pointeur vers le moteur de rendu 
+    \param d struct loot_t qui contient les infos de loot  
+*/
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
 void afficherMagasin(SDL_Renderer * r,Fighter * p);
