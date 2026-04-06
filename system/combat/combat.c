@@ -130,7 +130,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
     SDL_RenderClear(renderer);
     loot_t drop; //tableau pour stocker les items obtenus
     if(state == VICTOIRE){
-        drop = dropItem(listeItem,joueur,1);
+        drop = dropItem(listeItem,1);
         drop.xp = xp;
         drop.or = gold;
     }

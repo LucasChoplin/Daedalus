@@ -23,10 +23,19 @@ void soin50PV(Fighter * p);
 */
 void soin200PV(Fighter * p);
 
+/** \brief augmente les pv max 
+    \param p pointeur vers le perso
+*/
 void augmenterPvmax(Fighter * p);
 
+/** \brief augmente la stats d'attaque du perso
+    \param p pointeur vers le perso
+*/
 void augmenterAttaque(Fighter * p);
 
+/** \brief augmente la stats d'attaque d'un perso
+    \param p pointeur vers les perso 
+*/
 void augmenterVitesse(Fighter * p);
 
 /** \brief fonction qui affiche un nombre à coté d'une image de pièce
@@ -37,6 +46,12 @@ void augmenterVitesse(Fighter * p);
  */
 void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y);
 
+/** \brief fonction qui affiche un nombre à coté d'une image de pièce
+    \param r pointeur vers le moteur de rendu 
+    \param xp nombre d'xp à afficher
+    \param x coordonnée x d'affichage du nombre de pièces
+    \param y coordonnée y d'affichage du nombre de pièces
+ */
 void afficherXp(SDL_Renderer * r,int xp, int x, int y);
 
 /** \brief fonction qui affiche l'inventaire  
@@ -63,17 +78,16 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
 /** \brief fonction qui choisi quelle items sont dropées et ajouter
     \param l liste des items 
     \param ennemi numéro de l'ennemi vaincu 
-    \param t pointeur vers la où doit être stocké l'image à afficher 
     \param d pointeur vers le struct qui stocke les drops 
  */
-void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d);
+void dropItem2(item_t * l[], int ennemi, loot_t * d);
 
 /** \brief fonction qui gère le loot pour un ennemi vaincu et ajoute les items correspondants, stocke les items obtenus dans itemDrop[]
     \param l liste des items 
-    \param p pointeur vers le perso du joueur
-    \param e1 numéro du premier ennemi vaincu 
+    \param e1 numéro du premier ennemi vaincu
+    \return un loot_t qui contient la liste des items dropés  
 */
-loot_t dropItem(item_t * l[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5, int e6*/);
+loot_t dropItem(item_t * l[], int e1/*,int e2,int e3,int e4, int e5, int e6*/);
 
 /** \brief fonction qui calcule les drops du coffre et les ajoutes
     \param l pointeur vers la liste d'items du joueur 
@@ -94,8 +108,17 @@ void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 */
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
+/** \brief affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur 
+    \param r pointeur vers le moteur de rendu
+    \param p pointeur vers le perso pour afficher le nombre de pièces posséder
+*/
 void afficherMagasin(SDL_Renderer * r,Fighter * p);
 
+/** \brief fonction qui détècte à partir de la position de la souris si un item est cliqué est procède à son achat si le joueur à assez de pièces
+    \param event pointeur vers l'évènement clic pour savoir les coordonnées du clic
+    \param p pointeur vers le perso pour vérifier son argent et la diminuer en cas d'achat
+    \param l pointeur vers la liste d'items pour ajouter les items achetés
+*/
 void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[]);
 
 #endif 

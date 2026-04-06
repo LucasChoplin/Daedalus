@@ -117,31 +117,6 @@ void cleanup(void){
     SDL_Quit();
 }
 
-void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
-    FILE *f = fopen(FICHIER_DATA, "w");
-    if(!f){
-        return;
-    }
-
-    fprintf(f,"classeID=%d\n",fighter->classeID);
-    fprintf(f,"pv_max=%d\n",fighter->max_hp);
-    fprintf(f,"pv=%d\n",fighter->hp);
-    fprintf(f,"stat_attaque=%d\n",fighter->attack);
-    fprintf(f,"stat_speed=%d\n",fighter->speed);
-    fprintf(f,"xp=%d\n",fighter->xp);
-    fprintf(f,"niveau=%d\n",fighter->lvl);
-    fprintf(f,"gold=%d\n",fighter->gold);
-    fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
-    fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
-    fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
-    fprintf(f,"nb_clés=%d\n",listeItem[3]->nb);
-    fprintf(f,"nb_corne=%d\n",listeItem[4]->nb);
-    fprintf(f,"nb_anneau=%d\n",listeItem[5]->nb);
-    fprintf(f,"nb_sabot=%d\n",listeItem[6]->nb);
-    fprintf(f,"etage=%d\n",etageActuel);
-    fclose(f);
-}
-
 void setupBossParEtage(int etageActuel, int bossRoomID, int miniBossRoomID, Mob *miniBoss, Mob *boss){
     Mob *bossActif = (etageActuel >= 3) ? boss : miniBoss;
     Mob *bossInactif = (etageActuel >= 3) ? miniBoss : boss;

@@ -127,7 +127,7 @@ int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
     return 0;
 }
 
-void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d){
+void dropItem2(item_t * l[], int ennemi, loot_t * d){
     switch (ennemi){
         case 1:
             if(rand()%10>=5){
@@ -144,13 +144,13 @@ void dropItem2(item_t * l[], int ennemi,Fighter * p, loot_t * d){
     }
 }
 
-loot_t dropItem(item_t * l[],Fighter * p, int e1/*,int e2,int e3,int e4, int e5, int e6*/){
+loot_t dropItem(item_t * l[], int e1/*,int e2,int e3,int e4, int e5, int e6*/){
     loot_t drop;
     drop.nbItem = 0;
     drop.xp = 0;
     drop.or = 0;
     if(e1!=0){
-        dropItem2(l,e1,p,&drop);
+        dropItem2(l,e1,&drop);
     }
     return drop;
     /*if(e2!=0){

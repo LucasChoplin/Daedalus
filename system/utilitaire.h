@@ -45,9 +45,10 @@ int detecterButtonClique(SDL_Event * e,SDL_Rect * r);
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d);
 
 /** \brief fonction pour sauvegarder les données du jeu (actuellement sauvegarde pv max, attack, speed et quantités des deux premiers items )
-    \param p pointeur vers le perso 1
-    \param l pointeur vers la liste des items 
+    \param fighter pointeur vers le perso 
+    \param listeItem pointeur vers la liste des items
+    \param etageActuel entier qui indique l'étage actuel du donjon 
 */
-void sauvegarder(Fighter p,item_t * l[]);
+void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel);
 
 #endif 
