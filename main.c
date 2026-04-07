@@ -139,6 +139,47 @@ void setupBossParEtage(int etageActuel, int bossRoomID, int miniBossRoomID, Mob 
     }
 }
 
+void afficherCredits(SDL_Renderer * r){
+    SDL_Color titleColor = {255, 255, 255, 255};
+    SDL_Color textColor = {240, 230, 180, 255};
+    SDL_Color skipColor = {100, 100, 100, 255};
+    const int vitesse = 1; // px/frame
+    int yBase = SCREEN_HEIGHT;
+    int continuer = 1;
+    const int espaceLigne = 70; //espacement entre les lignes de texte
+    const int finCredits = -500; //position y où les credits se terminent
+
+    while(continuer && yBase > finCredits){ 
+        SDL_Event e;
+        while(SDL_PollEvent(&e)){
+            if(e.type == SDL_QUIT){
+                continuer = 0;
+            }
+            if(e.type == SDL_KEYDOWN){
+                if(e.key.keysym.sym == SDLK_ESCAPE || e.key.keysym.sym == SDLK_SPACE){
+                    continuer = 0;
+                }
+            }
+        }
+    
+        SDL_SetRenderDrawColor(r, 0, 0, 0, 255);
+        SDL_RenderClear(r);
+
+        drawText(r, getTitleFont(), "CREDITS", titleColor, SCREEN_WIDTH / 2 - 160, yBase);
+        drawText(r, getDefaultFont(), "Developpeurs", textColor, SCREEN_WIDTH / 2 - 95, yBase + espaceLigne * 2);
+        drawText(r, getDefaultFont(), "Patrick Leguillon", textColor, SCREEN_WIDTH / 2 - 110, yBase + espaceLigne * 3);
+        drawText(r, getDefaultFont(), "Myriam Laaqira", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
+        drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
+        drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
+        drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 9);
+        drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT - 40);
+
+        SDL_RenderPresent(r);
+        SDL_Delay(16);
+        yBase -= vitesse; //pour faire défiler vers le haut
+    }
+}
+
 int main(int argc, char *argv[]){
 
     Fighter fighter; 
@@ -581,6 +622,7 @@ int main(int argc, char *argv[]){
                                 bossFinal->hp = bossFinal->max_hp;
                             }else{
                                 //boss battu: fin de partie
+                                afficherCredits(game.renderer);
                                 //affichage fin du jeu a implementer
                                 sortie = 1;
                             }
