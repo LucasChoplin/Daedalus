@@ -215,12 +215,13 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};    miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=30, .max_hp=20, .attack=80, .speed=60};
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};    
+    miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
-    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
-    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=6, .attack=50, .speed=30};
-    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=8, .attack=70, .speed=40};
-    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=10, .attack=30, .speed=90};
+    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=500, .max_hp=500, .attack=100, .speed=50};
+    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
+    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=60, .attack=70, .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
     Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
     Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
@@ -269,7 +270,7 @@ int main(int argc, char *argv[]){
 //----------------------Chargement d'image ------------------------------------------
     SDL_Surface * surface = SDL_GetWindowSurface(game.window);
     SDL_Texture * Chiffre = NULL;
-    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
+    if (chargerImage("Img/Chiffretest.bmp", game.renderer, &Chiffre) != 0) {
         fprintf(stderr, "Erreur chargement Chiffre\n");
         cleanup();
         return 1;

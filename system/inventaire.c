@@ -67,6 +67,15 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     drawChiffre(r,p->hp,pv.x,pv.y);
     pv.x +=200;
     drawChiffre(r,p->max_hp,pv.x,pv.y);
+    pv.y +=100;
+    pv.x -=200;
+    drawChiffre(r,p->xp,pv.x,pv.y);
+    pv.x +=200;
+    drawChiffre(r,p->max_xp,pv.x,pv.y);
+    pv.y +=100;
+    pv.x -=200;
+    drawChiffre(r,p->speed,pv.x,pv.y);
+
     for(int i =0; l[i]!=NULL;i++){
         if(l[i]->nb>0){
             TexItem = getItemRect(i);

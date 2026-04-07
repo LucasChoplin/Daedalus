@@ -9,6 +9,7 @@
 #include "combat_aff.h"
 #include "../inventaire.h"
 #include "../text.h"
+#include <SDL2/SDL_mixer.h>
 
 /** \file combat.c
     \brief contenus des fonctions de combat.h
@@ -99,6 +100,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                 joueur->lvl++;
                 joueur->xp=0;
                 joueur->max_xp*=1.25;
+                int pv_perc= joueur->hp/joueur->max_hp;
                 switch(joueur->classeID){
                     case GLADIATEUR:
                         joueur->max_hp *=1.25;
@@ -116,6 +118,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                         joueur->speed *= 1.25;
                         break;
                 }
+                joueur->hp=joueur->max_hp*pv_perc;
             }
             joueur->gold+=gold;
         }
