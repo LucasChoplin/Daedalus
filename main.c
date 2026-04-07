@@ -198,6 +198,7 @@ int main(int argc, char *argv[]){
     int echelleX = -1;
     int echelleY = -1;
     loot_t lootCoffre;
+    loot_t stockMarchand = initStockMarchand();
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -255,7 +256,9 @@ int main(int argc, char *argv[]){
     anneau.f = augmenterPvmax;
     item_t sabot;
     sabot.f = augmenterVitesse;
-    item_t * listeItem[8];
+    item_t couponReduction;
+    couponReduction.f = NULL;
+    item_t * listeItem[9];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
     listeItem[2] = &potionEnergie;
@@ -263,26 +266,16 @@ int main(int argc, char *argv[]){
     listeItem[4] = &corne;
     listeItem[5] = &anneau;
     listeItem[6] = &sabot;
-    listeItem[7] = NULL;
+    listeItem[7] = &couponReduction;
+    listeItem[8] = NULL;
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
-//----------------------Chargement d'image ------------------------------------------
-    SDL_Surface * surface = SDL_GetWindowSurface(game.window);
-    SDL_Texture * Chiffre = NULL;
-    if (chargerImage("Img/chiffreTest.bmp", game.renderer, &Chiffre) != 0) {
-        fprintf(stderr, "Erreur chargement Chiffre\n");
-        cleanup();
-        return 1;
-    }
 //---------------------------------------------menu de départ
-    SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
-    SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
-    SDL_Rect quit = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/1.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU};
+    SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
+    SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
+    SDL_Rect quit = {(SCREEN_WIDTH - TAILLE_MENU) / 2,SCREEN_HEIGHT / 1.5 - TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
 
     const int menuRectH = TAILLE_MENU / 2;
-    SDL_Rect playRect = {play.x, play.y + (play.h - menuRectH) / 2, play.w, menuRectH};
-    SDL_Rect continuRect = {continu.x, continu.y + (continu.h - menuRectH) / 2, continu.w, menuRectH};
-    SDL_Rect quitRect = {quit.x, quit.y + (quit.h - menuRectH) / 2, quit.w, menuRectH};
     TTF_Font* titleFont = getTitleFont();
     SDL_Texture* titleTexture = NULL;
     SDL_Rect titleRect = {0, 0, 0, 0};
@@ -311,26 +304,26 @@ int main(int argc, char *argv[]){
         SDL_Event event;
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_MOUSEBUTTONDOWN){
-                if(detecterButtonClique(&event,&playRect)){
+                if(detecterButtonClique(&event,&play)){
                     sortie = 2;
                 }
-                else if (detecterButtonClique(&event,&quitRect)){
+                else if (detecterButtonClique(&event,&quit)){
                     cleanup();
                     return 0;
                 }
-                else if(detecterButtonClique(&event,&continuRect)){
+                else if(detecterButtonClique(&event,&continu)){
                     sortie =1;
                 }
             }
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
-        if((playRect.x<sourisX)&&(playRect.x+playRect.w>sourisX)&&(playRect.y<sourisY)&&(playRect.y+playRect.h>sourisY)){
+        if(detecterSourisDansRect(sourisX, sourisY, &play)){
             playF = getTileRect(1,ATLAS_BOUTON);
         }
         else{
             playF = getTileRect(0,ATLAS_BOUTON);     
         }
-        if((quitRect.x<sourisX)&&(quitRect.x+quitRect.w>sourisX)&&(quitRect.y<sourisY)&&(quitRect.y+quitRect.h>sourisY)){
+        if(detecterSourisDansRect(sourisX, sourisY, &quit)){
             quitF = getTileRect(3,ATLAS_BOUTON);
         }
         else{
@@ -342,7 +335,7 @@ int main(int argc, char *argv[]){
             SDL_RenderCopy(game.renderer, titleTexture, NULL, &titleRect);
         }
         if(fichierExiste(FICHIER_DATA)){
-            if((continuRect.x<sourisX)&&(continuRect.x+continuRect.w>sourisX)&&(continuRect.y<sourisY)&&(continuRect.y+continuRect.h>sourisY)){
+            if(detecterSourisDansRect(sourisX, sourisY, &continu)){
                 continuF = getTileRect(7,ATLAS_BOUTON);
             }
             else{
@@ -462,6 +455,7 @@ int main(int argc, char *argv[]){
         fprintf(f,"nb_corne=%d\n",0);
         fprintf(f,"nb_anneau=%d\n",0);
         fprintf(f,"nb_sabot=%d\n",0);
+        fprintf(f,"nb_couponReduction=%d\n",0);
         fprintf(f,"etage=%d\n",1);
         fclose(f);
     }
@@ -481,6 +475,7 @@ int main(int argc, char *argv[]){
     fscanf(f,"nb_corne=%d\n",&(listeItem[4]->nb));
     fscanf(f,"nb_anneau=%d\n",&(listeItem[5]->nb));
     fscanf(f,"nb_sabot=%d\n",&(listeItem[6]->nb));
+    fscanf(f,"nb_couponReduction=%d\n",&(listeItem[7]->nb));
     /*switch(fighter.classeID){
         case GLADIATEUR:
             fighter.max_hp = GLADIATEUR_MAX_HP;
@@ -562,6 +557,7 @@ int main(int argc, char *argv[]){
                     if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
                         coffre =0;
+                        loot_t stockMarchand = initStockMarchand();
                         initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                         player.xTile = 9;
                         player.yTile = 7;
@@ -737,7 +733,7 @@ int main(int argc, char *argv[]){
                     }
                 }
                 else if (e.type == SDL_MOUSEBUTTONDOWN && menuMarchand){
-                    detecterAchat(&e,&fighter, listeItem);
+                    detecterAchat(&e,&fighter, listeItem,&stockMarchand);
                     if(detecterButtonClique(&e,&destEchap)){
                         menuMarchand = 0;
                     }
@@ -791,7 +787,7 @@ int main(int argc, char *argv[]){
             afficherItemObtenu(game.renderer,&lootCoffre);
         }
         if(menuMarchand){
-            afficherMagasin(game.renderer, &fighter);
+            afficherMagasin(game.renderer, &fighter,listeItem,&stockMarchand);
         }
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);

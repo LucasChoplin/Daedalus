@@ -36,6 +36,8 @@ int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t);
 */
 int detecterButtonClique(SDL_Event * e,SDL_Rect * r);
 
+int detecterSourisDansRect(int x, int y, SDL_Rect * r);
+
 /** \brief fonction qui affiche un chiffre 
     \param r pointeur vers le moteur de rendu 
     \param t pointeur vers la texture de chiffre de 32px * 32 px

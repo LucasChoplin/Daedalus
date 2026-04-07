@@ -37,9 +37,16 @@ int detecterButtonClique(SDL_Event * e,SDL_Rect * r){
     //j'utilise la fonction PointInRect qui vérifie si p est dans le rectangle de l'image pour Rect r
 }
 
+int detecterSourisDansRect(int x, int y, SDL_Rect * r){
+    SDL_Point p = {x,y}; 
+    return 0;
+    return SDL_PointInRect(&p,r); 
+}
+
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
     d->w = 32;
     d->h = 32;
+    int decalage = 0;
     SDL_Rect chif = {nb%10*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     if(nb>9){
         SDL_Rect chif2 = {(nb%100/10)*32,0,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
@@ -50,7 +57,9 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
             d2.x = d->x-64;
             SDL_RenderCopy(r, t,&chif2,&d2);
         }
+        decalage += 32;
     }
+    d->x -= decalage;
     SDL_RenderCopy(r, t,&chif,d);
 }
 
@@ -75,6 +84,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"nb_corne=%d\n",listeItem[4]->nb);
     fprintf(f,"nb_anneau=%d\n",listeItem[5]->nb);
     fprintf(f,"nb_sabot=%d\n",listeItem[6]->nb);
+    fprintf(f,"nb_couponReduction=%d\n",listeItem[7]->nb);
     fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
 }

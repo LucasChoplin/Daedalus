@@ -45,6 +45,13 @@ void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y){
     SDL_RenderCopy(r,getAtlasItem(),&src,&dest);
 }
 
+void afficherTicketReduction(SDL_Renderer * r,item_t * l[], int x, int y){
+    SDL_Rect src = getItemRect(7);
+    SDL_Rect dest = {x+100,y,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    drawChiffre(r,l[7]->nb,x,y);
+    SDL_RenderCopy(r,getAtlasItem(),&src,&dest);
+}
+
 void afficherXp(SDL_Renderer * r,int xp, int x, int y){
     SDL_Color titleColor = {240, 230, 180, 255};
     drawChiffre(r,xp,x,y);
@@ -139,6 +146,11 @@ void dropItem2(item_t * l[], int ennemi, loot_t * d){
                 l[1]->nb++;
                 d->item[d->nbItem] = 1;
                 d->nbItem++;
+                if(rand()%20>=19){
+                    l[7]->nb++;
+                    d->item[d->nbItem] = 7;
+                    d->nbItem++;
+                }
             }
             if(rand()%30>=29){
                 l[3]->nb++;
@@ -192,7 +204,7 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
     loot_t drop;
     drop.nbItem = 0;
     drop.or = 0;
-    switch(rand()%4){
+    switch(rand()%5){
         case 0: l[0]->nb+=10;
             drop.nbItem = 10;
             for (int i =0;i<10;i++){
@@ -205,10 +217,16 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
                 drop.item[i]=1;
             }
             break;
-        case 2: p->gold+=200;
+        case 2: l[7]->nb+=5;
+            drop.nbItem = 5;
+            for (int i =0;i<5;i++){
+                drop.item[i]=7;
+            }
+            break;
+        case 3: p->gold+=200;
             drop.or = 200;
             break;
-        case 3: 
+        case 4: 
             for(int i = 0;i<3;i++){
                 switch(rand()%3){
                     case 0: l[4]->nb++;
@@ -274,41 +292,88 @@ void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
     }
 }
 
-void afficherMagasin(SDL_Renderer * r,Fighter * p){
+void tableauPrix(int prix[], item_t * l[]){
+    if(l[7]->nb>0){
+        prix[0] = 0;
+        prix[1] = 13;
+        prix[2] = 45;
+        prix[3] = 54;
+    }
+    else{
+        prix[0] = 1;
+        prix[1] = 15;
+        prix[2] = 50;
+        prix[3] = 60;
+    }
+}
+
+void afficherMagasin(SDL_Renderer * r,Fighter * p, item_t * l[],loot_t * stock){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/1.1,SCREEN_HEIGHT-50};
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
     SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
-    SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
+    SDL_Rect c = {110,140,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
-    int prixItem[2] = {1,15};
+    int prixItem[4];
+    tableauPrix(prixItem,l);
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     int x = 100;
-    for(int i =0; i<2;i++){
-            TexItem = getItemRect(i);
-            SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
-            drawChiffre(r,prixItem[i],c.x,c.y);
-            x+=100;
-            item.x = x;
-            c.x = x+10;
+    for(int i =0; i<stock->nbItem;i++){
+            if(stock->item[i] != -1){
+                TexItem = getItemRect(stock->item[i]);
+                SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
+                drawChiffre(r,prixItem[i],c.x,c.y);
+                x+=100;
+                item.x = x;
+                c.x = x+10;
+            }
     }
-    drawChiffre(r,p->gold,SCREEN_WIDTH/1.1,SCREEN_HEIGHT/10);
+    if(l[7]->nb>0){
+        afficherTicketReduction(r,l,SCREEN_WIDTH/1.3,SCREEN_HEIGHT/5);
+    }
+    afficherPiece(r,p->gold,SCREEN_WIDTH/1.3,SCREEN_HEIGHT/10);
 }
 
-void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[]){
+void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock){
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
-    int prixItem[2] = {1,15};
+    int prixItem[4];
+    tableauPrix(prixItem,l);
     int x = 100;
-    for(int i = 0;i<2;i++){
-        if(detecterButtonClique(event,&item)){
+    for(int i = 0;i<stock->nbItem;i++){
+        if(stock->item[i]!=-1 && detecterButtonClique(event,&item)){
             if(p->gold>=prixItem[i]){
                 p->gold-=prixItem[i];
                 l[i]->nb++;
+            }
+            if(l[7]->nb>0){
+                l[7]->nb--;
+            }
+            if(i>=2){
+                stock->item[i] = -1;
             }
         }
         x+=100;
         item.x = x;
     }
+}
+
+loot_t initStockMarchand(){
+    loot_t stock;
+    stock.nbItem = 4;
+    stock.item[0] = 0;
+    stock.item[1] = 1;
+    switch(rand()%3){
+        case 0: 
+            stock.item[2] = 4; 
+            break;
+        case 1: 
+            stock.item[2] = 5; 
+            break;
+        case 2: 
+            stock.item[2] = 6; 
+    }
+    stock.item[3] = 3;
+    return stock;
 }

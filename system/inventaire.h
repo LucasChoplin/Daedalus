@@ -108,17 +108,21 @@ void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 */
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
+void tableauPrix(int prix[], item_t * l[]);
+
 /** \brief affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur 
     \param r pointeur vers le moteur de rendu
     \param p pointeur vers le perso pour afficher le nombre de pièces posséder
+    \param l liste des items pour accéder aux nombre de tickets de réduc 
 */
-void afficherMagasin(SDL_Renderer * r,Fighter * p);
+void afficherMagasin(SDL_Renderer * r,Fighter * p,item_t * l[], loot_t * stock);
 
 /** \brief fonction qui détècte à partir de la position de la souris si un item est cliqué est procède à son achat si le joueur à assez de pièces
     \param event pointeur vers l'évènement clic pour savoir les coordonnées du clic
     \param p pointeur vers le perso pour vérifier son argent et la diminuer en cas d'achat
     \param l pointeur vers la liste d'items pour ajouter les items achetés
 */
-void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[]);
+void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock);
 
+loot_t initStockMarchand();
 #endif 
