@@ -27,7 +27,7 @@ typedef enum {
 //taille des atlas/nbr de colonne
 #define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
-#define ATLAS_ITEM 6
+#define ATLAS_ITEM 8
 #define ATLAS_PERSO 2
 
 //direction

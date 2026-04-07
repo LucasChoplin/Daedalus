@@ -148,6 +148,10 @@ int main(int argc, char *argv[]){
     int IDSalleTroc = -1;
     int menuMarchand = 0; //1 si le menu du marchand est ouvert
     int coffre = 0;//0 si pas ouvert, 1 si menu de loot et 2 si ouvert
+    int coffreActif = 0; //indique si le coffre est actif
+    int coffreMapID = -1; //indique la salle ou le coffre est
+    int coffreX = -1;
+    int coffreY = -1;
     int echelleActif = 0; //indique si le echelle d'etage est actif
     int echelleMapID = -1; //indique la salle ou le echelle est actif
     int echelleX = -1;
@@ -280,16 +284,16 @@ int main(int argc, char *argv[]){
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
         if((playRect.x<sourisX)&&(playRect.x+playRect.w>sourisX)&&(playRect.y<sourisY)&&(playRect.y+playRect.h>sourisY)){
-            playF = getTileRect(1,ATLAS_BOUTON, TAILLE_TUILE);
+            playF = getTileRect(1,ATLAS_BOUTON);
         }
         else{
-            playF = getTileRect(0,ATLAS_BOUTON, TAILLE_TUILE);     
+            playF = getTileRect(0,ATLAS_BOUTON);     
         }
         if((quitRect.x<sourisX)&&(quitRect.x+quitRect.w>sourisX)&&(quitRect.y<sourisY)&&(quitRect.y+quitRect.h>sourisY)){
-            quitF = getTileRect(3,ATLAS_BOUTON, TAILLE_TUILE);
+            quitF = getTileRect(3,ATLAS_BOUTON);
         }
         else{
-            quitF = getTileRect(2,ATLAS_BOUTON, TAILLE_TUILE);
+            quitF = getTileRect(2,ATLAS_BOUTON);
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
@@ -298,10 +302,10 @@ int main(int argc, char *argv[]){
         }
         if(fichierExiste(FICHIER_DATA)){
             if((continuRect.x<sourisX)&&(continuRect.x+continuRect.w>sourisX)&&(continuRect.y<sourisY)&&(continuRect.y+continuRect.h>sourisY)){
-                continuF = getTileRect(7,ATLAS_BOUTON, TAILLE_TUILE);
+                continuF = getTileRect(7,ATLAS_BOUTON);
             }
             else{
-                continuF = getTileRect(6,ATLAS_BOUTON, TAILLE_TUILE);
+                continuF = getTileRect(6,ATLAS_BOUTON);
             }
             SDL_RenderCopy(game.renderer,getAtlasMenu(),&continuF,&continu);
         }
@@ -328,9 +332,9 @@ int main(int argc, char *argv[]){
         SDL_Rect DestGla = {startX + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestArc = {startX + cardWidth + spacing + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestLan = {startX + 2 * (cardWidth + spacing) + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
-        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO, TAILLE_TUILE);
-        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO, TAILLE_TUILE);
-        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO, TAILLE_TUILE);
+        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO);
+        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO);
+        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO);
         
         //fond pour chaque carte (aussi utilisé pour la détection du clic)
         SDL_Rect fondGla = {startX, startY, cardWidth, cardHeight};
@@ -511,7 +515,9 @@ int main(int argc, char *argv[]){
                     }
                     int procheMarchand = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
                         ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
-                    int procheCoffre = 0;//A completer 
+                    int procheCoffre = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) &&
+                        ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
+
                     if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
                         coffre =0;
@@ -615,7 +621,7 @@ int main(int argc, char *argv[]){
                     if(newX >= SALLE_WIDTH){
                         changeSalle(DROITE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -623,7 +629,7 @@ int main(int argc, char *argv[]){
                     }else if(newX < 0){
                         changeSalle(GAUCHE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -631,7 +637,7 @@ int main(int argc, char *argv[]){
                     }else if(newY >= SALLE_HEIGHT){
                         changeSalle(BAS, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -639,14 +645,14 @@ int main(int argc, char *argv[]){
                     }else if(newY < 0){
                         changeSalle(HAUT, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
                         }
                     }else{
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -706,12 +712,9 @@ int main(int argc, char *argv[]){
         }
 
         if(echelleActif && currentMap->mapID == echelleMapID){
-            SDL_Rect srcItem = getTileRect(5, ATLAS_ITEM, TAILLE_ITEM);
+            SDL_Rect srcItem = {256, 0, 64, 64};
             SDL_Rect destItem = {
-                echelleX * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
-                echelleY * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
-                TAILLE_ITEM,
-                TAILLE_ITEM
+                echelleX * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, echelleY * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, 64, 64
             };
             SDL_RenderCopy(game.renderer, getAtlasItem(), &srcItem, &destItem);
         }
@@ -723,7 +726,8 @@ int main(int argc, char *argv[]){
         int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) && ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
         int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) && ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
         int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) && ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
-        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu){
+        int procheCofreRendu = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) && ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
+        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu || procheCofreRendu){
             btnF.rect.x = player.xTile * TAILLE_TUILE + 50;
             btnF.rect.y = player.yTile * TAILLE_TUILE - 20;
             drawButton(game.renderer, &btnF);

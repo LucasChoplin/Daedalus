@@ -69,7 +69,7 @@ SDL_Texture * getAtlasPerso(void);
     \param tailleAtlas nombre de colonnes de l'atlas
     \param tailleTuile taille d'une tuile
 */
-SDL_Rect getTileRect(int ID, int tailleAtlas, int tailleTuile);
+SDL_Rect getTileRect(int ID, int tailleAtlas);
 
 SDL_Rect getItemRect(int ID);
 
