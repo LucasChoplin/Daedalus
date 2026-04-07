@@ -571,7 +571,7 @@ void drawMap(SDL_Renderer* renderer){
     for(int y = 0; y < SALLE_HEIGHT; y++){
         for(int x = 0; x < SALLE_WIDTH; x++){
             int tileID = currentMap->tiles[y][x];
-            src = getTileRect(tileID, ATLAS_MAP, TAILLE_TUILE);
+            src = getTileRect(tileID, ATLAS_MAP);
 
             SDL_Rect destRect = {x * TAILLE_TUILE, y * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
             SDL_RenderCopy(renderer, atlas, &src, &destRect);
@@ -581,7 +581,7 @@ void drawMap(SDL_Renderer* renderer){
 
 void drawMob(SDL_Renderer* renderer, Mob* mob) {
     if(!mob)return; //mesure de securite
-    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO, TAILLE_TUILE);
+    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO);
     SDL_Texture* mobAtlas = getAtlasMob();
     SDL_Rect destRect = {mob->xTile * TAILLE_TUILE, mob->yTile * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
     SDL_RenderCopy(renderer, mobAtlas, &src, &destRect);
@@ -593,7 +593,7 @@ void drawPlayer(SDL_Renderer* renderer, Player * player){
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     if(!player || !player->texture)return; //mesure de securite
 
-    src = getTileRect(player->spriteID, ATLAS_PERSO, TAILLE_TUILE);
+    src = getTileRect(player->spriteID, ATLAS_PERSO);
     if(player->facing == GAUCHE){
         flip = SDL_FLIP_HORIZONTAL;}
     dest.x = player->xTile * TAILLE_TUILE;

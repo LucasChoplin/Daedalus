@@ -126,7 +126,7 @@ SDL_Texture * getAtlasPerso(void){
 }
 
 //retourne le 'rectange' de l'atlas correspondant à un ID de tile
-SDL_Rect getTileRect(int ID, int tailleAtlas, int tailleTuile){
+SDL_Rect getTileRect(int ID, int tailleAtlas){
     SDL_Rect rect;
     rect.x = (ID % tailleAtlas) * TAILLE_TUILE;
     rect.y = (ID / tailleAtlas) * TAILLE_TUILE;

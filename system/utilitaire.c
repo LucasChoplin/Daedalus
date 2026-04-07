@@ -54,18 +54,27 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d){
     SDL_RenderCopy(r, t,&chif,d);
 }
 
-void sauvegarder(Fighter p,item_t * l[]){
-    FILE * f = fopen(FICHIER_DATA,"w");
-    fprintf(f,"classeID=%d\n",p.classeID);
-    fprintf(f,"pv_max=%d\n",p.max_hp);
-    fprintf(f,"stat_attaque=%d\n",p.attack);
-    fprintf(f,"stat_speed=%d\n",p.speed);
-    fprintf(f,"xp=%d\n",p.xp);
-    fprintf(f,"niveau=%d\n",p.lvl);
-    fprintf(f,"gold=%d\n",p.gold);
-    fprintf(f,"nb_potions=%d\n",l[0]->nb);
-    fprintf(f,"nb_Superpotions=%d\n",l[1]->nb);
-    fprintf(f,"nb_PotionEnergie=%d\n",l[2]->nb);
-    fprintf(f,"nb_clés=%d\n",l[3]->nb);
+void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
+    FILE *f = fopen(FICHIER_DATA, "w");
+    if(!f){
+        return;
+    }
+
+    fprintf(f,"classeID=%d\n",fighter->classeID);
+    fprintf(f,"pv_max=%d\n",fighter->max_hp);
+    fprintf(f,"pv=%d\n",fighter->hp);
+    fprintf(f,"stat_attaque=%d\n",fighter->attack);
+    fprintf(f,"stat_speed=%d\n",fighter->speed);
+    fprintf(f,"xp=%d\n",fighter->xp);
+    fprintf(f,"niveau=%d\n",fighter->lvl);
+    fprintf(f,"gold=%d\n",fighter->gold);
+    fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
+    fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
+    fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
+    fprintf(f,"nb_clés=%d\n",listeItem[3]->nb);
+    fprintf(f,"nb_corne=%d\n",listeItem[4]->nb);
+    fprintf(f,"nb_anneau=%d\n",listeItem[5]->nb);
+    fprintf(f,"nb_sabot=%d\n",listeItem[6]->nb);
+    fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
 }

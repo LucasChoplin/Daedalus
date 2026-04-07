@@ -60,6 +60,14 @@ typedef struct{
     void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 
+/** \brief structure pour les loots */
+typedef struct{
+    int nbItem;
+    int item[MAX_DROP];
+    int or;
+    int xp;
+}loot_t;
+
 /** \brief structure pour un bouton */
 typedef struct{
     SDL_Rect rect; /**< rectangle de la zone cliquable du bouton */

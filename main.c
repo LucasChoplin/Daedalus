@@ -117,27 +117,6 @@ void cleanup(void){
     SDL_Quit();
 }
 
-void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
-    FILE *f = fopen(FICHIER_DATA, "w");
-    if(!f){
-        return;
-    }
-
-    fprintf(f,"classeID=%d\n",fighter->classeID);
-    fprintf(f,"pv=%d\n",fighter->hp);
-    fprintf(f,"stat_attaque=%d\n",fighter->attack);
-    fprintf(f,"stat_speed=%d\n",fighter->speed);
-    fprintf(f,"xp=%d\n",fighter->xp);
-    fprintf(f,"niveau=%d\n",fighter->lvl);
-    fprintf(f,"gold=%d\n",fighter->gold);
-    fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
-    fprintf(f,"nb_superpotions=%d\n",listeItem[1]->nb);
-    fprintf(f,"nb_PotionEnergie=%d\n",listeItem[2]->nb);
-    fprintf(f,"nb_clés=%d\n",listeItem[3]->nb);
-    fprintf(f,"etage=%d\n",etageActuel);
-    fclose(f);
-}
-
 void setupBossParEtage(int etageActuel, int bossRoomID, int miniBossRoomID, Mob *miniBoss, Mob *boss){
     Mob *bossActif = (etageActuel >= 3) ? boss : miniBoss;
     Mob *bossInactif = (etageActuel >= 3) ? miniBoss : boss;
@@ -168,10 +147,16 @@ int main(int argc, char *argv[]){
     int etageActuel = 1;
     int IDSalleTroc = -1;
     int menuMarchand = 0; //1 si le menu du marchand est ouvert
+    int coffre = 0;//0 si pas ouvert, 1 si menu de loot et 2 si ouvert
+    int coffreActif = 0; //indique si le coffre est actif
+    int coffreMapID = -1; //indique la salle ou le coffre est
+    int coffreX = -1;
+    int coffreY = -1;
     int echelleActif = 0; //indique si le echelle d'etage est actif
     int echelleMapID = -1; //indique la salle ou le echelle est actif
     int echelleX = -1;
     int echelleY = -1;
+    loot_t lootCoffre;
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -223,11 +208,21 @@ int main(int argc, char *argv[]){
     potionEnergie.f = NULL;
     item_t key;
     key.f = NULL;
-    item_t * listeItem[4];
+    item_t corne;
+    corne.f = augmenterAttaque;
+    item_t anneau;
+    anneau.f = augmenterPvmax;
+    item_t sabot;
+    sabot.f = augmenterVitesse;
+    item_t * listeItem[8];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
     listeItem[2] = &potionEnergie;
     listeItem[3] = &key;
+    listeItem[4] = &corne;
+    listeItem[5] = &anneau;
+    listeItem[6] = &sabot;
+    listeItem[7] = NULL;
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
 //----------------------Chargement d'image ------------------------------------------
@@ -289,16 +284,16 @@ int main(int argc, char *argv[]){
         }
         SDL_GetMouseState(&(sourisX),&(sourisY));
         if((playRect.x<sourisX)&&(playRect.x+playRect.w>sourisX)&&(playRect.y<sourisY)&&(playRect.y+playRect.h>sourisY)){
-            playF = getTileRect(1,ATLAS_BOUTON, TAILLE_TUILE);
+            playF = getTileRect(1,ATLAS_BOUTON);
         }
         else{
-            playF = getTileRect(0,ATLAS_BOUTON, TAILLE_TUILE);     
+            playF = getTileRect(0,ATLAS_BOUTON);     
         }
         if((quitRect.x<sourisX)&&(quitRect.x+quitRect.w>sourisX)&&(quitRect.y<sourisY)&&(quitRect.y+quitRect.h>sourisY)){
-            quitF = getTileRect(3,ATLAS_BOUTON, TAILLE_TUILE);
+            quitF = getTileRect(3,ATLAS_BOUTON);
         }
         else{
-            quitF = getTileRect(2,ATLAS_BOUTON, TAILLE_TUILE);
+            quitF = getTileRect(2,ATLAS_BOUTON);
         }
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
         SDL_RenderClear(game.renderer);
@@ -307,10 +302,10 @@ int main(int argc, char *argv[]){
         }
         if(fichierExiste(FICHIER_DATA)){
             if((continuRect.x<sourisX)&&(continuRect.x+continuRect.w>sourisX)&&(continuRect.y<sourisY)&&(continuRect.y+continuRect.h>sourisY)){
-                continuF = getTileRect(7,ATLAS_BOUTON, TAILLE_TUILE);
+                continuF = getTileRect(7,ATLAS_BOUTON);
             }
             else{
-                continuF = getTileRect(6,ATLAS_BOUTON, TAILLE_TUILE);
+                continuF = getTileRect(6,ATLAS_BOUTON);
             }
             SDL_RenderCopy(game.renderer,getAtlasMenu(),&continuF,&continu);
         }
@@ -337,9 +332,9 @@ int main(int argc, char *argv[]){
         SDL_Rect DestGla = {startX + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestArc = {startX + cardWidth + spacing + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
         SDL_Rect DestLan = {startX + 2 * (cardWidth + spacing) + persoOffX, startY + 15, TAILLE_SPRITE, TAILLE_SPRITE};
-        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO, TAILLE_TUILE);
-        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO, TAILLE_TUILE);
-        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO, TAILLE_TUILE);
+        SDL_Rect glaF = getTileRect(1,ATLAS_PERSO);
+        SDL_Rect archerF = getTileRect(0,ATLAS_PERSO);
+        SDL_Rect lanF = getTileRect(2,ATLAS_PERSO);
         
         //fond pour chaque carte (aussi utilisé pour la détection du clic)
         SDL_Rect fondGla = {startX, startY, cardWidth, cardHeight};
@@ -391,6 +386,7 @@ int main(int argc, char *argv[]){
                 if(event.type == SDL_MOUSEBUTTONDOWN){
                     if(detecterButtonClique(&event,&fondGla)){
                         fprintf(f,"classeID=%d\n",GLADIATEUR);
+                        fprintf(f,"pv_max=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"pv=%d\n",GLADIATEUR_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",GLADIATEUR_ATTACK);
                         fprintf(f,"stat_speed=%d\n",GLADIATEUR_SPEED);
@@ -398,6 +394,7 @@ int main(int argc, char *argv[]){
                     }
                     else if(detecterButtonClique(&event,&fondArc)){
                         fprintf(f,"classeID=%d\n",ARCHER);
+                        fprintf(f,"pv_max=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"pv=%d\n",ARCHER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",ARCHER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",ARCHER_SPEED);
@@ -405,6 +402,7 @@ int main(int argc, char *argv[]){
                     }
                     else if(detecterButtonClique(&event,&fondLan)){
                         fprintf(f,"classeID=%d\n",LANCIER);
+                        fprintf(f,"pv_max=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"pv=%d\n",LANCIER_MAX_HP);
                         fprintf(f,"stat_attaque=%d\n",LANCIER_ATTACK);
                         fprintf(f,"stat_speed=%d\n",LANCIER_SPEED);
@@ -420,11 +418,15 @@ int main(int argc, char *argv[]){
         fprintf(f,"nb_superpotions=%d\n",0);
         fprintf(f,"nb_PotionEnergie=%d\n",0);
         fprintf(f,"nb_clés=%d\n",0);
+        fprintf(f,"nb_corne=%d\n",0);
+        fprintf(f,"nb_anneau=%d\n",0);
+        fprintf(f,"nb_sabot=%d\n",0);
         fprintf(f,"etage=%d\n",1);
         fclose(f);
     }
     f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locales 
     fscanf(f,"classeID=%d\n",&(fighter.classeID));
+    fscanf(f,"pv_max=%d\n",&(fighter.max_hp));
     fscanf(f,"pv=%d\n",&(fighter.hp));
     fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
     fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
@@ -435,7 +437,10 @@ int main(int argc, char *argv[]){
     fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
     fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));
     fscanf(f,"nb_clés=%d\n",&(listeItem[3]->nb));
-    switch(fighter.classeID){
+    fscanf(f,"nb_corne=%d\n",&(listeItem[4]->nb));
+    fscanf(f,"nb_anneau=%d\n",&(listeItem[5]->nb));
+    fscanf(f,"nb_sabot=%d\n",&(listeItem[6]->nb));
+    /*switch(fighter.classeID){
         case GLADIATEUR:
             fighter.max_hp = GLADIATEUR_MAX_HP;
             break;
@@ -448,7 +453,7 @@ int main(int argc, char *argv[]){
         default:
             printf("ClasseID invalide dans le fichier de sauvegarde, classe par défaut attribuée\n");
             fighter.max_hp = 100;
-    }
+    }*/
     if(fscanf(f,"etage=%d\n",&(etageActuel)) != 1){
         etageActuel = 1;
     }
@@ -490,7 +495,7 @@ int main(int argc, char *argv[]){
                 saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
-            if(menu==0 && menuMarchand == 0){ //si aucun menu n'est ouvert
+            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
                 if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
                     sortie = 1;
                 }
@@ -510,9 +515,12 @@ int main(int argc, char *argv[]){
                     }
                     int procheMarchand = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) &&
                         ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
+                    int procheCoffre = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) &&
+                        ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
 
                     if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
+                        coffre =0;
                         initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                         player.xTile = 9;
                         player.yTile = 7;
@@ -547,7 +555,13 @@ int main(int argc, char *argv[]){
                     }
                     else if(procheMarchand){
                         if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
-                            menuMarchand = 1; //troc avec le marchand a implementer!
+                            menuMarchand = 1;
+                        }
+                    }
+                    else if(procheCoffre){
+                        if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f && coffre == 0 && key.nb >0){
+                            lootCoffre = dropCoffre(listeItem,&fighter);
+                            coffre = 1;
                         }
                     }
                     else if(procheBossFinal){ 
@@ -607,7 +621,7 @@ int main(int argc, char *argv[]){
                     if(newX >= SALLE_WIDTH){
                         changeSalle(DROITE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -615,7 +629,7 @@ int main(int argc, char *argv[]){
                     }else if(newX < 0){
                         changeSalle(GAUCHE, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -623,7 +637,7 @@ int main(int argc, char *argv[]){
                     }else if(newY >= SALLE_HEIGHT){
                         changeSalle(BAS, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -631,14 +645,14 @@ int main(int argc, char *argv[]){
                     }else if(newY < 0){
                         changeSalle(HAUT, &newX, &newY);
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
                         }
                     }else{
                         int tile = currentMap->tiles[newY][newX];
-                        if(!isWall(tile) && !checkMobCollision(newX, newY, MobMap, 3)){
+                        if(!isWall(tile) && !(echelleActif && currentMap->mapID == echelleMapID && newX == echelleX && newY == echelleY) && !checkMobCollision(newX, newY, MobMap, 3)){
                             player.xTile = newX;
                             player.yTile = newY;
                             deplacement = 1;
@@ -698,12 +712,9 @@ int main(int argc, char *argv[]){
         }
 
         if(echelleActif && currentMap->mapID == echelleMapID){
-            SDL_Rect srcItem = getTileRect(5, ATLAS_ITEM, TAILLE_ITEM);
+            SDL_Rect srcItem = {256, 0, 64, 64};
             SDL_Rect destItem = {
-                echelleX * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
-                echelleY * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2,
-                TAILLE_ITEM,
-                TAILLE_ITEM
+                echelleX * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, echelleY * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, 64, 64
             };
             SDL_RenderCopy(game.renderer, getAtlasItem(), &srcItem, &destItem);
         }
@@ -715,7 +726,8 @@ int main(int argc, char *argv[]){
         int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) && ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
         int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) && ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
         int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) && ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
-        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu){
+        int procheCofreRendu = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) && ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
+        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu || procheCofreRendu){
             btnF.rect.x = player.xTile * TAILLE_TUILE + 50;
             btnF.rect.y = player.yTile * TAILLE_TUILE - 20;
             drawButton(game.renderer, &btnF);
@@ -725,6 +737,12 @@ int main(int argc, char *argv[]){
         }
         if(menu){
             //afficherItemObtenu(game.renderer,menu,itemObtenu);
+        }
+        if(coffre){
+            afficherItemObtenu(game.renderer,&lootCoffre);
+            if(detecterButtonClique(&e,&destEchap)){
+                menuMarchand = 2;
+            }
         }
         if(menuMarchand){
             afficherMagasin(game.renderer, &fighter);

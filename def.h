@@ -27,7 +27,7 @@ typedef enum {
 //taille des atlas/nbr de colonne
 #define ATLAS_MAP 14
 #define ATLAS_BOUTON 4
-#define ATLAS_ITEM 6
+#define ATLAS_ITEM 8
 #define ATLAS_PERSO 2
 
 //direction
@@ -44,6 +44,8 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 #define TAILLE_AFF_ITEM 64 /**< taille donné au items lors de l'affichage */
 //items
 #define NB_ITEM 4/**< nombre d'items dans le jeu */ 
+#define MAX_DROP 10/**< indique le nombre max d'items qu'on peux obtenir en une action, utile pour le tableau dans loot_t */
+#define ID_PIECE 7/**<indique quelle image correspond à celle d'une pièce */
 
 //fichier de sauvegarde
 #define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 
