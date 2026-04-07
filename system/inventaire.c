@@ -71,10 +71,10 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     pv.x -=200;
     drawChiffre(r,p->xp,pv.x,pv.y);
     pv.x +=200;
-    drawChiffre(r,p->max_xp,pv.x,pv.y);
+    afficherXp(r,p->max_xp,pv.x,pv.y);
     pv.y +=100;
     pv.x -=200;
-    drawChiffre(r,p->speed,pv.x,pv.y);
+    drawChiffre(r,p->attack,pv.x,pv.y);
 
     for(int i =0; l[i]!=NULL;i++){
         if(l[i]->nb>0){
