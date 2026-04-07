@@ -140,6 +140,24 @@ void dropItem2(item_t * l[], int ennemi, loot_t * d){
                 d->item[d->nbItem] = 1;
                 d->nbItem++;
             }
+            if(rand()%30>=29){
+                l[3]->nb++;
+                d->item[d->nbItem] = 3;
+                d->nbItem++;
+            }
+            if(rand()%50>=49){
+                switch(rand()%3){
+                    case 0: l[4]->nb++;
+                        d->item[d->nbItem] = 4;
+                        break;
+                    case 1: l[5]->nb++;
+                        d->item[d->nbItem] = 5;
+                        break;
+                    case 2: l[6]->nb++;
+                        d->item[d->nbItem] = 6;
+                }
+                d->nbItem++;
+            }
             break;
     }
 }
@@ -174,7 +192,7 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
     loot_t drop;
     drop.nbItem = 0;
     drop.or = 0;
-    switch(rand()%3){
+    switch(rand()%4){
         case 0: l[0]->nb+=10;
             drop.nbItem = 10;
             for (int i =0;i<10;i++){
@@ -189,7 +207,33 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
             break;
         case 2: p->gold+=200;
             drop.or = 200;
+            break;
+        case 3: 
+            for(int i = 0;i<3;i++){
+                switch(rand()%3){
+                    case 0: l[4]->nb++;
+                        drop.item[drop.nbItem] = 4;
+                        break;
+                    case 1: l[5]->nb++;
+                        drop.item[drop.nbItem] = 5;
+                        break;
+                    case 2: l[6]->nb++;
+                        drop.item[drop.nbItem] = 6;
+                }
+                drop.nbItem ++;
+            }
     }
+    switch(rand()%3){
+        case 0: l[4]->nb++;
+            drop.item[drop.nbItem] = 4;
+            break;
+        case 1: l[5]->nb++;
+            drop.item[drop.nbItem] = 5;
+            break;
+        case 2: l[6]->nb++;
+            drop.item[drop.nbItem] = 6;
+    }
+    drop.nbItem++;
     return drop;
 }
 
@@ -213,7 +257,7 @@ void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d){
 
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
     SDL_Rect destMenu = {50,50,1280-100,960-200};
-    SDL_Rect destI ={100,SCREEN_HEIGHT-400,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    SDL_Rect destI ={100,SCREEN_HEIGHT*0.1,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
     SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
     SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON);
@@ -226,7 +270,7 @@ void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
         destI.x += 100;
     }
     if(d->or>0){
-        afficherPiece(r,d->or,SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.8);
+        afficherPiece(r,d->or,SCREEN_WIDTH*0.1,SCREEN_HEIGHT*0.3);
     }
 }
 
