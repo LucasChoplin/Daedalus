@@ -31,8 +31,18 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
             break;
     }
     TTF_Font* font = getCombatFont();
+
+    char puissance[20];
+    sprintf(puissance, "Forte %dPM", joueur->pm_atk);
+
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
-    Bouton boutonForte = {forte, {50, 50, 200, 255}, {255, 255, 255, 255}, "Attaque forte", font};
+    Bouton boutonForte;
+    if(joueur->pm_atk>0){
+        boutonForte = (Bouton){forte, {50, 50, 200, 255}, {255, 255, 255, 255}, puissance, font};
+    }
+    else{
+        boutonForte = (Bouton){forte, {200, 235, 255, 255}, {255, 255, 255, 255}, puissance, font};
+    }
     Bouton boutonFuite = {fuite, {250, 250, 250, 255}, {0, 0, 0, 255}, "Fuite", font};
     Bouton boutonInventaire = {inventaire, {250, 0, 250, 255}, {255, 255, 255, 255}, "Inventaire", font};
 

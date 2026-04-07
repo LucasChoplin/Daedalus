@@ -215,7 +215,7 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1};    
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1, .pm_atk=8};    
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=500, .max_hp=500, .attack=100, .speed=50};

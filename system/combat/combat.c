@@ -88,7 +88,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
 
 
         if (state == ENNEMY) {
-            SDL_Delay(500);
+            SDL_Delay(1000);
             attaqueEnnemi(joueur, ennemi, &state);
         }
 
