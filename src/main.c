@@ -234,8 +234,8 @@ int main(int argc, char *argv[]){
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=300, .max_hp=300, .attack=100, .speed=50};
     mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
-    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=80, .attack=70, .speed=40};
-    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
+    mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=80, .max_hp=80, .attack=70, .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
     Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
     Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
