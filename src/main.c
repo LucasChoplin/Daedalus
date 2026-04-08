@@ -219,10 +219,10 @@ int main(int argc, char *argv[]){
     fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1, .pm_atk=8 , .max_pm=8};    
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
-    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=500, .max_hp=500, .attack=100, .speed=50};
-    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
-    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=60, .attack=70, .speed=40};
-    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
+    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
+    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=6, .attack=50, .speed=30};
+    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=8, .attack=70, .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=10, .attack=30, .speed=90};
     Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
     Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
@@ -496,7 +496,7 @@ int main(int argc, char *argv[]){
                 saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
-            if(menu==0 && menuMarchand == 0 && coffre != 1){ //si aucun menu n'est ouvert
+            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
                 if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
                     sortie = 1;
                 }
@@ -587,7 +587,6 @@ int main(int argc, char *argv[]){
                         if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f && coffre == 0 && key.nb >0){
                             lootCoffre = dropCoffre(listeItem,&fighter);
                             coffre = 1;
-                            listeItem[3]->nb --; //enleve une clé
                         }
                     }
                     else if(procheBossFinal){ 
@@ -614,7 +613,7 @@ int main(int argc, char *argv[]){
                         }
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
-                                // avant l'etage 3, battre le miniboss fait apparaitre l'item pour continuer
+                                // avant l'etage 3, battre le miniboss fait apparaitre l'échelle pour continuer
                                 echelleActif = 1;
                                 echelleMapID = bossFinal->mapID;
                                 echelleX = bossFinal->xTile;
@@ -627,7 +626,6 @@ int main(int argc, char *argv[]){
                             }else{
                                 //boss battu: fin de partie
                                 afficherCredits(game.renderer);
-                                //affichage fin du jeu a implementer
                                 sortie = 1;
                             }
                         }
@@ -747,8 +745,7 @@ int main(int argc, char *argv[]){
                         }
                     }
                     if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
-                        lootCoffre = dropCoffre(listeItem,&fighter);
-                        coffre = 1;
+                        drawPlayer(game.renderer, &player);
                         //menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
@@ -768,11 +765,6 @@ int main(int argc, char *argv[]){
                         menuMarchand = 0;
                     }
                 }
-                else if(e.type == SDL_MOUSEBUTTONDOWN && coffre == 1){
-                    if (detecterButtonClique(&e,&destEchap)){
-                        coffre = 2;
-                    }
-                }
             }
         }
         drawMap(game.renderer);
@@ -787,11 +779,11 @@ int main(int argc, char *argv[]){
         }
 
         if(echelleActif && currentMap->mapID == echelleMapID){
-            SDL_Rect srcItem = {256, 0, 64, 64};
+            SDL_Rect systemItem = {256, 0, 64, 64};
             SDL_Rect destItem = {
                 echelleX * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, echelleY * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, 64, 64
             };
-            SDL_RenderCopy(game.renderer, getAtlasItem(), &srcItem, &destItem);
+            SDL_RenderCopy(game.renderer, getAtlasItem(), &systemItem, &destItem);
         }
         
         drawPlayer(game.renderer, &player);
@@ -813,8 +805,11 @@ int main(int argc, char *argv[]){
         if(menu){
             //afficherItemObtenu(game.renderer,menu,itemObtenu);
         }
-        if(coffre==1){
+        if(coffre){
             afficherItemObtenu(game.renderer,&lootCoffre);
+            if(detecterButtonClique(&e,&destEchap)){
+                menuMarchand = 2;
+            }
         }
         if(menuMarchand){
             afficherMagasin(game.renderer, &fighter,listeItem,&stockMarchand);

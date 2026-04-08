@@ -1,32 +1,32 @@
-start : main.o map.o atlas.o inventaire.o utilitaire.o text.o combat.o combat_aff.o combat_attaque.o
-	gcc main.o map.o atlas.o inventaire.o utilitaire.o text.o combat.o combat_aff.o combat_attaque.o -o start -lSDL2 -lSDL2_image -lSDL2_ttf
+bin/start : lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o
+	gcc lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o -o bin/start -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
-main.o : main.c structs.h def.h
-	gcc -c main.c
+lib/main.o : src/main.c src/structs.h src/def.h
+	gcc -c src/main.c -o lib/main.o
 	
-map.o : system/map.c system/map.h system/atlas.h structs.h def.h
-	gcc -c system/map.c
+lib/map.o : src/system/map.c src/system/map.h src/system/atlas.h src/structs.h src/def.h
+	gcc -c src/system/map.c -o lib/map.o
 
-atlas.o : system/atlas.c system/atlas.h def.h
-	gcc -c system/atlas.c
+lib/atlas.o : src/system/atlas.c src/system/atlas.h src/structs.h src/def.h
+	gcc -c src/system/atlas.c -o lib/atlas.o
 
-inventaire.o : system/inventaire.c system/inventaire.h structs.h def.h
-	gcc -c system/inventaire.c
+lib/inventaire.o : src/system/inventaire.c src/system/inventaire.h src/structs.h src/def.h
+	gcc -c src/system/inventaire.c -o lib/inventaire.o
 
-utilitaire.o: system/utilitaire.c system/utilitaire.h structs.h def.h
-	gcc -c system/utilitaire.c
+lib/utilitaire.o: src/system/utilitaire.c src/system/utilitaire.h src/structs.h src/def.h
+	gcc -c src/system/utilitaire.c -o lib/utilitaire.o
 
-combat.o : system/combat/combat.c system/combat/combat.h structs.h def.h
-	gcc -c system/combat/combat.c
+lib/combat.o : src/system/combat/combat.c src/system/combat/combat.h src/structs.h src/def.h
+	gcc -c src/system/combat/combat.c -o lib/combat.o
 
-combat_aff.o : system/combat/combat_aff.c system/combat/combat_aff.h structs.h def.h
-	gcc -c system/combat/combat_aff.c
+lib/combat_aff.o : src/system/combat/combat_aff.c src/system/combat/combat_aff.h src/structs.h src/def.h
+	gcc -c src/system/combat/combat_aff.c -o lib/combat_aff.o
 
-combat_attaque.o : system/combat/combat_attaque.c system/combat/combat_attaque.h structs.h def.h
-	gcc -c system/combat/combat_attaque.c
-
-text.o : system/text.c system/text.h structs.h def.h
-	gcc -c system/text.c
+lib/combat_attaque.o : src/system/combat/combat_attaque.c src/system/combat/combat_attaque.h src/structs.h src/def.h
+	gcc -c src/system/combat/combat_attaque.c -o lib/combat_attaque.o
+	
+lib/text.o : src/system/text.c src/system/text.h src/structs.h src/def.h
+	gcc -c src/system/text.c -o lib/text.o
 
 clean:
-	rm -f *.o start
+	rm -f lib/*.o start
