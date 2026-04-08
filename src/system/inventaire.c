@@ -93,7 +93,8 @@ void afficherStats(SDL_Renderer * r, Fighter * p){
 }
 
 void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
-    SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
+    SDL_Rect destMenu = {50, 50, SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT - 100};
+    SDL_Rect fondStats = {destMenu.x + destMenu.w, destMenu.y, SCREEN_WIDTH / 2 - 50, destMenu.h};
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
@@ -103,10 +104,13 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect c = {150,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
+    SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(r, 0, 0, 0, 160);
+    SDL_RenderFillRect(r, &fondStats);
     SDL_RenderCopy(r,getAtlasPerso(),&persoF,&Perso);
     afficherStats(r,p);
 
-    for(int i =0; l[i]!=NULL;i++){
+    for(int i =0; l[i]!=NULL;i++){ 
         if(l[i]->nb>0){
             TexItem = getItemRect(i);
             SDL_RenderCopy(r, getAtlasItem(),&TexItem, &item);
