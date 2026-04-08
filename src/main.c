@@ -178,7 +178,7 @@ void afficherCredits(SDL_Renderer * r){
         drawText(r, getTitleFont(), "CREDITS", titleColor, SCREEN_WIDTH / 2 - 160, yBase);
         drawText(r, getDefaultFont(), "Developpeurs", textColor, SCREEN_WIDTH / 2 - 95, yBase + espaceLigne * 2);
         drawText(r, getDefaultFont(), "Patrick Leguillon", textColor, SCREEN_WIDTH / 2 - 110, yBase + espaceLigne * 3);
-        drawText(r, getDefaultFont(), "Ashi Vakura", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
+        drawText(r, getDefaultFont(), "Myriam Laaqira", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
         drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
         drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
         drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 9);
