@@ -17,18 +17,45 @@
 */
 
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire, int inv, item_t * l[]){
-    SDL_Surface* image = SDL_LoadBMP("Img/archer.bmp");
+    int largeurBarreFixe = 300;
+    SDL_Surface* image;
+    switch(joueur->classeID){
+        case 0:
+            image = SDL_LoadBMP("Img/archer.bmp");
+            break;
+        case 1:
+            image = SDL_LoadBMP("Img/gladiateur.bmp");
+            break;
+        case 2:
+            image = SDL_LoadBMP("Img/lancier.bmp");
+            break;
+    }
     TTF_Font* font = getCombatFont();
+
+    char puissance[20];
+    sprintf(puissance, "Forte %dPM", joueur->pm_atk);
+
     Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
-    Bouton boutonForte = {forte, {50, 50, 200, 255}, {255, 255, 255, 255}, "Attaque forte", font};
+    Bouton boutonForte;
+    if(joueur->pm_atk>0){
+        boutonForte = (Bouton){forte, {50, 50, 200, 255}, {255, 255, 255, 255}, puissance, font};
+    }
+    else{
+        boutonForte = (Bouton){forte, {200, 235, 255, 255}, {255, 255, 255, 255}, puissance, font};
+    }
     Bouton boutonFuite = {fuite, {250, 250, 250, 255}, {0, 0, 0, 255}, "Fuite", font};
     Bouton boutonInventaire = {inventaire, {250, 0, 250, 255}, {255, 255, 255, 255}, "Inventaire", font};
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
+
+    SDL_RenderCopy(renderer, monImage, NULL, NULL);
     SDL_FreeSurface(image);
 
-    SDL_Rect xp_possede = { 50, 935, joueur->xp *3, 10 };
-    SDL_Rect xp_necessaire = { 50, 935, joueur->max_xp*3, 10 };
+
+    int longueur_xp = (int)((float)joueur->xp / joueur->max_xp * largeurBarreFixe);
+
+    SDL_Rect xp_possede = { 50, 935, longueur_xp, 10 };
+    SDL_Rect xp_necessaire = { 50, 935, largeurBarreFixe, 10 };
 
     SDL_Rect personnage = {150, 800, 0, 0};
     SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
@@ -39,8 +66,17 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
     SDL_RenderClear(renderer);
 
-    // Barre de vie ennemi
-    SDL_Rect enemy_hp = {1000, 40, ennemi.hp * 3, 30};
+    //SDL_RenderCopy(renderer, monImage, NULL, NULL);
+
+    int largeurEnnemi = (int)((float)ennemi.hp / ennemi.max_hp * largeurBarreFixe);
+
+    // bare de vie vide 
+    SDL_Rect enemy_hp_fond = {1000, 40, largeurBarreFixe, 30};
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255); 
+    SDL_RenderFillRect(renderer, &enemy_hp_fond);
+
+    // bare de vie d'ennemie
+    SDL_Rect enemy_hp = {1000, 40, largeurEnnemi, 30};
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &enemy_hp);
 
@@ -49,9 +85,18 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     drawText(renderer,font,E_hp,(SDL_Color){255, 255, 255, 255},1000,40);
 
-    SDL_Rect player_hp = {50, 900, joueur->hp * 3, 30};
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    int largeurJoueur = (int)((float)joueur->hp / joueur->max_hp * largeurBarreFixe);
+
+    // Fond de la barre
+    SDL_Rect player_hp_fond = {50, 900, largeurBarreFixe, 30};
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+    SDL_RenderFillRect(renderer, &player_hp_fond);
+
+    // Partie pleine (verte)
+    SDL_Rect player_hp = {50, 900, largeurJoueur, 30};
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     SDL_RenderFillRect(renderer, &player_hp);
+
 
     char P_hp [40];
     sprintf(P_hp,"%d/%d",joueur->hp,joueur->max_hp);
@@ -65,10 +110,6 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     // Bouton Attaquer
     drawButton(renderer, &boutonAttaquer);
-
-    // Barre de vie joueur
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-    SDL_RenderFillRect(renderer, &player_hp);
     
     // Bouton Attaque forte
     drawButton(renderer, &boutonForte);

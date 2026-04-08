@@ -52,6 +52,7 @@ typedef struct {
     int max_xp; /** points d'expérience nécessaires pour monter de niveau */
     int lvl; /** niveau du personnage */
     int gold; /** quantité d'or possédée par le personnage */
+    int pm_atk; /**nombre de fois que le joueur peut faire l'attaque  */
 } Fighter;
 
 /** \brief structure pour les items  */
