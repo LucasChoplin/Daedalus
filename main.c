@@ -216,7 +216,7 @@ int main(int argc, char *argv[]){
     TTF_Font* btnfont = getDefaultFont();
 
     //-----------------------initialisation des variables de jeu --------------------------------
-    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1, .pm_atk=8};    
+    fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1, .pm_atk=8 , .max_pm=8};    
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=500, .max_hp=500, .attack=100, .speed=50};
@@ -247,8 +247,8 @@ int main(int argc, char *argv[]){
     potion.f = soin50PV;
     item_t potion2;
     potion2.f = soin200PV;
-    item_t potionEnergie;
-    potionEnergie.f = NULL;
+    item_t potionMana;
+    potionMana.f = soinMana;
     item_t key;
     key.f = NULL;
     item_t corne;
@@ -262,7 +262,7 @@ int main(int argc, char *argv[]){
     item_t * listeItem[9];
     listeItem[0] = &potion;
     listeItem[1] = &potion2;
-    listeItem[2] = &potionEnergie;
+    listeItem[2] = &potionMana;
     listeItem[3] = &key;
     listeItem[4] = &corne;
     listeItem[5] = &anneau;
@@ -447,6 +447,7 @@ int main(int argc, char *argv[]){
             }
         }
         fprintf(f,"xp=%d\n",0);
+        fprintf(f,"xp_max=%d\n",100);
         fprintf(f,"niveau=%d\n",fighter.lvl);
         fprintf(f,"gold=%d\n",0);
         fprintf(f,"nb_potions=%d\n",0);
@@ -460,44 +461,7 @@ int main(int argc, char *argv[]){
         fprintf(f,"etage=%d\n",1);
         fclose(f);
     }
-    f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locales 
-    fscanf(f,"classeID=%d\n",&(fighter.classeID));
-    fscanf(f,"pv_max=%d\n",&(fighter.max_hp));
-    fscanf(f,"pv=%d\n",&(fighter.hp));
-    fscanf(f,"stat_attaque=%d\n",&(fighter.attack));
-    fscanf(f,"stat_speed=%d\n",&(fighter.speed)); 
-    fscanf(f,"xp=%d\n",&(fighter.xp));
-    fscanf(f,"niveau=%d\n",&(fighter.lvl));
-    fscanf(f,"gold=%d\n",&(fighter.gold));
-    fscanf(f,"nb_potions=%d\n",&(listeItem[0]->nb));
-    fscanf(f,"nb_superpotions=%d\n",&(listeItem[1]->nb));
-    fscanf(f,"nb_PotionEnergie=%d\n",&(listeItem[2]->nb));
-    fscanf(f,"nb_clés=%d\n",&(listeItem[3]->nb));
-    fscanf(f,"nb_corne=%d\n",&(listeItem[4]->nb));
-    fscanf(f,"nb_anneau=%d\n",&(listeItem[5]->nb));
-    fscanf(f,"nb_sabot=%d\n",&(listeItem[6]->nb));
-    fscanf(f,"nb_couponReduction=%d\n",&(listeItem[7]->nb));
-    /*switch(fighter.classeID){
-        case GLADIATEUR:
-            fighter.max_hp = GLADIATEUR_MAX_HP;
-            break;
-        case ARCHER:
-            fighter.max_hp = ARCHER_MAX_HP;
-            break;
-        case LANCIER:
-            fighter.max_hp = LANCIER_MAX_HP;
-            break;
-        default:
-            printf("ClasseID invalide dans le fichier de sauvegarde, classe par défaut attribuée\n");
-            fighter.max_hp = 100;
-    }*/
-    if(fscanf(f,"etage=%d\n",&(etageActuel)) != 1){
-        etageActuel = 1;
-    }
-    if(etageActuel < 1){
-        etageActuel = 1;
-    }
-    fclose(f);   
+    chargerDonnées(&fighter, listeItem, &etageActuel);
     sortie = 0;
 
     int IDSalleBoss = -1;
@@ -578,7 +542,27 @@ int main(int argc, char *argv[]){
 
                         saveGameData(&fighter, listeItem, etageActuel);
                     }else if(procheMiniBoss){
-                        lancerCombat(game.renderer, &fighter, miniBossActif, listeItem);
+                        if(lancerCombat(game.renderer, &fighter, miniBossActif, listeItem)==0){
+                            //en cas de défaite 
+                            defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
+                            initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                            player.xTile = 9;
+                            player.yTile = 7;
+                            setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+                            if(IDSalleTroc >= 0){
+                                marchand.mapID = IDSalleTroc;
+                                marchand.xTile = SALLE_WIDTH / 2;
+                                marchand.yTile = SALLE_HEIGHT / 2 - 1;
+                            } else {
+                                marchand.mapID = -1;
+                            }
+
+                            echelleActif = 0;
+                            echelleMapID = -1;
+                            echelleX = -1;
+                            echelleY = -1;
+                            //en cas de défaite 
+                        }
                         if(miniBossActif->hp <= 0){
                             //miniBoss battu: disparition sur cet etage
                             miniBossActif->mapID = -1;
@@ -589,6 +573,9 @@ int main(int argc, char *argv[]){
                             if(etageActuel == 3){
                                 //ouvre les portes du boss final
                             }
+                        }
+                        else{//le miniboss récupère ses pv en cas de fuite du combat
+                            miniBossActif->hp = miniBossActif->max_hp; 
                         }
                     }
                     else if(procheMarchand){
@@ -604,7 +591,27 @@ int main(int argc, char *argv[]){
                         }
                     }
                     else if(procheBossFinal){ 
-                        lancerCombat(game.renderer, &fighter, bossFinal, listeItem);
+                        if(lancerCombat(game.renderer, &fighter, bossFinal, listeItem)==0){
+                            //en cas de défaite 
+                            defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
+                            initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                            player.xTile = 9;
+                            player.yTile = 7;
+                            setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+                            if(IDSalleTroc >= 0){
+                                marchand.mapID = IDSalleTroc;
+                                marchand.xTile = SALLE_WIDTH / 2;
+                                marchand.yTile = SALLE_HEIGHT / 2 - 1;
+                            } else {
+                                marchand.mapID = -1;
+                            }
+
+                            echelleActif = 0;
+                            echelleMapID = -1;
+                            echelleX = -1;
+                            echelleY = -1;
+                            //en cas de défaite 
+                        }
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
                                 // avant l'etage 3, battre le miniboss fait apparaitre l'item pour continuer
@@ -623,6 +630,9 @@ int main(int argc, char *argv[]){
                                 //affichage fin du jeu a implementer
                                 sortie = 1;
                             }
+                        }
+                        else{//le miniboss récupère ses pv en cas de fuite du combat
+                            bossFinal->hp = bossFinal->max_hp; 
                         }
                     }
                 }
@@ -704,7 +714,26 @@ int main(int argc, char *argv[]){
                             int randomMob = rand() % 3 + 2; //choisit un mob aléatoire parmi les 3 mobs lambda
                             Mob ennemiCombat = MobCombat[randomMob];
                             ennemiCombat.hp = ennemiCombat.max_hp;
-                            lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem);
+                            if(lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem)==0){
+                            //en cas de défaite 
+                                defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
+                                initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                                player.xTile = 9;
+                                player.yTile = 7;
+                                setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
+                                if(IDSalleTroc >= 0){
+                                    marchand.mapID = IDSalleTroc;
+                                    marchand.xTile = SALLE_WIDTH / 2;
+                                    marchand.yTile = SALLE_HEIGHT / 2 - 1;
+                                } else {
+                                    marchand.mapID = -1;
+                                }
+                                echelleActif = 0;
+                                echelleMapID = -1;
+                                echelleX = -1;
+                                echelleY = -1;
+                                //en cas de défaite 
+                            }
                         }
                     }
                 }

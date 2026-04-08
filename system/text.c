@@ -18,6 +18,7 @@ static TTF_Font* combatFont = NULL;
 static TTF_Font* endScreenFont = NULL;
 static TTF_Font* classNameFont = NULL;
 static TTF_Font* classStatsFont = NULL;
+static TTF_Font* menuFont = NULL;
 
 int initText(void){
     defaultFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
@@ -26,8 +27,9 @@ int initText(void){
     endScreenFont = TTF_OpenFont("assets/DejaVuSans.ttf", 100);
     classNameFont = TTF_OpenFont("assets/LABYRINT.TTF", 26);
     classStatsFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
+    menuFont = TTF_OpenFont("assets/DejaVuSans.ttf", 44);
 
-    if(defaultFont == NULL || titleFont == NULL || combatFont == NULL || endScreenFont == NULL || classNameFont == NULL || classStatsFont == NULL){
+    if(defaultFont == NULL || titleFont == NULL || combatFont == NULL || endScreenFont == NULL || classNameFont == NULL || classStatsFont == NULL || menuFont == NULL){
         fprintf(stderr, "Erreur chargement fonts : %s\n", TTF_GetError());
         cleanupText();
         return -1;
@@ -61,6 +63,10 @@ void cleanupText(void){
         TTF_CloseFont(classStatsFont);
         classStatsFont = NULL;
     }
+    if(menuFont != NULL){
+        TTF_CloseFont(menuFont);
+        menuFont = NULL;
+    }
 }
 
 TTF_Font* getDefaultFont(void){
@@ -85,6 +91,10 @@ TTF_Font* getClassNameFont(void){
 
 TTF_Font* getClassStatsFont(void){
     return classStatsFont;
+}
+
+TTF_Font* getMenuFont(void){
+    return menuFont;
 }
 
 void drawText(SDL_Renderer* renderer, TTF_Font* font, const char* texte, SDL_Color couleur, int x, int y){
@@ -155,13 +165,17 @@ void drawButton(SDL_Renderer* renderer, Bouton* bouton){
 void drawChiffre(SDL_Renderer * r,int nb, int x, int y){
     char chiffre[10];
     chiffre[0]='\0';
-    for(int j =1;j-2<nb;j*=10){/* pour transformer les nombres en chaînes de caractères */
+    if(nb == 0){//cas où le nombre est 0
+        chiffre[0] = '0';
+        chiffre[1] = '\0';
+    }
+    for(int j =1;j-1<nb;j*=10){/* pour transformer les nombres en chaînes de caractères */
         for(int k=9;k>0;k--){
             chiffre[k] = chiffre[k-1];
         }
         chiffre[0] = '0' + (nb%(j*10)/j) ;
     }
-    TTF_Font* titleFont = getTitleFont();
+    TTF_Font* titleFont = getMenuFont();
     SDL_Texture* titleTexture = NULL;
     SDL_Rect titleRect = {0, 0, 0, 0};
     SDL_Color titleColor = {240, 230, 180, 255};

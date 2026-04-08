@@ -53,4 +53,8 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d);
 */
 void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel);
 
+void chargerDonnées(Fighter *fighter, item_t *listeItem[], int * etageActuel);
+
+void defaite(Fighter * p, item_t * l[], int * etageActuel, int * coffre, loot_t * stockMarchand);
+
 #endif 

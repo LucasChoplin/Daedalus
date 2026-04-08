@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include "inventaire.h"
 #include "utilitaire.h"
 #include "../def.h"
 /** \file utilitaire.c
@@ -75,6 +76,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"stat_attaque=%d\n",fighter->attack);
     fprintf(f,"stat_speed=%d\n",fighter->speed);
     fprintf(f,"xp=%d\n",fighter->xp);
+    fprintf(f,"xp_max=%d\n",fighter->max_xp);
     fprintf(f,"niveau=%d\n",fighter->lvl);
     fprintf(f,"gold=%d\n",fighter->gold);
     fprintf(f,"nb_potions=%d\n",listeItem[0]->nb);
@@ -87,4 +89,39 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"nb_couponReduction=%d\n",listeItem[7]->nb);
     fprintf(f,"etage=%d\n",etageActuel);
     fclose(f);
+}
+
+void chargerDonnées(Fighter *fighter, item_t *listeItem[], int *etageActuel){
+    FILE * f = fopen(FICHIER_DATA,"r");//chargement des données dans les variables locales 
+    fscanf(f,"classeID=%d\n",&((*fighter).classeID));
+    fscanf(f,"pv_max=%d\n",&((*fighter).max_hp));
+    fscanf(f,"pv=%d\n",&((*fighter).hp));
+    fscanf(f,"stat_attaque=%d\n",&((*fighter).attack));
+    fscanf(f,"stat_speed=%d\n",&((*fighter).speed));
+    fscanf(f,"xp=%d\n",&((*fighter).xp));
+    fscanf(f,"xp_max=%d\n",&((*fighter).max_xp));
+    fscanf(f,"niveau=%d\n",&((*fighter).lvl));
+    fscanf(f,"gold=%d\n",&((*fighter).gold));
+    fscanf(f,"nb_potions=%d\n",&((*listeItem[0]).nb));
+    fscanf(f,"nb_superpotions=%d\n",&((*listeItem[1]).nb));
+    fscanf(f,"nb_PotionEnergie=%d\n",&((*listeItem[2]).nb));
+    fscanf(f,"nb_clés=%d\n",&((*listeItem[3]).nb));
+    fscanf(f,"nb_corne=%d\n",&((*listeItem[4]).nb));
+    fscanf(f,"nb_anneau=%d\n",&((*listeItem[5]).nb));
+    fscanf(f,"nb_sabot=%d\n",&((*listeItem[6]).nb));
+    fscanf(f,"nb_couponReduction=%d\n",&((*listeItem[7]).nb));
+    if(fscanf(f,"etage=%d\n",&((*etageActuel))) != 1){
+        *etageActuel = 1;
+    }
+    if(*etageActuel < 1){
+        *etageActuel = 1;
+    }
+    fclose(f);  
+}
+
+void defaite(Fighter * p, item_t * l[], int * etageActuel, int * coffre, loot_t * stockMarchand){
+    chargerDonnées(p,l,etageActuel);
+    p->hp = p->max_hp;
+    *coffre = 0;
+    *stockMarchand = initStockMarchand();
 }

@@ -23,6 +23,8 @@ void soin50PV(Fighter * p);
 */
 void soin200PV(Fighter * p);
 
+void soinMana(Fighter * p);
+
 /** \brief augmente les pv max 
     \param p pointeur vers le perso
 */
@@ -46,13 +48,15 @@ void augmenterVitesse(Fighter * p);
  */
 void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y);
 
-/** \brief fonction qui affiche un nombre à coté d'une image de pièce
+/** \brief fonction qui affiche un nombre à coté de l'écriture "XP"
     \param r pointeur vers le moteur de rendu 
     \param xp nombre d'xp à afficher
     \param x coordonnée x d'affichage du nombre de pièces
     \param y coordonnée y d'affichage du nombre de pièces
  */
 void afficherXp(SDL_Renderer * r,int xp, int x, int y);
+
+void afficherStats(SDL_Renderer * r, Fighter * p);
 
 /** \brief fonction qui affiche l'inventaire  
     \param r pointeur vers le moteur de rendu  

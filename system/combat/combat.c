@@ -67,7 +67,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
 
                 if (is_point_in_rect(mx, my, fuite)) {
                     if(joueur->speed>ennemi->speed){
-                        return 0;
+                        return -1;
                     }
                     else{
                         state = ENNEMY;
@@ -143,5 +143,5 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         drop.or = gold;
     }
     endScreen(renderer,state, &x ,&y, font,&drop);
-    return joueur->pv;
+    return joueur->hp;
 }

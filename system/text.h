@@ -46,6 +46,8 @@ TTF_Font* getClassNameFont(void);
 */
 TTF_Font* getClassStatsFont(void);
 
+TTF_Font* getMenuFont(void);
+
 /** \brief dessine du texte
     \param renderer pointeur vers le renderer
     \param font pointeur vers le font a utiliser

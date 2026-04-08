@@ -26,6 +26,11 @@ void soin200PV(Fighter * p){
     }
 }
 
+void soinMana(Fighter * p){
+    p->pm_atk = p->max_pm;
+    //fonction pour redonner du mana
+}
+
 void augmenterPvmax(Fighter * p){
     p->max_hp += 10;
 }
@@ -58,11 +63,39 @@ void afficherXp(SDL_Renderer * r,int xp, int x, int y){
     drawText(game.renderer, getTitleFont(), "XP", titleColor, x +100, y);
 }
 
+void afficherStats(SDL_Renderer * r, Fighter * p){
+    SDL_Rect rect = {SCREEN_WIDTH/1.7,SCREEN_HEIGHT/3+128,TAILLE_SPRITE,TAILLE_SPRITE};
+    SDL_Color titleColor = {240, 230, 180, 255};
+    int decalage =  75;
+    drawChiffre(r,p->hp,rect.x,rect.y);
+    drawText(game.renderer, getMenuFont(), "/", titleColor, rect.x +100, rect.y);
+    drawChiffre(r,p->max_hp,rect.x+150,rect.y);
+    drawText(game.renderer, getMenuFont(), "pv", titleColor, rect.x +250, rect.y);
+    rect.y +=decalage;
+    drawText(game.renderer, getMenuFont(), "niveau", titleColor, rect.x, rect.y);
+    drawChiffre(r,p->lvl,rect.x+175,rect.y);
+    rect.y +=decalage;
+    drawChiffre(r,p->pm_atk,rect.x,rect.y);
+    drawText(game.renderer, getMenuFont(), "/", titleColor, rect.x +100, rect.y);
+    drawChiffre(r,p->max_pm,rect.x+150,rect.y);
+    drawText(game.renderer, getMenuFont(), "pm", titleColor, rect.x +250, rect.y);
+    rect.y +=decalage;
+    drawChiffre(r,p->xp,rect.x,rect.y);
+    drawText(game.renderer, getMenuFont(), "/", titleColor, rect.x +100, rect.y);
+    drawChiffre(r,p->max_xp,rect.x+150,rect.y);
+    drawText(game.renderer, getMenuFont(), "xp", titleColor, rect.x +250, rect.y);
+    rect.y +=decalage;
+    drawChiffre(r,p->attack,rect.x,rect.y);
+    drawText(game.renderer, getMenuFont(), "attaque", titleColor, rect.x + 100, rect.y);
+    rect.y +=decalage;
+    drawChiffre(r,p->speed,rect.x,rect.y);
+    drawText(game.renderer, getMenuFont(), "vitesse", titleColor, rect.x + 100, rect.y);
+}
+
 void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/2,SCREEN_HEIGHT-50};
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
-    SDL_Rect pv = {SCREEN_WIDTH/1.7,SCREEN_HEIGHT/3+128,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
     int x = 100;
     int y = 100;
@@ -71,17 +104,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
     SDL_RenderCopy(r,getAtlasPerso(),&persoF,&Perso);
-    drawChiffre(r,p->hp,pv.x,pv.y);
-    pv.x +=200;
-    drawChiffre(r,p->max_hp,pv.x,pv.y);
-    pv.y +=100;
-    pv.x -=200;
-    drawChiffre(r,p->xp,pv.x,pv.y);
-    pv.x +=200;
-    afficherXp(r,p->max_xp,pv.x,pv.y);
-    pv.y +=100;
-    pv.x -=200;
-    drawChiffre(r,p->attack,pv.x,pv.y);
+    afficherStats(r,p);
 
     for(int i =0; l[i]!=NULL;i++){
         if(l[i]->nb>0){
@@ -151,7 +174,12 @@ void dropItem2(item_t * l[], int ennemi, loot_t * d){
                 d->item[d->nbItem] = 0;
                 d->nbItem++;
             }
-            if(rand()%20>=5){
+            if(rand()%10>=9){
+                l[2]->nb++;
+                d->item[d->nbItem] = 2;
+                d->nbItem++;
+            }
+            if(rand()%20>=18){
                 l[1]->nb++;
                 d->item[d->nbItem] = 1;
                 d->nbItem++;
@@ -213,29 +241,29 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
     loot_t drop;
     drop.nbItem = 0;
     drop.or = 0;
-    switch(rand()%5){
-        case 0: l[0]->nb+=10;
+    switch(rand()%6){
+        case 0: l[0]->nb+=10;//drop 10 potions de soin
             drop.nbItem = 10;
             for (int i =0;i<10;i++){
                 drop.item[i]=0;
             }
             break;
-        case 1: l[1]->nb+=5;
+        case 1: l[1]->nb+=5;//drop 5 super potions
             drop.nbItem = 5;
             for (int i =0;i<5;i++){
                 drop.item[i]=1;
             }
             break;
-        case 2: l[7]->nb+=5;
+        case 2: l[7]->nb+=5;//drop 5 tickets de réduction
             drop.nbItem = 5;
             for (int i =0;i<5;i++){
                 drop.item[i]=7;
             }
             break;
-        case 3: p->gold+=200;
+        case 3: p->gold+=200;//drop 200 pièces d'or
             drop.or = 200;
             break;
-        case 4: 
+        case 4: //drop 3 items d'améliorations aléatoires
             for(int i = 0;i<3;i++){
                 switch(rand()%3){
                     case 0: l[4]->nb++;
@@ -248,6 +276,12 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
                         drop.item[drop.nbItem] = 6;
                 }
                 drop.nbItem ++;
+            }
+            break;
+        case 5: //drop 5 potions de mana
+            drop.nbItem = 5;
+            for (int i =0;i<5;i++){
+                drop.item[i]=2;
             }
     }
     switch(rand()%3){
@@ -302,17 +336,19 @@ void afficherItemObtenu(SDL_Renderer * r, loot_t * d){
 }
 
 void tableauPrix(int prix[], item_t * l[]){
-    if(l[7]->nb>0){
-        prix[0] = 0;
-        prix[1] = 13;
-        prix[2] = 45;
-        prix[3] = 54;
+    if(l[7]->nb>0){//si le joueur a des tickets de réduction, les prix sont réduits de 10%
+        prix[0] = 36;
+        prix[1] = 90;
+        prix[2] = 90;
+        prix[3] = 180;
+        prix[4] = 198;
     }
     else{
-        prix[0] = 1;
-        prix[1] = 15;
-        prix[2] = 50;
-        prix[3] = 60;
+        prix[0] = 40;
+        prix[1] = 100;
+        prix[2] = 100;
+        prix[3] = 200;
+        prix[4] = 220;
     }
 }
 
@@ -354,12 +390,12 @@ void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock)
         if(stock->item[i]!=-1 && detecterButtonClique(event,&item)){
             if(p->gold>=prixItem[i]){
                 p->gold-=prixItem[i];
-                l[i]->nb++;
+                l[stock->item[i]]->nb++;
             }
             if(l[7]->nb>0){
                 l[7]->nb--;
             }
-            if(i>=2){
+            if(i>=3){
                 stock->item[i] = -1;
             }
         }
@@ -373,16 +409,17 @@ loot_t initStockMarchand(){
     stock.nbItem = 4;
     stock.item[0] = 0;
     stock.item[1] = 1;
+    stock.item[2] = 2;
     switch(rand()%3){
         case 0: 
-            stock.item[2] = 4; 
+            stock.item[3] = 4; 
             break;
         case 1: 
-            stock.item[2] = 5; 
+            stock.item[3] = 5; 
             break;
         case 2: 
-            stock.item[2] = 6; 
+            stock.item[3] = 6; 
     }
-    stock.item[3] = 3;
+    stock.item[4] = 3;
     return stock;
 }
