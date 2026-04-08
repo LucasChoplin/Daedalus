@@ -143,8 +143,5 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
         drop.or = gold;
     }
     endScreen(renderer,state, &x ,&y, font,&drop);
-    if(state==DEFAITE){
-        joueur->hp=joueur->max_hp*0.01;
-    }
-    return 0;
+    return joueur->pv;
 }
