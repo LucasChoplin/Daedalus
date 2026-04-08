@@ -43,8 +43,8 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 #define TAILLE_MENU 128/**< taille des menus */
 #define TAILLE_AFF_ITEM 64 /**< taille donné au items lors de l'affichage */
 //items
-//#define NB_ITEM 4/**< nombre d'items dans le jeu */ 
-#define MAX_DROP 11/**< indique le nombre max d'items qu'on peux obtenir en une action, utile pour le tableau dans loot_t */
+#define NB_ITEM 4/**< nombre d'items dans le jeu */ 
+#define MAX_DROP 10/**< indique le nombre max d'items qu'on peux obtenir en une action, utile pour le tableau dans loot_t */
 #define ID_PIECE 7/**<indique quelle image correspond à celle d'une pièce */
 
 //fichier de sauvegarde

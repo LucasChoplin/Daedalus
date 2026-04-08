@@ -21,13 +21,13 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_Surface* image;
     switch(joueur->classeID){
         case 0:
-            image = SDL_LoadBMP("Img/archer.bmp");
+            image = SDL_LoadBMP("assets/archer.bmp");
             break;
         case 1:
-            image = SDL_LoadBMP("Img/gladiateur.bmp");
+            image = SDL_LoadBMP("assets/gladiateur.bmp");
             break;
         case 2:
-            image = SDL_LoadBMP("Img/lancier.bmp");
+            image = SDL_LoadBMP("assets/lancier.bmp");
             break;
     }
     TTF_Font* font = getCombatFont();
@@ -35,7 +35,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     char puissance[20];
     sprintf(puissance, "Forte %dPM", joueur->pm_atk);
 
-    Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaquer", font};
+    Bouton boutonAttaquer = {attack_btn, {200, 50, 50, 255}, {255, 255, 255, 255}, "Attaque", font};
     Bouton boutonForte;
     if(joueur->pm_atk>0){
         boutonForte = (Bouton){forte, {50, 50, 200, 255}, {255, 255, 255, 255}, puissance, font};
