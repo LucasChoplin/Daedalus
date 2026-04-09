@@ -1,5 +1,5 @@
 bin/start : lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o
-	gcc lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o -o bin/start -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+	gcc lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o -o bin/start -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lm
 
 lib/main.o : src/main.c src/structs.h src/def.h
 	gcc -c src/main.c -o lib/main.o

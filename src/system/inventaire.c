@@ -98,7 +98,6 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
-    //SDL_Rect quit = 0; 
     int x = 100;
     int y = 100;
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
@@ -156,6 +155,32 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
 }
 
 int detecterItemUtilise(SDL_Event * event, item_t * l[], Fighter*p){
+    int x = 100;
+    int y = 100;
+    SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
+    for(int i = 0;l[i]!=NULL;i++){
+        if(l[i]->nb>0){
+            if(detecterButtonClique(event,&item)){
+                if(l[i]->f != NULL){
+                    l[i]->nb--;
+                    l[i]->f(p);
+                    return 1;
+                }
+            }
+            x+=100;
+            item.x = x;
+            if(i%5==0 && i != 0){
+                y += 100;
+                item.y = y;
+                x = 100;
+                item.x = x;
+            }
+        }
+    }
+    return 0;
+}
+
+int detecterItemUtiliseCombat(SDL_Event * event, item_t * l[], Fighter*p){
     int x = 100;
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     for(int i = 0;l[i]!=NULL;i++){

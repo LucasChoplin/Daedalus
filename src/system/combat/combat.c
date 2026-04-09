@@ -76,7 +76,7 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                         state = ENNEMY;
                     }
                 }
-                if((inv)&&(detecterItemUtilise(&e,listeItem,joueur))){
+                if((inv)&&(detecterItemUtiliseCombat(&e,listeItem,joueur))){
                     inv = !inv;
                     state = ENNEMY;
                 }

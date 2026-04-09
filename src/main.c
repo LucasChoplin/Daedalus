@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -233,10 +234,6 @@ int main(int argc, char *argv[]){
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
     boss = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=300, .max_hp=300, .attack=100, .speed=50};
-    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
-    mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=80, .max_hp=80, .attack=70, .speed=40};
-    mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
-    Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
     Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
 
@@ -466,6 +463,7 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+        fprintf(f,"mana=%d\n",8);
         fprintf(f,"xp=%d\n",0);
         fprintf(f,"xp_max=%d\n",100);
         fprintf(f,"niveau=%d\n",fighter.lvl);
@@ -483,7 +481,14 @@ int main(int argc, char *argv[]){
     }
     chargerDonnées(&fighter, listeItem, &etageActuel);
     sortie = 0;
-
+    //-------------------initialisation des stats des mobs selon l'étage
+    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=(int)(60 * pow(1.5, etageActuel-1)), .max_hp=(int)(60 * pow(1.5, etageActuel-1)), .attack=(int)(50 * pow(1.5, etageActuel-1)), .speed=30};
+    mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=(int)(80 * pow(1.5, etageActuel-1)), .max_hp=(int)(80 * pow(1.5, etageActuel-1)), .attack=(int)(70 * pow(1.5, etageActuel-1)), .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=(int)(100 * pow(1.5, etageActuel-1)), .max_hp=(int)(100 * pow(1.5, etageActuel-1)), .attack=(int)(30 * pow(1.5, etageActuel-1)), .speed=90};
+    Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
+    printf("mob1 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob1.hp, mob1.max_hp, mob1.attack, mob1.speed);
+    printf("mob2 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob2.hp, mob2.max_hp, mob2.attack, mob2.speed);
+    printf("mob3 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob3.hp, mob3.max_hp, mob3.attack, mob3.speed);
     int IDSalleBoss = -1;
     int IDSalleMiniBoss = -1;
     initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
@@ -514,7 +519,6 @@ int main(int argc, char *argv[]){
         //gestion des evenements
         while(SDL_PollEvent(&e)){
             if(e.type == SDL_QUIT){
-                saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
 
@@ -530,7 +534,6 @@ int main(int argc, char *argv[]){
             if(confirmerSortie){
                 if(e.type == SDL_KEYDOWN){
                     if(e.key.keysym.sym == SDLK_RETURN){
-                        saveGameData(&fighter, listeItem, etageActuel);
                         sortie = 1;
                     }
                     else if(e.key.keysym.sym == SDLK_ESCAPE){
@@ -600,7 +603,12 @@ int main(int argc, char *argv[]){
                         } else {
                             marchand.mapID = -1;
                         }
-
+                        mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=(int)(60 * pow(1.5, etageActuel-1)), .max_hp=(int)(60 * pow(1.5, etageActuel-1)), .attack=(int)(50 * pow(1.5, etageActuel-1)), .speed=30};
+                        mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=(int)(80 * pow(1.5, etageActuel-1)), .max_hp=(int)(80 * pow(1.5, etageActuel-1)), .attack=(int)(70 * pow(1.5, etageActuel-1)), .speed=40};
+                        mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=(int)(100 * pow(1.5, etageActuel-1)), .max_hp=(int)(100 * pow(1.5, etageActuel-1)), .attack=(int)(30 * pow(1.5, etageActuel-1)), .speed=90};
+                        MobCombat[2] = mob1;
+                        MobCombat[3] = mob2;
+                        MobCombat[4] = mob3;
                         echelleActif = 0;
                         echelleMapID = -1;
                         echelleX = -1;
@@ -956,7 +964,6 @@ int main(int argc, char *argv[]){
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
-    saveGameData(&fighter, listeItem, etageActuel);
     cleanup();
     return 0;
 }

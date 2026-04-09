@@ -75,6 +75,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel){
     fprintf(f,"pv=%d\n",fighter->hp);
     fprintf(f,"stat_attaque=%d\n",fighter->attack);
     fprintf(f,"stat_speed=%d\n",fighter->speed);
+    fprintf(f,"mana=%d\n",fighter->pm_atk);
     fprintf(f,"xp=%d\n",fighter->xp);
     fprintf(f,"xp_max=%d\n",fighter->max_xp);
     fprintf(f,"niveau=%d\n",fighter->lvl);
@@ -98,6 +99,7 @@ void chargerDonnées(Fighter *fighter, item_t *listeItem[], int *etageActuel){
     fscanf(f,"pv=%d\n",&((*fighter).hp));
     fscanf(f,"stat_attaque=%d\n",&((*fighter).attack));
     fscanf(f,"stat_speed=%d\n",&((*fighter).speed));
+    fscanf(f,"mana=%d\n",&((*fighter).pm_atk));
     fscanf(f,"xp=%d\n",&((*fighter).xp));
     fscanf(f,"xp_max=%d\n",&((*fighter).max_xp));
     fscanf(f,"niveau=%d\n",&((*fighter).lvl));

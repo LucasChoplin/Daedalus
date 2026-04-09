@@ -79,6 +79,8 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]);
  */
 int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
 
+int detecterItemUtiliseCombat(SDL_Event * event, item_t * l[], Fighter*p);
+
 /** \brief fonction qui choisi quelle items sont dropées et ajouter
     \param l liste des items 
     \param ennemi numéro de l'ennemi vaincu 
