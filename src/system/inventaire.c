@@ -97,6 +97,7 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect Perso = {SCREEN_WIDTH/1.5,SCREEN_HEIGHT/3,TAILLE_SPRITE,TAILLE_SPRITE};
     SDL_Rect persoF = getTileRect(p->classeID,ATLAS_PERSO);
+    SDL_Rect quit = 0; 
     int x = 100;
     int y = 100;
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
