@@ -135,10 +135,13 @@ void afficherInventaire(SDL_Renderer * r, item_t * l[],Fighter * p){
 void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]){
     SDL_Rect destMenu = {50,50,SCREEN_WIDTH/1.1,SCREEN_HEIGHT-50};
     SDL_Rect menuF = getTileRect(5,ATLAS_BOUTON);
+    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
+    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect c = {110,120,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
+    SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     int x = 100;
     for(int i =0; l[i]!=NULL;i++){
         if(l[i]->nb>0){
@@ -304,14 +307,12 @@ loot_t dropCoffre(item_t * l[],Fighter * p){
 }
 
 void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d){
-    SDL_Rect destMenu = {50,50,1280-100,960-200};
+    //SDL_Rect destMenu = {50,50,1280-100,960-200};
     SDL_Rect destI ={100,SCREEN_HEIGHT-400,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
-    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
-    SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
-    SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON);
+    //SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};
+    //SDL_Rect imgEchap = getTileRect(4,ATLAS_BOUTON);
+    //SDL_Rect imgMenu = getTileRect(5,ATLAS_BOUTON);
     SDL_Rect imgItem;
-    //SDL_RenderCopy(r,getAtlasMenu(),&imgMenu,&destMenu);
-    //SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
     for(int i = 0;i<d->nbItem;i++){
         imgItem = getItemRect(d->item[i]);
         SDL_RenderCopy(r,getAtlasItem(),&imgItem,&destI);
@@ -365,7 +366,8 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p, item_t * l[],loot_t * stock){
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
     SDL_Rect c = {110,140,TAILLE_CHIFFRE,TAILLE_CHIFFRE};
     SDL_Rect TexItem;
-    int prixItem[4];
+    int prixItem[MAX_STOCK];
+    
     tableauPrix(prixItem,l);
     SDL_RenderCopy(r,getAtlasMenu(),&menuF,&destMenu);
     SDL_RenderCopy(r,getAtlasMenu(),&imgEchap,&destEchap);
@@ -388,7 +390,7 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p, item_t * l[],loot_t * stock){
 
 void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock){
     SDL_Rect item = {100,100,TAILLE_AFF_ITEM,TAILLE_AFF_ITEM};
-    int prixItem[4];
+    int prixItem[MAX_STOCK];
     tableauPrix(prixItem,l);
     int x = 100;
     for(int i = 0;i<stock->nbItem;i++){
@@ -396,12 +398,12 @@ void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock)
             if(p->gold>=prixItem[i]){
                 p->gold-=prixItem[i];
                 l[stock->item[i]]->nb++;
-            }
-            if(l[7]->nb>0){
-                l[7]->nb--;
-            }
-            if(i>=3){
-                stock->item[i] = -1;
+                if(l[7]->nb>0){//si le joueur a un ticket de réduction en enlever un 
+                    l[7]->nb--;
+                }
+                if(i>=3){//si c'est un item limité, le retirer du stock
+                    stock->item[i] = -1;
+                }
             }
         }
         x+=100;
@@ -411,7 +413,7 @@ void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock)
 
 loot_t initStockMarchand(){
     loot_t stock;
-    stock.nbItem = 4;
+    stock.nbItem = MAX_STOCK;
     stock.item[0] = 0;
     stock.item[1] = 1;
     stock.item[2] = 2;

@@ -46,10 +46,11 @@ enum Direction {DROITE, BAS, GAUCHE, HAUT};
 //items
 //#define NB_ITEM 4/**< nombre d'items dans le jeu */ 
 #define MAX_DROP 11/**< indique le nombre max d'items qu'on peux obtenir en une action, utile pour le tableau dans loot_t */
+#define MAX_STOCK 5/**< indique le nombre max d'items différent le marchand peux vendre */
 #define ID_PIECE 8/**<indique quelle image correspond à celle d'une pièce */
 
 //fichier de sauvegarde
-#define FICHIER_DATA "data.txt"//nom du fichier où sont sauvegardé les données 
+#define FICHIER_DATA "data.txt"/**<nom du fichier où sont sauvegardé les données */
 
 //stats des classes
 #define ARCHER 0

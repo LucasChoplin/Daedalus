@@ -29,6 +29,7 @@ int is_point_in_rect(int x, int y, SDL_Rect rect) {
 }
 
 int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * listeItem[]) {
+    SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
     int game =1;
     int x=10,y=10;
     int xp=0,gold=15;
@@ -54,7 +55,9 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
             if (e.type == SDL_MOUSEBUTTONDOWN && state == PLAYER) {
                 int mx = e.button.x;
                 int my = e.button.y;                
-
+                if(inv && detecterButtonClique(&e,&destEchap)){
+                    inv = 0; //ferme l'inventaire si on clique sur le bouton echap
+                }
                 
                 if (is_point_in_rect(mx, my, attack_btn)) {
                     attaque(joueur, ennemi, &state);

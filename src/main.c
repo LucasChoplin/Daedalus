@@ -550,7 +550,7 @@ int main(int argc, char *argv[]){
                 continue;
             }
 
-            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
+            if(menu==0 && menuMarchand == 0 && coffre !=1){ //si aucun menu n'est ouvert
                 if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec l'echelle ou le boss
                     int procheBossFinal = 0;
                     int procheMiniBoss = 0;
@@ -653,6 +653,7 @@ int main(int argc, char *argv[]){
                         if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f && coffre == 0 && key.nb >0){
                             lootCoffre = dropCoffre(listeItem,&fighter);
                             coffre = 1;
+                            listeItem[3]->nb--; //utilisation d'une clé
                         }
                     }
                     else if(procheLore){
@@ -821,6 +822,8 @@ int main(int argc, char *argv[]){
                     }
                     if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
                         drawPlayer(game.renderer, &player);
+                        lootCoffre = dropCoffre(listeItem,&fighter);
+                        coffre = 1;
                         //menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
@@ -838,6 +841,11 @@ int main(int argc, char *argv[]){
                     detecterAchat(&e,&fighter, listeItem,&stockMarchand);
                     if(detecterButtonClique(&e,&destEchap)){
                         menuMarchand = 0;
+                    }
+                }
+                else if (e.type == SDL_MOUSEBUTTONDOWN && coffre == 1){
+                    if(detecterButtonClique(&e,&destEchap)){
+                        coffre = 2; //coffre fermé définitivement
                     }
                 }
             }
@@ -902,11 +910,8 @@ int main(int argc, char *argv[]){
         if(menu){
             //afficherItemObtenu(game.renderer,menu,itemObtenu);
         }
-        if(coffre){
+        if(coffre==1){
             afficherItemObtenu(game.renderer,&lootCoffre);
-            if(detecterButtonClique(&e,&destEchap)){
-                menuMarchand = 2;
-            }
         }
         if(menuMarchand){
             afficherMagasin(game.renderer, &fighter, listeItem, &stockMarchand);
