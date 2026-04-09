@@ -93,7 +93,17 @@ SDL_Texture* loadTexture(char * filename){
 int checkMobCollision(int x, int y, Mob *mobs[], int nbMobs){
     for (int i = 0; i < nbMobs; i++) {
         if (currentMap->mapID == mobs[i]->mapID) {
-            if (mobs[i]->xTile == x && mobs[i]->yTile == y) {
+            if(mobs[i]->spriteID == 2){
+                //boss en 128x128 => empreinte 2x2 cases
+                for(int by = mobs[i]->yTile; by <= mobs[i]->yTile + 1; by++){
+                    for(int bx = mobs[i]->xTile; bx <= mobs[i]->xTile + 1; bx++){
+                        if (bx == x && by == y) {
+                            return 1;
+                        }
+                    }
+                }
+            }
+            else if (mobs[i]->xTile == x && mobs[i]->yTile == y) {
                 return 1; //si mob
             }
         }
@@ -122,14 +132,14 @@ void setupBossParEtage(int etageActuel, int bossRoomID, int miniBossRoomID, Mob 
     Mob *bossInactif = (etageActuel >= 3) ? miniBoss : boss;
 
     bossActif->mapID = bossRoomID;
-    bossActif->xTile = SALLE_WIDTH / 2;
-    bossActif->yTile = SALLE_HEIGHT / 2;
+    bossActif->xTile = SALLE_WIDTH / 2 - 1;
+    bossActif->yTile = SALLE_HEIGHT / 2 - 1;
     bossActif->hp = bossActif->max_hp;
 
     if(etageActuel >= 3){
         bossInactif->mapID = miniBossRoomID;
-        bossInactif->xTile = SALLE_WIDTH / 2;
-        bossInactif->yTile = SALLE_HEIGHT / 2;
+        bossInactif->xTile = SALLE_WIDTH / 2 - 1;
+        bossInactif->yTile = SALLE_HEIGHT / 2 - 1;
         bossInactif->hp = bossInactif->max_hp;
     }
     else{
@@ -172,7 +182,7 @@ void afficherCredits(SDL_Renderer * r){
         drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
         drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
         drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 9);
-        drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 200, SCREEN_HEIGHT - 40);
+        drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 195, SCREEN_HEIGHT - 40);
 
         SDL_RenderPresent(r);
         SDL_Delay(16);
@@ -197,6 +207,9 @@ int main(int argc, char *argv[]){
     int echelleMapID = -1; //indique la salle ou le echelle est actif
     int echelleX = -1;
     int echelleY = -1;
+    int loreMapID = -1;
+    const int loreX = 5;
+    const int loreY = 0;
     loot_t lootCoffre;
     loot_t stockMarchand = initStockMarchand();
 
@@ -219,10 +232,10 @@ int main(int argc, char *argv[]){
     fighter = (Fighter){.classeID=0, .hp=300, .max_hp=2000, .attack=120, .speed=100, .xp=0, .max_xp=100, .lvl=1, .pm_atk=8 , .max_pm=8};    
     miniBoss = (Mob){.mapID=1, .spriteID=0, .xTile=5, .yTile=5, .hp=250, .max_hp=250, .attack=80, .speed=60};
     marchand = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=1, .max_hp=1, .attack=0, .speed=0};
-    boss = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=30, .max_hp=15, .attack=100, .speed=50};
-    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=6, .attack=50, .speed=30};
-    mob2 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=80, .max_hp=8, .attack=70, .speed=40};
-    mob3 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=100, .max_hp=10, .attack=30, .speed=90};
+    boss = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=300, .max_hp=300, .attack=100, .speed=50};
+    mob1 = (Mob){.mapID=-1, .spriteID=0, .xTile=-1, .yTile=-1, .hp=60, .max_hp=60, .attack=50, .speed=30};
+    mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=80, .max_hp=80, .attack=70, .speed=40};
+    mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=100, .max_hp=100, .attack=30, .speed=90};
     Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
     Mob* MobMap[] = {&miniBoss, &boss, &marchand};
     btnF = (Bouton){.couleurFond.r = 80, .couleurFond.g = 80, .couleurFond.b = 80, .couleurFond.a = 255, .couleurTexte.r = 255, .couleurTexte.g = 255, .couleurTexte.b = 255, .couleurTexte.a = 255, .texte = "F"};
@@ -242,6 +255,8 @@ int main(int argc, char *argv[]){
     int pause = 0;/** sert à indiquer si le menu est ouvert 1 ou fermé 0 */
     int sortie = 0;/* variable servant à arrêter le programme */
     int menu = 0;/** variable servant à indiquer si un menu est ouvert */
+    int confirmerSortie = 0; /** popup de confirmation pour quitter */
+    int menuHistoire = 0; /** popup de lore en salle spawn */
     int itemObtenu[10]; 
     item_t potion;
     potion.f = soin50PV;
@@ -413,6 +428,11 @@ int main(int argc, char *argv[]){
             drawText(game.renderer, statsFont, "PV: 100", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 240);
             drawText(game.renderer, statsFont, "ATQ: 120", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 280);
             drawText(game.renderer, statsFont, "VIT: 200", textColor, startX + 2*(cardWidth + spacing) + 10, startY + 320);
+
+            drawText(game.renderer, nameFont, "TOUCHES", titleColor, 240, startY + cardHeight + 60);
+            drawText(game.renderer, statsFont, "Se deplacer : Touches directionnelles", textColor, 240, startY + cardHeight + 100);
+            drawText(game.renderer, statsFont, "Inventaire : Tab", textColor, 240, startY + cardHeight + 140);
+            SDL_RenderDrawLine(game.renderer, 240, startY + cardHeight + 30, 700, startY + cardHeight + 30);
             
             SDL_RenderPresent(game.renderer);
             
@@ -467,6 +487,7 @@ int main(int argc, char *argv[]){
     int IDSalleBoss = -1;
     int IDSalleMiniBoss = -1;
     initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+    loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
     setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
     if(IDSalleTroc >= 0){ 
         marchand.mapID = IDSalleTroc;
@@ -496,17 +517,58 @@ int main(int argc, char *argv[]){
                 saveGameData(&fighter, listeItem, etageActuel);
                 sortie = 1;
             }
-            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
-                if((e.type == SDL_KEYDOWN)&&(e.key.keysym.sym == SDLK_ESCAPE)){//touche echap = arrêt du programme 
-                    sortie = 1;
+
+            if(menuHistoire){
+                if(e.type == SDL_KEYDOWN){
+                    if(e.key.keysym.sym == SDLK_ESCAPE || e.key.keysym.sym == SDLK_RETURN || e.key.keysym.sym == SDLK_f){
+                        menuHistoire = 0;
+                    }
                 }
+                continue;
+            }
+
+            if(confirmerSortie){
+                if(e.type == SDL_KEYDOWN){
+                    if(e.key.keysym.sym == SDLK_RETURN){
+                        saveGameData(&fighter, listeItem, etageActuel);
+                        sortie = 1;
+                    }
+                    else if(e.key.keysym.sym == SDLK_ESCAPE){
+                        confirmerSortie = 0;
+                    }
+                }
+                continue;
+            }
+
+            if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE){
+                if(pause){
+                    pause = 0;
+                }
+                else if(menu==0 && menuMarchand == 0 && coffre == 0){
+                    confirmerSortie = 1;
+                }
+                continue;
+            }
+
+            if(menu==0 && menuMarchand == 0 && coffre ==0){ //si aucun menu n'est ouvert
                 if(!pause && e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){ //touche f pour interagir avec l'echelle ou le boss
                     int procheBossFinal = 0;
                     int procheMiniBoss = 0;
                     int procheEchelle = 0;
 
                     if(currentMap->mapID == bossFinal->mapID){
-                        procheBossFinal = ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1); 
+                        if(bossFinal->spriteID == 2){ 
+                            for(int by = bossFinal->yTile; by <= bossFinal->yTile + 1; by++){
+                                for(int bx = bossFinal->xTile; bx <= bossFinal->xTile + 1; bx++){
+                                    if((abs(player.xTile - bx) + abs(player.yTile - by)) == 1){
+                                        procheBossFinal = 1;
+                                    }
+                                }
+                            }
+                        }
+                        else{   
+                            procheBossFinal = ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
+                        }
                     }
                     if(miniBossActif && currentMap->mapID == miniBossActif->mapID){
                         procheMiniBoss = ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
@@ -518,12 +580,16 @@ int main(int argc, char *argv[]){
                         ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
                     int procheCoffre = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) &&
                         ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
+                    int procheLore = (currentMap->mapID == loreMapID) &&
+                        ((abs(player.xTile - loreX) + abs(player.yTile - loreY)) == 1);
 
                     if(procheEchelle){ //quand on passe a l'etage suivant
                         etageActuel++; 
                         coffre =0;
                         loot_t stockMarchand = initStockMarchand();
                         initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                        loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
+                        menuHistoire = 0;
                         player.xTile = 9;
                         player.yTile = 7;
                         setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
@@ -589,11 +655,18 @@ int main(int argc, char *argv[]){
                             coffre = 1;
                         }
                     }
+                    else if(procheLore){
+                        if(e.type ==SDL_KEYDOWN && e.key.keysym.sym == SDLK_f){
+                            menuHistoire = 1;
+                        }
+                    }
                     else if(procheBossFinal){ 
                         if(lancerCombat(game.renderer, &fighter, bossFinal, listeItem)==0){
                             //en cas de défaite 
                             defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                             initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                            loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
+                            menuHistoire = 0;
                             player.xTile = 9;
                             player.yTile = 7;
                             setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
@@ -716,6 +789,8 @@ int main(int argc, char *argv[]){
                             //en cas de défaite 
                                 defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                                 initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
+                                loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
+                                menuHistoire = 0;
                                 player.xTile = 9;
                                 player.yTile = 7;
                                 setupBossParEtage(etageActuel, IDSalleBoss, IDSalleMiniBoss, &miniBoss, &boss);
@@ -779,22 +854,44 @@ int main(int argc, char *argv[]){
         }
 
         if(echelleActif && currentMap->mapID == echelleMapID){
-            SDL_Rect systemItem = {256, 0, 64, 64};
+            SDL_Rect systemItem = {288, 0, 64, 64};
             SDL_Rect destItem = {
                 echelleX * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, echelleY * TAILLE_TUILE + (TAILLE_TUILE - 64) / 2, 64, 64
             };
             SDL_RenderCopy(game.renderer, getAtlasItem(), &systemItem, &destItem);
         }
+
+        if(currentMap->mapID == loreMapID){
+            SDL_Rect loreSrc = getItemRect(9);
+            SDL_Rect loreDest = {loreX * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2, loreY * TAILLE_TUILE + (TAILLE_TUILE - TAILLE_ITEM) / 2, TAILLE_ITEM, TAILLE_ITEM
+            };
+            SDL_RenderCopy(game.renderer, getAtlasItem(), &loreSrc, &loreDest);
+        }
         
         drawPlayer(game.renderer, &player);
 
         //dessine le bouton si a cote du boss ou de l'item d'etage
-        int procheBossFinal = (currentMap->mapID == bossFinal->mapID) && ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
+        int procheBossFinal = 0;
+        if(currentMap->mapID == bossFinal->mapID){
+            if(bossFinal->spriteID == 2){
+                for(int by = bossFinal->yTile; by <= bossFinal->yTile + 1; by++){
+                    for(int bx = bossFinal->xTile; bx <= bossFinal->xTile + 1; bx++){
+                        if((abs(player.xTile - bx) + abs(player.yTile - by)) == 1){
+                            procheBossFinal = 1;
+                        }
+                    }
+                }
+            }
+            else{
+                procheBossFinal = ((abs(player.xTile - bossFinal->xTile) + abs(player.yTile - bossFinal->yTile)) == 1);
+            }
+        }
         int procheMiniBoss = miniBossActif && (currentMap->mapID == miniBossActif->mapID) && ((abs(player.xTile - miniBossActif->xTile) + abs(player.yTile - miniBossActif->yTile)) == 1);
         int procheEchelle = echelleActif && (currentMap->mapID == echelleMapID) && ((abs(player.xTile - echelleX) + abs(player.yTile - echelleY)) == 1);
         int procheMarchandRendu = (marchand.mapID >= 0 && currentMap->mapID == marchand.mapID) && ((abs(player.xTile - marchand.xTile) + abs(player.yTile - marchand.yTile)) == 1);
         int procheCofreRendu = (currentMap->tiles[SALLE_HEIGHT / 2][SALLE_WIDTH / 2] == 11 && coffre != 2) && ((abs(player.xTile - (SALLE_WIDTH / 2)) + abs(player.yTile - (SALLE_HEIGHT / 2))) == 1);
-        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu || procheCofreRendu){
+        int procheLoreRendu = (currentMap->mapID == loreMapID) && ((abs(player.xTile - loreX) + abs(player.yTile - loreY)) == 1);
+        if (procheBossFinal || procheMiniBoss || procheEchelle || procheMarchandRendu || procheCofreRendu || procheLoreRendu){
             btnF.rect.x = player.xTile * TAILLE_TUILE + 50;
             btnF.rect.y = player.yTile * TAILLE_TUILE - 20;
             drawButton(game.renderer, &btnF);
@@ -812,8 +909,45 @@ int main(int argc, char *argv[]){
             }
         }
         if(menuMarchand){
-            afficherMagasin(game.renderer, &fighter,listeItem,&stockMarchand);
+            afficherMagasin(game.renderer, &fighter, listeItem, &stockMarchand);
         }
+
+        if(menuHistoire){
+            SDL_Rect overlay = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+            SDL_Rect popup = {SCREEN_WIDTH / 2 - 360, SCREEN_HEIGHT / 2 - 150, 800, 300};
+            SDL_SetRenderDrawBlendMode(game.renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 160);
+            SDL_RenderFillRect(game.renderer, &overlay);
+            SDL_SetRenderDrawColor(game.renderer, 18, 18, 26, 235);
+            SDL_RenderFillRect(game.renderer, &popup);
+            SDL_SetRenderDrawColor(game.renderer, 220, 220, 220, 255);
+            SDL_RenderDrawRect(game.renderer, &popup);
+
+            SDL_Color txt = {240, 230, 180, 255};
+            drawText(game.renderer, getTitleFont(), "BIENVENUE", txt, popup.x + 205, popup.y + 22);
+            drawText(game.renderer, getDefaultFont(), "Vous etes ici afin de prouver votre valeur.", txt, popup.x + 20, popup.y + 105);
+            drawText(game.renderer, getDefaultFont(), "Chaque etage est une epreuve, chaque recoin un obstacle.", txt, popup.x + 20, popup.y + 145);
+            drawText(game.renderer, getDefaultFont(), "Trouvez l'echelle, vainquez le boss, et enfin vous serez prets.", txt, popup.x + 20, popup.y + 185);
+            drawText(game.renderer, getDefaultFont(), "- Un temoin venant du ciel", txt, popup.x + 205, popup.y + 245);
+        }
+
+        if(confirmerSortie){
+            SDL_Rect overlay = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
+            SDL_Rect popup = {SCREEN_WIDTH / 2 - 260, SCREEN_HEIGHT / 2 - 100, 520, 200};
+            SDL_SetRenderDrawBlendMode(game.renderer, SDL_BLENDMODE_BLEND);
+            SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 140);
+            SDL_RenderFillRect(game.renderer, &overlay);
+            SDL_SetRenderDrawColor(game.renderer, 20, 20, 20, 230);
+            SDL_RenderFillRect(game.renderer, &popup);
+            SDL_SetRenderDrawColor(game.renderer, 220, 220, 220, 255);
+            SDL_RenderDrawRect(game.renderer, &popup);
+            SDL_Color txt = {240, 230, 180, 255};
+            drawText(game.renderer, getMenuFont(), "Quitter le jeu ?", txt, popup.x + 105, popup.y + 40);
+            drawText(game.renderer, getDefaultFont(), "(Votre progression ne sera pas sauvegardee)", txt, popup.x, popup.y - 100);
+            drawText(game.renderer, getDefaultFont(), "Entree : oui", txt, popup.x + 178, popup.y + 95);
+            drawText(game.renderer, getDefaultFont(), "Echap : non", txt, popup.x + 180, popup.y + 130);
+        }
+
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }

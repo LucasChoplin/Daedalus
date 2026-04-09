@@ -581,9 +581,21 @@ void drawMap(SDL_Renderer* renderer){
 
 void drawMob(SDL_Renderer* renderer, Mob* mob) {
     if(!mob)return; //mesure de securite
-    SDL_Rect src = getTileRect(mob->spriteID, ATLAS_PERSO);
     SDL_Texture* mobAtlas = getAtlasMob();
-    SDL_Rect destRect = {mob->xTile * TAILLE_TUILE, mob->yTile * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
+
+    SDL_Rect src;
+    SDL_Rect destRect;
+
+    //affichage du mob en 128*128
+    if(mob->spriteID == 2){
+        src = (SDL_Rect){128, 0, 128, 128};
+        destRect = (SDL_Rect){mob->xTile * TAILLE_TUILE, mob->yTile * TAILLE_TUILE, 128, 128};
+    }
+    else{
+        src = getTileRect(mob->spriteID, ATLAS_PERSO);
+        destRect = (SDL_Rect){mob->xTile * TAILLE_TUILE, mob->yTile * TAILLE_TUILE, TAILLE_TUILE, TAILLE_TUILE};
+    }
+
     SDL_RenderCopy(renderer, mobAtlas, &src, &destRect);
 }
 

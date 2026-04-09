@@ -21,13 +21,25 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_Surface* image;
     switch(joueur->classeID){
         case 0:
-            image = SDL_LoadBMP("assets/archer.bmp");
+            image = IMG_Load("assets/archer_combat.png");
             break;
         case 1:
-            image = SDL_LoadBMP("assets/gladiateur.bmp");
+            image = IMG_Load("assets/gladiateur_combat.png");
             break;
         case 2:
-            image = SDL_LoadBMP("assets/lancier.bmp");
+            image = IMG_Load("assets/lancier_combat.png");
+            break;
+    }
+    SDL_Surface* imageEnnemi;
+    switch(ennemi.spriteID){
+        case 0:
+            imageEnnemi = SDL_LoadBMP("assets/archer.bmp");
+            break;
+        case 1:
+            imageEnnemi = SDL_LoadBMP("assets/gladiateur.bmp");
+            break;
+        case 2:
+            imageEnnemi = SDL_LoadBMP("assets/lancier.bmp");
             break;
     }
     TTF_Font* font = getCombatFont();
@@ -47,26 +59,30 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     Bouton boutonInventaire = {inventaire, {250, 0, 250, 255}, {255, 255, 255, 255}, "Inventaire", font};
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
+    SDL_Texture* imageEnnemiTexture = SDL_CreateTextureFromSurface(renderer, imageEnnemi);
 
     SDL_RenderCopy(renderer, monImage, NULL, NULL);
+    SDL_RenderCopy(renderer, imageEnnemiTexture, NULL, NULL);
     SDL_FreeSurface(image);
-
+    SDL_FreeSurface(imageEnnemi);
 
     int longueur_xp = (int)((float)joueur->xp / joueur->max_xp * largeurBarreFixe);
 
     SDL_Rect xp_possede = { 50, 935, longueur_xp, 10 };
     SDL_Rect xp_necessaire = { 50, 935, largeurBarreFixe, 10 };
 
-    SDL_Rect personnage = {150, 800, 0, 0};
+    SDL_Rect personnage = {100, 310, 0, 0};
     SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
 
     SDL_Rect ennemy = {1100, 100, 0, 0};
-    SDL_QueryTexture(monImage, NULL, NULL, &ennemy.w, &ennemy.h);
+    SDL_QueryTexture(imageEnnemiTexture, NULL, NULL, &ennemy.w, &ennemy.h);
 
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
     SDL_RenderClear(renderer);
 
-    //SDL_RenderCopy(renderer, monImage, NULL, NULL);
+    // Sprites en premier (sous le reste de l'UI)
+    SDL_RenderCopy(renderer, monImage, NULL, &personnage);
+    SDL_RenderCopy(renderer, imageEnnemiTexture, NULL, &ennemy);
 
     int largeurEnnemi = (int)((float)ennemi.hp / ennemi.max_hp * largeurBarreFixe);
 
@@ -133,14 +149,13 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
       
     drawText(renderer,font,P_xp,(SDL_Color){255, 255, 255, 255},50,850);
 
-    SDL_RenderCopy(renderer, monImage, NULL, &personnage);
-    SDL_RenderCopy(renderer, monImage, NULL, &ennemy);
     if(inv){        //si inv != 0 afficher l'inventaire 
         combat_afficher_inventaire(renderer,l);
     }
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(monImage);
+    SDL_DestroyTexture(imageEnnemiTexture);
 }
 
 void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y, TTF_Font* font,loot_t * d){
