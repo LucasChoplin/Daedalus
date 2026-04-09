@@ -21,7 +21,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_Surface* image;
     switch(joueur->classeID){
         case 0:
-            image = SDL_LoadBMP("assets/archer.bmp");
+            image = IMG_Load("assets/archer_combat.png");
             break;
         case 1:
             image = IMG_Load("assets/gladiateur_combat.png");
