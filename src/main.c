@@ -417,7 +417,7 @@ int main(int argc, char *argv[]){
             //ARCHER
             drawText(game.renderer, nameFont, "ARCHER", titleColor, startX + cardWidth + spacing + 25, startY + 200);
             drawText(game.renderer, statsFont, "PV: 100", textColor, startX + cardWidth + spacing + 10, startY + 240);
-            drawText(game.renderer, statsFont, "ATQ: 220", textColor, startX + cardWidth + spacing + 10, startY + 280);
+            drawText(game.renderer, statsFont, "ATQ: 200", textColor, startX + cardWidth + spacing + 10, startY + 280);
             drawText(game.renderer, statsFont, "VIT: 100", textColor, startX + cardWidth + spacing + 10, startY + 320);
             
             //LANCIER

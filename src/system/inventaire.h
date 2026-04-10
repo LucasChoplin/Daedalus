@@ -23,6 +23,9 @@ void soin50PV(Fighter * p);
 */
 void soin200PV(Fighter * p);
 
+/** \brief fonction qui redonne tout le mana du personnage 
+    \param p pointeur vers le perso concerné
+*/
 void soinMana(Fighter * p);
 
 /** \brief augmente les pv max 
@@ -56,6 +59,10 @@ void afficherPiece(SDL_Renderer * r,int nbPiece, int x, int y);
  */
 void afficherXp(SDL_Renderer * r,int xp, int x, int y);
 
+/** \brief fonction qui affiche les stats du personnage (pv, xp, niveau, attaque, vitesse, pm)
+    \param r pointeur vers le moteur de rendu
+    \param p pointeur vers le personnage
+ */
 void afficherStats(SDL_Renderer * r, Fighter * p);
 
 /** \brief fonction qui affiche l'inventaire  
@@ -79,6 +86,12 @@ void combat_afficher_inventaire(SDL_Renderer * r, item_t * l[]);
  */
 int detecterItemUtilise(SDL_Event * event, item_t * l[],Fighter*p);
 
+/** \brief fonction qui détecte losqu'on appuie sur un item en combat et diminue sa quantité 
+    \param event pointeur vers l'événement souris cliqué 
+    \param l liste de pointeurs vers les item_t
+    \param p pointeur vers le perso du joueur
+    \return renvoie 0 si aucun item n'a été utilisé ou 1 si un item à été utilisé 
+ */
 int detecterItemUtiliseCombat(SDL_Event * event, item_t * l[], Fighter*p);
 
 /** \brief fonction qui choisi quelle items sont dropées et ajouter
@@ -114,12 +127,17 @@ void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 */
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
+/** \brief fonction qui calcule les prix des items en fonction de si le joueur a des tickets de réduction ou n'en a pas 
+    \param prix tableau où seront stockés les prix des items
+    \param l liste d'items du joueur pour vérifier le nombre de tickets de réduction
+*/
 void tableauPrix(int prix[], item_t * l[]);
 
 /** \brief affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur 
     \param r pointeur vers le moteur de rendu
     \param p pointeur vers le perso pour afficher le nombre de pièces posséder
     \param l liste des items pour accéder aux nombre de tickets de réduc 
+    \param stock pointeur vers le struct loot_t qui contient les items en vente dans le magasin
 */
 void afficherMagasin(SDL_Renderer * r,Fighter * p,item_t * l[], loot_t * stock);
 
@@ -127,8 +145,12 @@ void afficherMagasin(SDL_Renderer * r,Fighter * p,item_t * l[], loot_t * stock);
     \param event pointeur vers l'évènement clic pour savoir les coordonnées du clic
     \param p pointeur vers le perso pour vérifier son argent et la diminuer en cas d'achat
     \param l pointeur vers la liste d'items pour ajouter les items achetés
+    \param stock pointeur vers le struct loot_t qui contient les items en vente dans le magasin pour savoir quels items sont disponibles 
 */
 void detecterAchat(SDL_Event * event, Fighter * p, item_t * l[], loot_t * stock);
 
+/** \brief fonction qui initialise le stock du marchand avec des items aléatoires 
+    \return un loot_t qui contient les items en vente dans le magasin
+*/
 loot_t initStockMarchand();
 #endif 

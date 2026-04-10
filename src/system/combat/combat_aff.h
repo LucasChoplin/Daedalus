@@ -34,8 +34,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     \param x coordonnée x du texte de fin 
     \param y coordonnée y du texte de fin 
     \param font police d'écriture pour le texte 
-    \param xp expérience gagnée
-    \param gold or gagné
+    \param d pointeur vers le struct loot_t qui contient les informations sur les items,xp et or obtenus à la fin du combat
 */
 void endScreen(SDL_Renderer *renderer, GameState state, int* x, int* y ,TTF_Font* font,loot_t * d);
 #endif

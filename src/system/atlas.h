@@ -67,10 +67,12 @@ SDL_Texture * getAtlasPerso(void);
 /** \brief renvoie le découpage de la case numéro ID dans un atals de taille TAILLE_ATLAS * TAILLE_ATLAS (tiles 64x64)
     \param ID numéro de l'image choisi partant de 0 à gauche en haut
     \param tailleAtlas nombre de colonnes de l'atlas
-    \param tailleTuile taille d'une tuile
 */
 SDL_Rect getTileRect(int ID, int tailleAtlas);
 
+/** \brief renvoie le Rect de le ID ème item d'un atlas en longueur de 32 pixels de hauteur
+    \param ID numéro de l'image choisi en partant de 0 à gauche
+*/
 SDL_Rect getItemRect(int ID);
 
 #endif 

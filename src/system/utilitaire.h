@@ -12,10 +12,6 @@
     \date 28 février 2026
 */
 
-/** \brief fonction qui charge l'atals des boutons
-    \param r pointeur vers le moteur de rendu SDL_Renderer
-*/
-
 /** \brief fonction pour vérifier si un fichier existe 
     \param nom chaîne de caractère qui contient le nom du fichier à vérifier
     \return renvoie 1 si le fichier existe et 0 dans le cas contraire 
@@ -36,6 +32,12 @@ int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t);
 */
 int detecterButtonClique(SDL_Event * e,SDL_Rect * r);
 
+/** \brief fonction qui détecte si la souris est dans un rectangle 
+    \param x coordonnée x de la souris
+    \param y coordonnée y de la souris
+    \param r pointeur sur le RECT à tester
+    \return 1 si la souris est dans le rectangle et 0 sinon
+*/
 int detecterSourisDansRect(int x, int y, SDL_Rect * r);
 
 /** \brief fonction qui affiche un chiffre 
@@ -53,8 +55,20 @@ void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d);
 */
 void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel);
 
+/** \brief fonction pour charger les données du jeu 
+    \param fighter pointeur vers le perso où seront stockés les données de personnage chargées
+    \param listeItem pointeur vers la liste des items où seront stockés les données des items chargées
+    \param etageActuel pointeur vers un entier où sera stocké l'étage chargé 
+*/
 void chargerDonnées(Fighter *fighter, item_t *listeItem[], int * etageActuel);
 
+/** \brief fonction qui réintialise des donnés du jeu en cas de défaite du joueur
+    \param p pointeur vers le perso du joueur pour charger l'ancienne sauvegarde 
+    \param l pointeur vers la liste des items pour charger l'ancienne sauvegarde
+    \param etageActuel pointeur vers la variable etageActuel pour charger l'ancienne sauvegarde
+    \param coffre pointeur vers la variable coffre pour la réinitialiser à 0
+     \param stockMarchand pointeur vers le struct loot_t où sera stocké le nouveau stock du marchand
+*/
 void defaite(Fighter * p, item_t * l[], int * etageActuel, int * coffre, loot_t * stockMarchand);
 
 #endif 
