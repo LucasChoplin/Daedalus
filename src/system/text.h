@@ -46,8 +46,14 @@ TTF_Font* getClassNameFont(void);
 */
 TTF_Font* getClassStatsFont(void);
 
+/** \brief retourne le font pour l'inventaire
+    \return pointeur vers le font pour l'inventaire
+*/
 TTF_Font* getMenuFont(void);
 
+/** \brief retourne le font pour l'affichage de l'xp
+    \return pointeur vers le font pour l'affichage de l'xp
+*/
 TTF_Font* getXpFont(void);
 
 /** \brief dessine du texte
