@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "structs.h"
 #include "system/map.h"
 #include "system/atlas.h"
@@ -213,6 +214,18 @@ int main(int argc, char *argv[]){
     const int loreY = 0;
     loot_t lootCoffre;
     loot_t stockMarchand = initStockMarchand();
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("Erreur SDL_mixer: %s\n", Mix_GetError());
+    }
+
+    Mix_Music *OSTgame = Mix_LoadMUS("assets/Divine Ascent V2.mp3");
+
+    if (!OSTgame) {
+        printf("Erreur chargement musique: %s\n", Mix_GetError());
+    }
+
+    Mix_PlayMusic(OSTgame, -1);
+
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -617,6 +630,7 @@ int main(int argc, char *argv[]){
                         saveGameData(&fighter, listeItem, etageActuel);
                     }else if(procheMiniBoss){
                         if(lancerCombat(game.renderer, &fighter, miniBossActif, listeItem)==0){
+                            Mix_PauseMusic();
                             //en cas de défaite 
                             defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                             initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
@@ -637,6 +651,7 @@ int main(int argc, char *argv[]){
                             echelleY = -1;
                             //en cas de défaite 
                         }
+                        Mix_PlayMusic(OSTgame, -1);
                         if(miniBossActif->hp <= 0){
                             //miniBoss battu: disparition sur cet etage
                             miniBossActif->mapID = -1;
@@ -671,6 +686,7 @@ int main(int argc, char *argv[]){
                     }
                     else if(procheBossFinal){ 
                         if(lancerCombat(game.renderer, &fighter, bossFinal, listeItem)==0){
+                            Mix_PauseMusic();
                             //en cas de défaite 
                             defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                             initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
@@ -693,6 +709,8 @@ int main(int argc, char *argv[]){
                             echelleY = -1;
                             //en cas de défaite 
                         }
+                        Mix_PlayMusic(OSTgame, -1);
+
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
                                 // avant l'etage 3, battre le miniboss fait apparaitre l'échelle pour continuer
@@ -795,7 +813,7 @@ int main(int argc, char *argv[]){
                             Mob ennemiCombat = MobCombat[randomMob];
                             ennemiCombat.hp = ennemiCombat.max_hp;
                             if(lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem)==0){
-                            //en cas de défaite 
+                                Mix_PauseMusic();
                                 defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                                 initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                                 loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
@@ -816,6 +834,7 @@ int main(int argc, char *argv[]){
                                 echelleY = -1;
                                 //en cas de défaite 
                             }
+                            Mix_PlayMusic(OSTgame, -1);
                         }
                     }
                 }
@@ -964,6 +983,8 @@ int main(int argc, char *argv[]){
         SDL_RenderPresent(game.renderer);
         SDL_Delay(16);
     }
+    Mix_FreeMusic(OSTgame);
+    Mix_CloseAudio();
     cleanup();
     return 0;
 }
