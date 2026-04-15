@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "utilitaire.h"
-#include "../def.h"
+#include "def.h"
 #include "text.h"
 /** \file inventaire.h
     \brief bibliothèque des fonctions en lien avec la gestion des items et de l'inventaire 

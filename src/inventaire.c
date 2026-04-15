@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "inventaire.h"
-#include "atlas.h"
-#include "../def.h"
-#include "text.h"
+#include "../lib/inventaire.h"
+#include "../lib/atlas.h"
+#include "../lib/def.h"
+#include "../lib/text.h"
 /** \file inventaire.c
     \brief contenus des fonctions de inventaire.h
     \author Patrick Leguillon

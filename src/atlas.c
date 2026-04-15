@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "lib/atlas.h"
+#include "../lib/atlas.h"
 
 /** \file atlas.c
     \brief contenus des fonctions de atlas.h

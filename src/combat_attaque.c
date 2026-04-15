@@ -1,7 +1,7 @@
-#include "combat_aff.h"
+#include "../lib/combat_aff.h"
 #include <SDL2/SDL.h>
-#include "../../structs.h"
-#include "../../def.h"
+#include "../lib/structs.h"
+#include "../lib/def.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

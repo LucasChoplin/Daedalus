@@ -6,16 +6,16 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
-#include "structs.h"
-#include "system/map.h"
-#include "system/atlas.h"
-#include "system/utilitaire.h"
-#include "system/inventaire.h"
-#include "system/text.h"
-#include "system/combat/combat.h"
-#include "system/combat/combat_aff.h"
-#include "system/combat/combat_attaque.h"
-#include "def.h"
+#include "../lib/structs.h"
+#include "../lib/map.h"
+#include "../lib/atlas.h"
+#include "../lib/utilitaire.h"
+#include "../lib/inventaire.h"
+#include "../lib/text.h"
+#include "../lib/combat.h"
+#include "../lib/combat_aff.h"
+#include "../lib/combat_attaque.h"
+#include "../lib/def.h"
 
 //commande de compilation 
 //gcc -o main main.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c ./system/combat/combat_aff.c ./system/combat/combat.c ./system/combat/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
@@ -183,8 +183,8 @@ void afficherCredits(SDL_Renderer * r){
         drawText(r, getDefaultFont(), "Myriam Laaqira", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
         drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
         drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
-        drawText(r, getDefaultFont(), "Musiques : @caroissinging & @heavyreiju", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
-        drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 9);
+        drawText(r, getDefaultFont(), "Musiques : @caroissinging & @heavyreiju", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 8);
+        drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 10);
         drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 195, SCREEN_HEIGHT - 40);
 
         SDL_RenderPresent(r);
@@ -339,6 +339,8 @@ int main(int argc, char *argv[]){
                     sortie = 2;
                 }
                 else if (detecterButtonClique(&event,&quit)){
+                    Mix_FreeMusic(OSTgame);
+                    Mix_CloseAudio();
                     cleanup();
                     return 0;
                 }

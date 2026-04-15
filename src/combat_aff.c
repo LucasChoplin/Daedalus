@@ -1,14 +1,14 @@
-#include "combat_aff.h"
+#include "../lib/combat_aff.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
-#include "../../structs.h"
-#include "../../def.h"
+#include "../lib/structs.h"
+#include "../lib/def.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "../text.h"
-#include "../inventaire.h"
-#include "../atlas.h"
+#include "../lib/text.h"
+#include "../lib/inventaire.h"
+#include "../lib/atlas.h"
 
 /** \file combat_aff.c
     \brief  contenu des fonction pour afficher l'interface de combat

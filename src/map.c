@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include "map.h"
-#include "atlas.h"
-#include "../def.h"
+#include "../lib/map.h"
+#include "../lib/atlas.h"
+#include "../lib/def.h"
 
 /** \file map.c
     \brief contenus des fonctions de map.h 

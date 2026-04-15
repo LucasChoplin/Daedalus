@@ -3,12 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "../../structs.h"
-#include "combat.h"
-#include "combat_attaque.h"
-#include "combat_aff.h"
-#include "../inventaire.h"
-#include "../text.h"
+#include "../lib/structs.h"
+#include "../lib/combat.h"
+#include "../lib/combat_attaque.h"
+#include "../lib/combat_aff.h"
+#include "../lib/inventaire.h"
+#include "../lib/text.h"
 #include <SDL2/SDL_mixer.h>
 
 /** \file combat.c

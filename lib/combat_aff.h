@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "../../structs.h"
+#include "structs.h"
 #include <stdlib.h>
 #include <stdio.h>
 /** \file combat_aff.h

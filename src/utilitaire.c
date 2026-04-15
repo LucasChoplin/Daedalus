@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "inventaire.h"
-#include "utilitaire.h"
-#include "../def.h"
+#include "../lib/inventaire.h"
+#include "../lib/utilitaire.h"
+#include "../lib/def.h"
 /** \file utilitaire.c
     \brief contenus des fonctions de utilitaire.h.
     \author Patrick Leguillon

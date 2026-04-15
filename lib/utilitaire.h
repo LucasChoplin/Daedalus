@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "../structs.h"
-#include "../def.h"
+#include "structs.h"
+#include "def.h"
 /** \file utilitaire.h
     \brief bibliothèque des fonctions générals 
     \author Patrick Leguillon
