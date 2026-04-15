@@ -14,6 +14,8 @@ var searchData=
   ['getidsallerandom_11',['getIDSalleRandom',['../map_8c.html#aad3b4a0e16af25e3fc855480bac256b8',1,'getIDSalleRandom(void):&#160;map.c'],['../map_8h.html#aad3b4a0e16af25e3fc855480bac256b8',1,'getIDSalleRandom(void):&#160;map.c']]],
   ['getidsallerandomexcluant_12',['getIDSalleRandomExcluant',['../map_8c.html#a627882dc3eff2aebf19b0161ef2b37db',1,'getIDSalleRandomExcluant(int mapIDExclu):&#160;map.c'],['../map_8h.html#a627882dc3eff2aebf19b0161ef2b37db',1,'getIDSalleRandomExcluant(int mapIDExclu):&#160;map.c']]],
   ['getitemrect_13',['getItemRect',['../atlas_8c.html#a8425a8d799433366cdb4323325585d1c',1,'getItemRect(int ID):&#160;atlas.c'],['../atlas_8h.html#a8425a8d799433366cdb4323325585d1c',1,'getItemRect(int ID):&#160;atlas.c']]],
-  ['gettilerect_14',['getTileRect',['../atlas_8c.html#a7885baed783eeddbb9624150d043d754',1,'getTileRect(int ID, int tailleAtlas):&#160;atlas.c'],['../atlas_8h.html#a7885baed783eeddbb9624150d043d754',1,'getTileRect(int ID, int tailleAtlas):&#160;atlas.c']]],
-  ['gettitlefont_15',['getTitleFont',['../text_8c.html#ac9f9b0e4bc746dda491638b3feca14de',1,'getTitleFont(void):&#160;text.c'],['../text_8h.html#ac9f9b0e4bc746dda491638b3feca14de',1,'getTitleFont(void):&#160;text.c']]]
+  ['getmenufont_14',['getMenuFont',['../text_8c.html#ab30349013fa26bc2cde567ad8be43d15',1,'getMenuFont(void):&#160;text.c'],['../text_8h.html#ab30349013fa26bc2cde567ad8be43d15',1,'getMenuFont(void):&#160;text.c']]],
+  ['gettilerect_15',['getTileRect',['../atlas_8c.html#a7885baed783eeddbb9624150d043d754',1,'getTileRect(int ID, int tailleAtlas):&#160;atlas.c'],['../atlas_8h.html#a7885baed783eeddbb9624150d043d754',1,'getTileRect(int ID, int tailleAtlas):&#160;atlas.c']]],
+  ['gettitlefont_16',['getTitleFont',['../text_8c.html#ac9f9b0e4bc746dda491638b3feca14de',1,'getTitleFont(void):&#160;text.c'],['../text_8h.html#ac9f9b0e4bc746dda491638b3feca14de',1,'getTitleFont(void):&#160;text.c']]],
+  ['getxpfont_17',['getXpFont',['../text_8c.html#a62ead3acf71ce682946f3c9fa5100cca',1,'getXpFont(void):&#160;text.c'],['../text_8h.html#a62ead3acf71ce682946f3c9fa5100cca',1,'getXpFont(void):&#160;text.c']]]
 ];

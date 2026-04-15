@@ -183,6 +183,7 @@ void afficherCredits(SDL_Renderer * r){
         drawText(r, getDefaultFont(), "Myriam Laaqira", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
         drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
         drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
+        drawText(r, getDefaultFont(), "Musiques : @caroissinging & @heavyreiju", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
         drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 9);
         drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 195, SCREEN_HEIGHT - 40);
 
@@ -508,9 +509,6 @@ int main(int argc, char *argv[]){
     mob2 = (Mob){.mapID=-1, .spriteID=1, .xTile=-1, .yTile=-1, .hp=(int)(80 * pow(1.5, etageActuel-1)), .max_hp=(int)(80 * pow(1.5, etageActuel-1)), .attack=(int)(70 * pow(1.5, etageActuel-1)), .speed=40};
     mob3 = (Mob){.mapID=-1, .spriteID=2, .xTile=-1, .yTile=-1, .hp=(int)(100 * pow(1.5, etageActuel-1)), .max_hp=(int)(100 * pow(1.5, etageActuel-1)), .attack=(int)(30 * pow(1.5, etageActuel-1)), .speed=90};
     Mob MobCombat[] = {miniBoss, boss, mob1, mob2, mob3};
-    printf("mob1 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob1.hp, mob1.max_hp, mob1.attack, mob1.speed);
-    printf("mob2 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob2.hp, mob2.max_hp, mob2.attack, mob2.speed);
-    printf("mob3 : hp=%d, max_hp=%d, attack=%d, speed=%d\n", mob3.hp, mob3.max_hp, mob3.attack, mob3.speed);
     int IDSalleBoss = -1;
     int IDSalleMiniBoss = -1;
     initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
@@ -857,9 +855,9 @@ int main(int argc, char *argv[]){
                         }
                     }
                     if(e.key.keysym.sym == SDLK_a){//SERT a tester les drops de mob
-                        drawPlayer(game.renderer, &player);
-                        lootCoffre = dropCoffre(listeItem,&fighter);
-                        coffre = 1;
+                        //drawPlayer(game.renderer, &player);
+                        //lootCoffre = dropCoffre(listeItem,&fighter);
+                        //coffre = 1;
                         //menu = dropItem(game.renderer,listeItem,itemObtenu,1,1,1,1,1,1);
                     }
                 }
