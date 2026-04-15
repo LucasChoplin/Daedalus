@@ -214,18 +214,16 @@ int main(int argc, char *argv[]){
     const int loreY = 0;
     loot_t lootCoffre;
     loot_t stockMarchand = initStockMarchand();
+
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         printf("Erreur SDL_mixer: %s\n", Mix_GetError());
     }
-
     Mix_Music *OSTgame = Mix_LoadMUS("assets/Divine Ascent V2.mp3");
-
     if (!OSTgame) {
         printf("Erreur chargement musique: %s\n", Mix_GetError());
     }
 
     Mix_PlayMusic(OSTgame, -1);
-
 
     //initialise les pointeurs a NULL
     memset(&game, 0, sizeof(Game)); 
@@ -297,9 +295,9 @@ int main(int argc, char *argv[]){
 //----------------------chargement des variables de menu ---------------------------
     SDL_Rect destEchap = {1180,50,TAILLE_SPRITE/2,TAILLE_SPRITE/2};//position du bouton echap
 //---------------------------------------------menu de départ
-    SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2.5-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
-    SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2,SCREEN_HEIGHT/2-TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
-    SDL_Rect quit = {(SCREEN_WIDTH - TAILLE_MENU) / 2,SCREEN_HEIGHT / 1.5 - TAILLE_MENU,TAILLE_MENU,TAILLE_MENU/2};
+    SDL_Rect play = {(SCREEN_WIDTH-TAILLE_MENU)/2, SCREEN_HEIGHT/2 - TAILLE_MENU, TAILLE_MENU, TAILLE_MENU/2};
+    SDL_Rect continu = {(SCREEN_WIDTH-TAILLE_MENU)/2, SCREEN_HEIGHT/2, TAILLE_MENU, TAILLE_MENU/2};
+    SDL_Rect quit = {(SCREEN_WIDTH-TAILLE_MENU)/2, SCREEN_HEIGHT*2/3, TAILLE_MENU, TAILLE_MENU/2};
 
     const int menuRectH = TAILLE_MENU / 2;
     TTF_Font* titleFont = getTitleFont();
@@ -307,7 +305,7 @@ int main(int argc, char *argv[]){
     SDL_Rect titleRect = {0, 0, 0, 0};
 
     if(titleFont != NULL){
-        SDL_Color titleColor = {240, 230, 180, 255};
+        SDL_Color titleColor = {74, 61, 27, 255};
         SDL_Surface* titleSurface = TTF_RenderUTF8_Blended(titleFont, "DAEDALUS", titleColor);
         if(titleSurface != NULL){
             titleTexture = SDL_CreateTextureFromSurface(game.renderer, titleSurface);
@@ -321,6 +319,12 @@ int main(int argc, char *argv[]){
             SDL_FreeSurface(titleSurface);
         }
     }
+
+    SDL_Texture* bgTexture = IMG_LoadTexture(game.renderer, "assets/background.jpg");
+    if(bgTexture == NULL){
+        SDL_Log("Erreur IMG_LoadTexture background : %s", IMG_GetError());
+    }
+    SDL_Rect bgDest = {0, 0, SCREEN_WIDTH, SCREEN_HEIGHT};
 
     SDL_Rect playF;
     SDL_Rect quitF;
@@ -355,8 +359,11 @@ int main(int argc, char *argv[]){
         else{
             quitF = getTileRect(2,ATLAS_BOUTON);
         }
-        SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); 
+        SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255);
         SDL_RenderClear(game.renderer);
+        if(bgTexture != NULL){
+            SDL_RenderCopy(game.renderer, bgTexture, NULL, &bgDest);
+        }
         if(titleTexture != NULL){
             SDL_RenderCopy(game.renderer, titleTexture, NULL, &titleRect);
         }
@@ -376,6 +383,8 @@ int main(int argc, char *argv[]){
     }
     if(titleTexture != NULL)
         SDL_DestroyTexture(titleTexture);
+    if(bgTexture != NULL)
+        SDL_DestroyTexture(bgTexture);
 //-------------------lecture des données -----------------------------------------
     FILE * f;
     if(sortie==2){//si le fichier data.txt on le créé
@@ -630,8 +639,8 @@ int main(int argc, char *argv[]){
                         saveGameData(&fighter, listeItem, etageActuel);
                     }else if(procheMiniBoss){
                         if(lancerCombat(game.renderer, &fighter, miniBossActif, listeItem)==0){
-                            Mix_PauseMusic();
                             //en cas de défaite 
+                            Mix_PauseMusic();
                             defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                             initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                             player.xTile = 9;
@@ -686,8 +695,8 @@ int main(int argc, char *argv[]){
                     }
                     else if(procheBossFinal){ 
                         if(lancerCombat(game.renderer, &fighter, bossFinal, listeItem)==0){
-                            Mix_PauseMusic();
                             //en cas de défaite 
+                            Mix_PauseMusic();
                             defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                             initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                             loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;
@@ -710,7 +719,6 @@ int main(int argc, char *argv[]){
                             //en cas de défaite 
                         }
                         Mix_PlayMusic(OSTgame, -1);
-
                         if(bossFinal->hp <= 0){
                             if(etageActuel < 3){
                                 // avant l'etage 3, battre le miniboss fait apparaitre l'échelle pour continuer
@@ -813,7 +821,8 @@ int main(int argc, char *argv[]){
                             Mob ennemiCombat = MobCombat[randomMob];
                             ennemiCombat.hp = ennemiCombat.max_hp;
                             if(lancerCombat(game.renderer, &fighter, &ennemiCombat, listeItem)==0){
-                                Mix_PauseMusic();
+                            //en cas de défaite 
+                            Mix_PauseMusic();
                                 defaite(&fighter, listeItem, &etageActuel, &coffre, &stockMarchand);
                                 initMapParEtage(etageActuel, &IDSalleBoss, &IDSalleMiniBoss, &IDSalleTroc);
                                 loreMapID = (etageActuel == 1 && currentMap != NULL) ? currentMap->mapID : -1;

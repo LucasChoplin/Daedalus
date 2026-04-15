@@ -22,7 +22,7 @@ static TTF_Font* menuFont = NULL;
 
 int initText(void){
     defaultFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
-    titleFont = TTF_OpenFont("assets/LABYRINT.TTF", 72);
+    titleFont = TTF_OpenFont("assets/LABYRINT.TTF", 110);
     combatFont = TTF_OpenFont("assets/DejaVuSans.ttf", 22);
     endScreenFont = TTF_OpenFont("assets/DejaVuSans.ttf", 100);
     classNameFont = TTF_OpenFont("assets/LABYRINT.TTF", 26);
