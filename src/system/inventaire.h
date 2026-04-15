@@ -13,7 +13,7 @@
     \date 28 février 2026
 */
 
-/** \brief fonction qui redonne 5 pv 
+/** \brief fonction qui redonne 50 pv 
     \param p pointeur vers le perso concerné
 */
 void soin50PV(Fighter * p);
@@ -23,7 +23,7 @@ void soin50PV(Fighter * p);
 */
 void soin200PV(Fighter * p);
 
-/** \brief fonction qui redonne tout le mana du personnage 
+/** \brief fonction qui redonne tout les pms du personnage 
     \param p pointeur vers le perso concerné
 */
 void soinMana(Fighter * p);
@@ -38,7 +38,7 @@ void augmenterPvmax(Fighter * p);
 */
 void augmenterAttaque(Fighter * p);
 
-/** \brief augmente la stats d'attaque d'un perso
+/** \brief augmente la stats de vitesse d'un perso
     \param p pointeur vers les perso 
 */
 void augmenterVitesse(Fighter * p);
@@ -117,13 +117,13 @@ loot_t dropCoffre(item_t * l[],Fighter * p);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
-    \param d struct loot_t qui contient les infos de loot  
+    \param d pointeur vers un struct loot_t qui contient les infos de loot  
 */
 void afficherItemObtenuCombat(SDL_Renderer * r, loot_t * d);
 
 /** \brief afficher items obtenus 
     \param r pointeur vers le moteur de rendu 
-    \param d struct loot_t qui contient les infos de loot  
+    \param d pointeur vers un struct loot_t qui contient les infos de loot  
 */
 void afficherItemObtenu(SDL_Renderer * r, loot_t * d);
 
@@ -136,12 +136,12 @@ void tableauPrix(int prix[], item_t * l[]);
 /** \brief affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur 
     \param r pointeur vers le moteur de rendu
     \param p pointeur vers le perso pour afficher le nombre de pièces posséder
-    \param l liste des items pour accéder aux nombre de tickets de réduc 
+    \param l liste des items pour accéder aux nombre de tickets de réduction 
     \param stock pointeur vers le struct loot_t qui contient les items en vente dans le magasin
 */
 void afficherMagasin(SDL_Renderer * r,Fighter * p,item_t * l[], loot_t * stock);
 
-/** \brief fonction qui détècte à partir de la position de la souris si un item est cliqué est procède à son achat si le joueur à assez de pièces
+/** \brief fonction qui détècte à partir de la position de la souris, si un item est cliqué on procède à son achat si le joueur à assez de pièces
     \param event pointeur vers l'évènement clic pour savoir les coordonnées du clic
     \param p pointeur vers le perso pour vérifier son argent et la diminuer en cas d'achat
     \param l pointeur vers la liste d'items pour ajouter les items achetés

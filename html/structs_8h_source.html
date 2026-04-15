@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus:  Fichier source de src/structs.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('structs_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">structs.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="structs_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef structs_h </span><span class="comment">//evite les inclusions multiples</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define structs_h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL2/SDL.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SDL2/SDL_ttf.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;def.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="struct_game.html">   15</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="struct_game.html#ae5164c37c0dc74cfb56041174017bf57">   16</a></span>    SDL_Renderer *<a class="code hl_variable" href="struct_game.html#ae5164c37c0dc74cfb56041174017bf57">renderer</a>; </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="struct_game.html#adc376cc3011b5c8f1c3897626100174c">   17</a></span>    SDL_Window *<a class="code hl_variable" href="struct_game.html#adc376cc3011b5c8f1c3897626100174c">window</a>; </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>} <a class="code hl_struct" href="struct_game.html">Game</a>;</div>
+</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span></div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="struct_player.html">   21</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="struct_player.html#af3665261da2f10a47959c2f0e1d1661e">   22</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_player.html#af3665261da2f10a47959c2f0e1d1661e">xTile</a>; </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="struct_player.html#a6dd98ef8846c083fb851107d04f33ef9">   23</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_player.html#a6dd98ef8846c083fb851107d04f33ef9">yTile</a>; </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="struct_player.html#a9ea1b68117644a35b2194798ec312cf8">   24</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_player.html#a9ea1b68117644a35b2194798ec312cf8">facing</a>; </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="struct_player.html#a8e5c014429449bd53d2da6fa39afb562">   25</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_player.html#a8e5c014429449bd53d2da6fa39afb562">spriteID</a>; </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="struct_player.html#a5c9c66aa484170863e185b1d4cddb75b">   26</a></span>    SDL_Texture *<a class="code hl_variable" href="struct_player.html#a5c9c66aa484170863e185b1d4cddb75b">texture</a>; </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>} <a class="code hl_struct" href="struct_player.html">Player</a>;</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span></div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="struct_salle.html">   30</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="struct_salle.html#ac48a58bf2c7fb5f1d4e435cdda2e08f6">   31</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_salle.html#ac48a58bf2c7fb5f1d4e435cdda2e08f6">mapID</a>; </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="struct_salle.html#afa1dbd9e39f0a7973d9ea2bfe72bd810">   32</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_salle.html#afa1dbd9e39f0a7973d9ea2bfe72bd810">xSalle</a>; </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="struct_salle.html#a178653fb2e234bb1294777011b539cf6">   33</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_salle.html#a178653fb2e234bb1294777011b539cf6">ySalle</a>; </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="struct_salle.html#ae4bfab768d654bdb970c26858de76b69">   34</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_salle.html#ae4bfab768d654bdb970c26858de76b69">tiles</a>[SALLE_HEIGHT][SALLE_WIDTH]; </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="struct_salle.html#ab31f0b8d141f34a1e4f816b0c1a9bfe3">   35</a></span>    SalleType <a class="code hl_variable" href="struct_salle.html#ab31f0b8d141f34a1e4f816b0c1a9bfe3">type</a>; </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>} <a class="code hl_struct" href="struct_salle.html">Salle</a>;</div>
+</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="struct_mob.html">   39</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">int</span> mapID, spriteID, xTile, yTile, vaincu;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">int</span> hp, max_hp, attack, speed;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>} <a class="code hl_struct" href="struct_mob.html">Mob</a>;</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="struct_fighter.html">   45</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="struct_fighter.html#a192eb389a0896dc869082d599a7ba98d">   46</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a192eb389a0896dc869082d599a7ba98d">classeID</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="struct_fighter.html#ada0133479d5bc5467a757a7ee33ace0c">   47</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#ada0133479d5bc5467a757a7ee33ace0c">hp</a>; </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="struct_fighter.html#a708ecd0bad699e6367f5785d758a8e03">   48</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a708ecd0bad699e6367f5785d758a8e03">max_hp</a>; </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="struct_fighter.html#a6c1bfca513cac19451488b54186deda8">   49</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a6c1bfca513cac19451488b54186deda8">attack</a>; </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="struct_fighter.html#a3cedfc0876a764c1a6a54f60ad9e875c">   50</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a3cedfc0876a764c1a6a54f60ad9e875c">speed</a>; </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="struct_fighter.html#ada95533ee143dfa6186f57f715dcfa84">   51</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#ada95533ee143dfa6186f57f715dcfa84">xp</a>; </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="struct_fighter.html#a9238d256fea0e84825d89bcd1e31d3d9">   52</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a9238d256fea0e84825d89bcd1e31d3d9">max_xp</a>; </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="struct_fighter.html#a3c42e90a13d361bb64aad412e7fd274e">   53</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a3c42e90a13d361bb64aad412e7fd274e">lvl</a>; </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="struct_fighter.html#af06eb27f9ec4142319fbbe2855ff030d">   54</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#af06eb27f9ec4142319fbbe2855ff030d">gold</a>; </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="struct_fighter.html#a2a90147b88d6fa414d489049b1702341">   55</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a2a90147b88d6fa414d489049b1702341">pm_atk</a>; </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="struct_fighter.html#a6f877ad07dca7a20edf18a188dca4095">   56</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="struct_fighter.html#a6f877ad07dca7a20edf18a188dca4095">max_pm</a>; </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>} <a class="code hl_struct" href="struct_fighter.html">Fighter</a>;</div>
+</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span></div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="};">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structitem__t.html">   60</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structitem__t.html#a2f0c50bc2c8a22747079f278abe51f38">   61</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structitem__t.html#a2f0c50bc2c8a22747079f278abe51f38">nb</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structitem__t.html#a7c29aa71c214e7bcd0bd10f43f7cc019">   62</a></span>    void (*<a class="code hl_variable" href="structitem__t.html#a7c29aa71c214e7bcd0bd10f43f7cc019">f</a>) (<a class="code hl_struct" href="struct_fighter.html">Fighter</a> * p); </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>} <a class="code hl_struct" href="structitem__t.html">item_t</a>;</div>
+</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span></div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structloot__t.html">   66</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="structloot__t.html#a4b27969f686d0c4ab35ba3562d14d5cf">   67</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structloot__t.html#a4b27969f686d0c4ab35ba3562d14d5cf">nbItem</a>; </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="structloot__t.html#a5a1ec8eced3f8ab9fd182df45da5a1d1">   68</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structloot__t.html#a5a1ec8eced3f8ab9fd182df45da5a1d1">item</a>[MAX_DROP];</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="structloot__t.html#a9ca25467829cae518ed97e9f44948a50">   69</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structloot__t.html#a9ca25467829cae518ed97e9f44948a50">or</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="structloot__t.html#a0ae5473ecf9ebc947005fd25f7e81b63">   70</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structloot__t.html#a0ae5473ecf9ebc947005fd25f7e81b63">xp</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}<a class="code hl_struct" href="structloot__t.html">loot_t</a>;</div>
+</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span></div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="};">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="struct_bouton.html">   74</a></span><span class="keyword">typedef</span> <span class="keyword">struct</span>{</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="struct_bouton.html#a18460ca8ced3ef4557e2f719d7abdb03">   75</a></span>    SDL_Rect <a class="code hl_variable" href="struct_bouton.html#a18460ca8ced3ef4557e2f719d7abdb03">rect</a>; </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="struct_bouton.html#a8c13ac4104324a81e6d3e5853d59510a">   76</a></span>    SDL_Color <a class="code hl_variable" href="struct_bouton.html#a8c13ac4104324a81e6d3e5853d59510a">couleurFond</a>; </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="struct_bouton.html#a59269334c16c91247a113964242ac467">   77</a></span>    SDL_Color <a class="code hl_variable" href="struct_bouton.html#a59269334c16c91247a113964242ac467">couleurTexte</a>; </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="struct_bouton.html#aeade97bcdd2cb4a5c969f0e18e31b4cf">   78</a></span>    <span class="keywordtype">char</span> *<a class="code hl_variable" href="struct_bouton.html#aeade97bcdd2cb4a5c969f0e18e31b4cf">texte</a>; </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="struct_bouton.html#ae02fd44a439360acfced745e38d88d7a">   79</a></span>    TTF_Font *<a class="code hl_variable" href="struct_bouton.html#ae02fd44a439360acfced745e38d88d7a">font</a>; </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}<a class="code hl_struct" href="struct_bouton.html">Bouton</a>;</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">extern</span> <a class="code hl_struct" href="struct_game.html">Game</a> game;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="astruct_bouton_html"><div class="ttname"><a href="struct_bouton.html">Bouton</a></div><div class="ttdoc">structure pour un bouton</div><div class="ttdef"><b>Definition</b> structs.h:74</div></div>
+<div class="ttc" id="astruct_bouton_html_a18460ca8ced3ef4557e2f719d7abdb03"><div class="ttname"><a href="struct_bouton.html#a18460ca8ced3ef4557e2f719d7abdb03">Bouton::rect</a></div><div class="ttdeci">SDL_Rect rect</div><div class="ttdef"><b>Definition</b> structs.h:75</div></div>
+<div class="ttc" id="astruct_bouton_html_a59269334c16c91247a113964242ac467"><div class="ttname"><a href="struct_bouton.html#a59269334c16c91247a113964242ac467">Bouton::couleurTexte</a></div><div class="ttdeci">SDL_Color couleurTexte</div><div class="ttdef"><b>Definition</b> structs.h:77</div></div>
+<div class="ttc" id="astruct_bouton_html_a8c13ac4104324a81e6d3e5853d59510a"><div class="ttname"><a href="struct_bouton.html#a8c13ac4104324a81e6d3e5853d59510a">Bouton::couleurFond</a></div><div class="ttdeci">SDL_Color couleurFond</div><div class="ttdef"><b>Definition</b> structs.h:76</div></div>
+<div class="ttc" id="astruct_bouton_html_ae02fd44a439360acfced745e38d88d7a"><div class="ttname"><a href="struct_bouton.html#ae02fd44a439360acfced745e38d88d7a">Bouton::font</a></div><div class="ttdeci">TTF_Font * font</div><div class="ttdef"><b>Definition</b> structs.h:79</div></div>
+<div class="ttc" id="astruct_bouton_html_aeade97bcdd2cb4a5c969f0e18e31b4cf"><div class="ttname"><a href="struct_bouton.html#aeade97bcdd2cb4a5c969f0e18e31b4cf">Bouton::texte</a></div><div class="ttdeci">char * texte</div><div class="ttdef"><b>Definition</b> structs.h:78</div></div>
+<div class="ttc" id="astruct_fighter_html"><div class="ttname"><a href="struct_fighter.html">Fighter</a></div><div class="ttdoc">structure pour le personnage</div><div class="ttdef"><b>Definition</b> structs.h:45</div></div>
+<div class="ttc" id="astruct_fighter_html_a192eb389a0896dc869082d599a7ba98d"><div class="ttname"><a href="struct_fighter.html#a192eb389a0896dc869082d599a7ba98d">Fighter::classeID</a></div><div class="ttdeci">int classeID</div><div class="ttdef"><b>Definition</b> structs.h:46</div></div>
+<div class="ttc" id="astruct_fighter_html_a2a90147b88d6fa414d489049b1702341"><div class="ttname"><a href="struct_fighter.html#a2a90147b88d6fa414d489049b1702341">Fighter::pm_atk</a></div><div class="ttdeci">int pm_atk</div><div class="ttdef"><b>Definition</b> structs.h:55</div></div>
+<div class="ttc" id="astruct_fighter_html_a3c42e90a13d361bb64aad412e7fd274e"><div class="ttname"><a href="struct_fighter.html#a3c42e90a13d361bb64aad412e7fd274e">Fighter::lvl</a></div><div class="ttdeci">int lvl</div><div class="ttdef"><b>Definition</b> structs.h:53</div></div>
+<div class="ttc" id="astruct_fighter_html_a3cedfc0876a764c1a6a54f60ad9e875c"><div class="ttname"><a href="struct_fighter.html#a3cedfc0876a764c1a6a54f60ad9e875c">Fighter::speed</a></div><div class="ttdeci">int speed</div><div class="ttdef"><b>Definition</b> structs.h:50</div></div>
+<div class="ttc" id="astruct_fighter_html_a6c1bfca513cac19451488b54186deda8"><div class="ttname"><a href="struct_fighter.html#a6c1bfca513cac19451488b54186deda8">Fighter::attack</a></div><div class="ttdeci">int attack</div><div class="ttdef"><b>Definition</b> structs.h:49</div></div>
+<div class="ttc" id="astruct_fighter_html_a6f877ad07dca7a20edf18a188dca4095"><div class="ttname"><a href="struct_fighter.html#a6f877ad07dca7a20edf18a188dca4095">Fighter::max_pm</a></div><div class="ttdeci">int max_pm</div><div class="ttdef"><b>Definition</b> structs.h:56</div></div>
+<div class="ttc" id="astruct_fighter_html_a708ecd0bad699e6367f5785d758a8e03"><div class="ttname"><a href="struct_fighter.html#a708ecd0bad699e6367f5785d758a8e03">Fighter::max_hp</a></div><div class="ttdeci">int max_hp</div><div class="ttdef"><b>Definition</b> structs.h:48</div></div>
+<div class="ttc" id="astruct_fighter_html_a9238d256fea0e84825d89bcd1e31d3d9"><div class="ttname"><a href="struct_fighter.html#a9238d256fea0e84825d89bcd1e31d3d9">Fighter::max_xp</a></div><div class="ttdeci">int max_xp</div><div class="ttdef"><b>Definition</b> structs.h:52</div></div>
+<div class="ttc" id="astruct_fighter_html_ada0133479d5bc5467a757a7ee33ace0c"><div class="ttname"><a href="struct_fighter.html#ada0133479d5bc5467a757a7ee33ace0c">Fighter::hp</a></div><div class="ttdeci">int hp</div><div class="ttdef"><b>Definition</b> structs.h:47</div></div>
+<div class="ttc" id="astruct_fighter_html_ada95533ee143dfa6186f57f715dcfa84"><div class="ttname"><a href="struct_fighter.html#ada95533ee143dfa6186f57f715dcfa84">Fighter::xp</a></div><div class="ttdeci">int xp</div><div class="ttdef"><b>Definition</b> structs.h:51</div></div>
+<div class="ttc" id="astruct_fighter_html_af06eb27f9ec4142319fbbe2855ff030d"><div class="ttname"><a href="struct_fighter.html#af06eb27f9ec4142319fbbe2855ff030d">Fighter::gold</a></div><div class="ttdeci">int gold</div><div class="ttdef"><b>Definition</b> structs.h:54</div></div>
+<div class="ttc" id="astruct_game_html"><div class="ttname"><a href="struct_game.html">Game</a></div><div class="ttdoc">structure pour l&#39;affichage du jeu</div><div class="ttdef"><b>Definition</b> structs.h:15</div></div>
+<div class="ttc" id="astruct_game_html_adc376cc3011b5c8f1c3897626100174c"><div class="ttname"><a href="struct_game.html#adc376cc3011b5c8f1c3897626100174c">Game::window</a></div><div class="ttdeci">SDL_Window * window</div><div class="ttdef"><b>Definition</b> structs.h:17</div></div>
+<div class="ttc" id="astruct_game_html_ae5164c37c0dc74cfb56041174017bf57"><div class="ttname"><a href="struct_game.html#ae5164c37c0dc74cfb56041174017bf57">Game::renderer</a></div><div class="ttdeci">SDL_Renderer * renderer</div><div class="ttdef"><b>Definition</b> structs.h:16</div></div>
+<div class="ttc" id="astruct_mob_html"><div class="ttname"><a href="struct_mob.html">Mob</a></div><div class="ttdoc">structure pour un mob</div><div class="ttdef"><b>Definition</b> structs.h:39</div></div>
+<div class="ttc" id="astruct_player_html"><div class="ttname"><a href="struct_player.html">Player</a></div><div class="ttdoc">structure pour l&#39;affichage du joueur</div><div class="ttdef"><b>Definition</b> structs.h:21</div></div>
+<div class="ttc" id="astruct_player_html_a5c9c66aa484170863e185b1d4cddb75b"><div class="ttname"><a href="struct_player.html#a5c9c66aa484170863e185b1d4cddb75b">Player::texture</a></div><div class="ttdeci">SDL_Texture * texture</div><div class="ttdef"><b>Definition</b> structs.h:26</div></div>
+<div class="ttc" id="astruct_player_html_a6dd98ef8846c083fb851107d04f33ef9"><div class="ttname"><a href="struct_player.html#a6dd98ef8846c083fb851107d04f33ef9">Player::yTile</a></div><div class="ttdeci">int yTile</div><div class="ttdef"><b>Definition</b> structs.h:23</div></div>
+<div class="ttc" id="astruct_player_html_a8e5c014429449bd53d2da6fa39afb562"><div class="ttname"><a href="struct_player.html#a8e5c014429449bd53d2da6fa39afb562">Player::spriteID</a></div><div class="ttdeci">int spriteID</div><div class="ttdef"><b>Definition</b> structs.h:25</div></div>
+<div class="ttc" id="astruct_player_html_a9ea1b68117644a35b2194798ec312cf8"><div class="ttname"><a href="struct_player.html#a9ea1b68117644a35b2194798ec312cf8">Player::facing</a></div><div class="ttdeci">int facing</div><div class="ttdef"><b>Definition</b> structs.h:24</div></div>
+<div class="ttc" id="astruct_player_html_af3665261da2f10a47959c2f0e1d1661e"><div class="ttname"><a href="struct_player.html#af3665261da2f10a47959c2f0e1d1661e">Player::xTile</a></div><div class="ttdeci">int xTile</div><div class="ttdef"><b>Definition</b> structs.h:22</div></div>
+<div class="ttc" id="astruct_salle_html"><div class="ttname"><a href="struct_salle.html">Salle</a></div><div class="ttdoc">structure pour une salle de la carte</div><div class="ttdef"><b>Definition</b> structs.h:30</div></div>
+<div class="ttc" id="astruct_salle_html_a178653fb2e234bb1294777011b539cf6"><div class="ttname"><a href="struct_salle.html#a178653fb2e234bb1294777011b539cf6">Salle::ySalle</a></div><div class="ttdeci">int ySalle</div><div class="ttdef"><b>Definition</b> structs.h:33</div></div>
+<div class="ttc" id="astruct_salle_html_ab31f0b8d141f34a1e4f816b0c1a9bfe3"><div class="ttname"><a href="struct_salle.html#ab31f0b8d141f34a1e4f816b0c1a9bfe3">Salle::type</a></div><div class="ttdeci">SalleType type</div><div class="ttdef"><b>Definition</b> structs.h:35</div></div>
+<div class="ttc" id="astruct_salle_html_ac48a58bf2c7fb5f1d4e435cdda2e08f6"><div class="ttname"><a href="struct_salle.html#ac48a58bf2c7fb5f1d4e435cdda2e08f6">Salle::mapID</a></div><div class="ttdeci">int mapID</div><div class="ttdef"><b>Definition</b> structs.h:31</div></div>
+<div class="ttc" id="astruct_salle_html_ae4bfab768d654bdb970c26858de76b69"><div class="ttname"><a href="struct_salle.html#ae4bfab768d654bdb970c26858de76b69">Salle::tiles</a></div><div class="ttdeci">int tiles[SALLE_HEIGHT][SALLE_WIDTH]</div><div class="ttdef"><b>Definition</b> structs.h:34</div></div>
+<div class="ttc" id="astruct_salle_html_afa1dbd9e39f0a7973d9ea2bfe72bd810"><div class="ttname"><a href="struct_salle.html#afa1dbd9e39f0a7973d9ea2bfe72bd810">Salle::xSalle</a></div><div class="ttdeci">int xSalle</div><div class="ttdef"><b>Definition</b> structs.h:32</div></div>
+<div class="ttc" id="astructitem__t_html"><div class="ttname"><a href="structitem__t.html">item_t</a></div><div class="ttdoc">structure pour les items</div><div class="ttdef"><b>Definition</b> structs.h:60</div></div>
+<div class="ttc" id="astructitem__t_html_a2f0c50bc2c8a22747079f278abe51f38"><div class="ttname"><a href="structitem__t.html#a2f0c50bc2c8a22747079f278abe51f38">item_t::nb</a></div><div class="ttdeci">int nb</div><div class="ttdef"><b>Definition</b> structs.h:61</div></div>
+<div class="ttc" id="astructitem__t_html_a7c29aa71c214e7bcd0bd10f43f7cc019"><div class="ttname"><a href="structitem__t.html#a7c29aa71c214e7bcd0bd10f43f7cc019">item_t::f</a></div><div class="ttdeci">void(* f)(Fighter *p)</div><div class="ttdef"><b>Definition</b> structs.h:62</div></div>
+<div class="ttc" id="astructloot__t_html"><div class="ttname"><a href="structloot__t.html">loot_t</a></div><div class="ttdoc">structure pour les loots</div><div class="ttdef"><b>Definition</b> structs.h:66</div></div>
+<div class="ttc" id="astructloot__t_html_a0ae5473ecf9ebc947005fd25f7e81b63"><div class="ttname"><a href="structloot__t.html#a0ae5473ecf9ebc947005fd25f7e81b63">loot_t::xp</a></div><div class="ttdeci">int xp</div><div class="ttdef"><b>Definition</b> structs.h:70</div></div>
+<div class="ttc" id="astructloot__t_html_a4b27969f686d0c4ab35ba3562d14d5cf"><div class="ttname"><a href="structloot__t.html#a4b27969f686d0c4ab35ba3562d14d5cf">loot_t::nbItem</a></div><div class="ttdeci">int nbItem</div><div class="ttdef"><b>Definition</b> structs.h:67</div></div>
+<div class="ttc" id="astructloot__t_html_a5a1ec8eced3f8ab9fd182df45da5a1d1"><div class="ttname"><a href="structloot__t.html#a5a1ec8eced3f8ab9fd182df45da5a1d1">loot_t::item</a></div><div class="ttdeci">int item[MAX_DROP]</div><div class="ttdef"><b>Definition</b> structs.h:68</div></div>
+<div class="ttc" id="astructloot__t_html_a9ca25467829cae518ed97e9f44948a50"><div class="ttname"><a href="structloot__t.html#a9ca25467829cae518ed97e9f44948a50">loot_t::or</a></div><div class="ttdeci">int or</div><div class="ttdef"><b>Definition</b> structs.h:69</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><a href="structs_8h.html">structs.h</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

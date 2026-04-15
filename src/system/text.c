@@ -19,6 +19,7 @@ static TTF_Font* endScreenFont = NULL;
 static TTF_Font* classNameFont = NULL;
 static TTF_Font* classStatsFont = NULL;
 static TTF_Font* menuFont = NULL;
+static TTF_Font* xpFont = NULL;
 
 int initText(void){
     defaultFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
@@ -28,6 +29,7 @@ int initText(void){
     classNameFont = TTF_OpenFont("assets/LABYRINT.TTF", 26);
     classStatsFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
     menuFont = TTF_OpenFont("assets/DejaVuSans.ttf", 44);
+    xpFont = TTF_OpenFont("assets/LABYRINT.TTF", 65);
 
     if(defaultFont == NULL || titleFont == NULL || combatFont == NULL || endScreenFont == NULL || classNameFont == NULL || classStatsFont == NULL || menuFont == NULL){
         fprintf(stderr, "Erreur chargement fonts : %s\n", TTF_GetError());
@@ -67,6 +69,10 @@ void cleanupText(void){
         TTF_CloseFont(menuFont);
         menuFont = NULL;
     }
+    if(xpFont != NULL){
+        TTF_CloseFont(xpFont);
+        xpFont = NULL;
+    }
 }
 
 TTF_Font* getDefaultFont(void){
@@ -95,6 +101,10 @@ TTF_Font* getClassStatsFont(void){
 
 TTF_Font* getMenuFont(void){
     return menuFont;
+}
+
+TTF_Font* getXpFont(void){
+    return xpFont;
 }
 
 void drawText(SDL_Renderer* renderer, TTF_Font* font, const char* texte, SDL_Color couleur, int x, int y){

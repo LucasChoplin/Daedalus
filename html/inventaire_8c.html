@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus: Référence du fichier src/system/inventaire.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('inventaire_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Référence du fichier inventaire.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>contenus des fonctions de <a class="el" href="inventaire_8h.html" title="bibliothèque des fonctions en lien avec la gestion des items et de l&#39;inventaire">inventaire.h</a>  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;SDL2/SDL.h&gt;</code><br />
+<code>#include &lt;SDL2/SDL_image.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="inventaire_8h_source.html">inventaire.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="atlas_8h_source.html">atlas.h</a>&quot;</code><br />
+<code>#include &quot;../def.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="text_8h_source.html">text.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:af13a4734d8a282ccc7cd689af3e3e349" id="r_af13a4734d8a282ccc7cd689af3e3e349"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af13a4734d8a282ccc7cd689af3e3e349">soin50PV</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:af13a4734d8a282ccc7cd689af3e3e349"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui redonne 50 pv  <br /></td></tr>
+<tr class="memitem:abd42e9ce029653c1205e5d8cb9a1456d" id="r_abd42e9ce029653c1205e5d8cb9a1456d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abd42e9ce029653c1205e5d8cb9a1456d">soin200PV</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:abd42e9ce029653c1205e5d8cb9a1456d"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui redonne 200 pv  <br /></td></tr>
+<tr class="memitem:ac19786aa7320cfac42dc2c82e7b376c8" id="r_ac19786aa7320cfac42dc2c82e7b376c8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac19786aa7320cfac42dc2c82e7b376c8">soinMana</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:ac19786aa7320cfac42dc2c82e7b376c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui redonne tout les pms du personnage  <br /></td></tr>
+<tr class="memitem:ad13cfb8a7738a9634b90df3631c8ba8c" id="r_ad13cfb8a7738a9634b90df3631c8ba8c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad13cfb8a7738a9634b90df3631c8ba8c">augmenterPvmax</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:ad13cfb8a7738a9634b90df3631c8ba8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">augmente les pv max  <br /></td></tr>
+<tr class="memitem:adab16c149d922be2bc28a165d914c912" id="r_adab16c149d922be2bc28a165d914c912"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adab16c149d922be2bc28a165d914c912">augmenterAttaque</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:adab16c149d922be2bc28a165d914c912"><td class="mdescLeft">&#160;</td><td class="mdescRight">augmente la stats d'attaque du perso  <br /></td></tr>
+<tr class="memitem:a4991f8f87a3296a73f8cd51a9372b94a" id="r_a4991f8f87a3296a73f8cd51a9372b94a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4991f8f87a3296a73f8cd51a9372b94a">augmenterVitesse</a> (<a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:a4991f8f87a3296a73f8cd51a9372b94a"><td class="mdescLeft">&#160;</td><td class="mdescRight">augmente la stats de vitesse d'un perso  <br /></td></tr>
+<tr class="memitem:aadff3536aad2240b9fe9b6c4473c5e59" id="r_aadff3536aad2240b9fe9b6c4473c5e59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aadff3536aad2240b9fe9b6c4473c5e59">afficherPiece</a> (SDL_Renderer *r, int nbPiece, int x, int y)</td></tr>
+<tr class="memdesc:aadff3536aad2240b9fe9b6c4473c5e59"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui affiche un nombre à coté d'une image de pièce  <br /></td></tr>
+<tr class="memitem:a8df1afacd2c9980c603d4158b3eacd29" id="r_a8df1afacd2c9980c603d4158b3eacd29"><td class="memItemLeft"><a id="a8df1afacd2c9980c603d4158b3eacd29" name="a8df1afacd2c9980c603d4158b3eacd29"></a>
+void&#160;</td><td class="memItemRight"><b>afficherTicketReduction</b> (SDL_Renderer *r, <a class="el" href="structitem__t.html">item_t</a> *l[], int x, int y)</td></tr>
+<tr class="memitem:a6ba1f4e58785b3bf73c95a0e46914a68" id="r_a6ba1f4e58785b3bf73c95a0e46914a68"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6ba1f4e58785b3bf73c95a0e46914a68">afficherXp</a> (SDL_Renderer *r, int xp, int x, int y)</td></tr>
+<tr class="memdesc:a6ba1f4e58785b3bf73c95a0e46914a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui affiche un nombre à coté de l'écriture "XP"  <br /></td></tr>
+<tr class="memitem:a8980f3c535f3b03e0fee929d699e7719" id="r_a8980f3c535f3b03e0fee929d699e7719"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8980f3c535f3b03e0fee929d699e7719">afficherStats</a> (SDL_Renderer *r, <a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:a8980f3c535f3b03e0fee929d699e7719"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui affiche les stats du personnage (pv, xp, niveau, attaque, vitesse, pm)  <br /></td></tr>
+<tr class="memitem:af5740f5be4a5229a1e8c1a6e04f3d149" id="r_af5740f5be4a5229a1e8c1a6e04f3d149"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af5740f5be4a5229a1e8c1a6e04f3d149">afficherInventaire</a> (SDL_Renderer *r, <a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:af5740f5be4a5229a1e8c1a6e04f3d149"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui affiche l'inventaire  <br /></td></tr>
+<tr class="memitem:a1241573e2e773ad483531784f874a9cd" id="r_a1241573e2e773ad483531784f874a9cd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1241573e2e773ad483531784f874a9cd">combat_afficher_inventaire</a> (SDL_Renderer *r, <a class="el" href="structitem__t.html">item_t</a> *l[])</td></tr>
+<tr class="memdesc:a1241573e2e773ad483531784f874a9cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui affiche l'inventaire en combat  <br /></td></tr>
+<tr class="memitem:aeec1fdee91b5b1de4fa26625c0018077" id="r_aeec1fdee91b5b1de4fa26625c0018077"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aeec1fdee91b5b1de4fa26625c0018077">detecterItemUtilise</a> (SDL_Event *event, <a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:aeec1fdee91b5b1de4fa26625c0018077"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui détecte losqu'on appuie sur un item et diminue sa quantité  <br /></td></tr>
+<tr class="memitem:ac2df346b0dfd6e63b973addce9c15c3e" id="r_ac2df346b0dfd6e63b973addce9c15c3e"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac2df346b0dfd6e63b973addce9c15c3e">detecterItemUtiliseCombat</a> (SDL_Event *event, <a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:ac2df346b0dfd6e63b973addce9c15c3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui détecte losqu'on appuie sur un item en combat et diminue sa quantité  <br /></td></tr>
+<tr class="memitem:a2b791a98decce8b09610a53bfb1c3128" id="r_a2b791a98decce8b09610a53bfb1c3128"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b791a98decce8b09610a53bfb1c3128">dropItem2</a> (<a class="el" href="structitem__t.html">item_t</a> *l[], int ennemi, <a class="el" href="structloot__t.html">loot_t</a> *d)</td></tr>
+<tr class="memdesc:a2b791a98decce8b09610a53bfb1c3128"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui choisi quelle items sont dropées et ajouter  <br /></td></tr>
+<tr class="memitem:aa1c8835ee5903cac2898e353f5f416a1" id="r_aa1c8835ee5903cac2898e353f5f416a1"><td class="memItemLeft"><a class="el" href="structloot__t.html">loot_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa1c8835ee5903cac2898e353f5f416a1">dropItem</a> (<a class="el" href="structitem__t.html">item_t</a> *l[], int e1)</td></tr>
+<tr class="memdesc:aa1c8835ee5903cac2898e353f5f416a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui gère le loot pour un ennemi vaincu et ajoute les items correspondants, stocke les items obtenus dans itemDrop[]  <br /></td></tr>
+<tr class="memitem:a5401a18f11bb4fb2e1a9a8d38f894bbe" id="r_a5401a18f11bb4fb2e1a9a8d38f894bbe"><td class="memItemLeft"><a class="el" href="structloot__t.html">loot_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5401a18f11bb4fb2e1a9a8d38f894bbe">dropCoffre</a> (<a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="struct_fighter.html">Fighter</a> *p)</td></tr>
+<tr class="memdesc:a5401a18f11bb4fb2e1a9a8d38f894bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui calcule les drops du coffre et les ajoutes  <br /></td></tr>
+<tr class="memitem:ada259742b887ff3ceb95cd4c7f17ea49" id="r_ada259742b887ff3ceb95cd4c7f17ea49"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ada259742b887ff3ceb95cd4c7f17ea49">afficherItemObtenuCombat</a> (SDL_Renderer *r, <a class="el" href="structloot__t.html">loot_t</a> *d)</td></tr>
+<tr class="memdesc:ada259742b887ff3ceb95cd4c7f17ea49"><td class="mdescLeft">&#160;</td><td class="mdescRight">afficher items obtenus  <br /></td></tr>
+<tr class="memitem:ada28c23a52c2ef5f5a868b171fa812b1" id="r_ada28c23a52c2ef5f5a868b171fa812b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ada28c23a52c2ef5f5a868b171fa812b1">afficherItemObtenu</a> (SDL_Renderer *r, <a class="el" href="structloot__t.html">loot_t</a> *d)</td></tr>
+<tr class="memdesc:ada28c23a52c2ef5f5a868b171fa812b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">afficher items obtenus  <br /></td></tr>
+<tr class="memitem:abdaac76a780c601499799456b1dacb7f" id="r_abdaac76a780c601499799456b1dacb7f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abdaac76a780c601499799456b1dacb7f">tableauPrix</a> (int prix[], <a class="el" href="structitem__t.html">item_t</a> *l[])</td></tr>
+<tr class="memdesc:abdaac76a780c601499799456b1dacb7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui calcule les prix des items en fonction de si le joueur a des tickets de réduction ou n'en a pas  <br /></td></tr>
+<tr class="memitem:a4a6ea2ec6cc287d0f5472aeda3041da9" id="r_a4a6ea2ec6cc287d0f5472aeda3041da9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4a6ea2ec6cc287d0f5472aeda3041da9">afficherMagasin</a> (SDL_Renderer *r, <a class="el" href="struct_fighter.html">Fighter</a> *p, <a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="structloot__t.html">loot_t</a> *stock)</td></tr>
+<tr class="memdesc:a4a6ea2ec6cc287d0f5472aeda3041da9"><td class="mdescLeft">&#160;</td><td class="mdescRight">affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur  <br /></td></tr>
+<tr class="memitem:aff13de51843286a85e9b87c2ca8ed9b0" id="r_aff13de51843286a85e9b87c2ca8ed9b0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aff13de51843286a85e9b87c2ca8ed9b0">detecterAchat</a> (SDL_Event *event, <a class="el" href="struct_fighter.html">Fighter</a> *p, <a class="el" href="structitem__t.html">item_t</a> *l[], <a class="el" href="structloot__t.html">loot_t</a> *stock)</td></tr>
+<tr class="memdesc:aff13de51843286a85e9b87c2ca8ed9b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui détècte à partir de la position de la souris, si un item est cliqué on procède à son achat si le joueur à assez de pièces  <br /></td></tr>
+<tr class="memitem:a139e5f4a74407d96f9ddc2c382e1d002" id="r_a139e5f4a74407d96f9ddc2c382e1d002"><td class="memItemLeft"><a class="el" href="structloot__t.html">loot_t</a>&#160;</td><td class="memItemRight"><a class="el" href="#a139e5f4a74407d96f9ddc2c382e1d002">initStockMarchand</a> ()</td></tr>
+<tr class="memdesc:a139e5f4a74407d96f9ddc2c382e1d002"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui initialise le stock du marchand avec des items aléatoires  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>contenus des fonctions de <a class="el" href="inventaire_8h.html" title="bibliothèque des fonctions en lien avec la gestion des items et de l&#39;inventaire">inventaire.h</a> </p>
+<dl class="section author"><dt>Auteur</dt><dd>Patrick Leguillon </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>20 février 2026 </dd></dl>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentation des fonctions</h2>
+<a id="af5740f5be4a5229a1e8c1a6e04f3d149" name="af5740f5be4a5229a1e8c1a6e04f3d149"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5740f5be4a5229a1e8c1a6e04f3d149">&#9670;&#160;</a></span>afficherInventaire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherInventaire </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui affiche l'inventaire </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu <br  />
+ </td></tr>
+    <tr><td class="paramname">l</td><td>liste de pointeurs vers les <a class="el" href="structitem__t.html" title="structure pour les items">item_t</a> </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ada28c23a52c2ef5f5a868b171fa812b1" name="ada28c23a52c2ef5f5a868b171fa812b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada28c23a52c2ef5f5a868b171fa812b1">&#9670;&#160;</a></span>afficherItemObtenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherItemObtenu </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structloot__t.html">loot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>d</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>afficher items obtenus </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">d</td><td>pointeur vers un struct <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les infos de loot </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ada259742b887ff3ceb95cd4c7f17ea49" name="ada259742b887ff3ceb95cd4c7f17ea49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada259742b887ff3ceb95cd4c7f17ea49">&#9670;&#160;</a></span>afficherItemObtenuCombat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherItemObtenuCombat </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structloot__t.html">loot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>d</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>afficher items obtenus </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">d</td><td>pointeur vers un struct <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les infos de loot </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4a6ea2ec6cc287d0f5472aeda3041da9" name="a4a6ea2ec6cc287d0f5472aeda3041da9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a6ea2ec6cc287d0f5472aeda3041da9">&#9670;&#160;</a></span>afficherMagasin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherMagasin </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structloot__t.html">loot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>stock</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>affiche le magasin : les items vendus, leurs prix et l'argent que possède le joueur </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso pour afficher le nombre de pièces posséder </td></tr>
+    <tr><td class="paramname">l</td><td>liste des items pour accéder aux nombre de tickets de réduction </td></tr>
+    <tr><td class="paramname">stock</td><td>pointeur vers le struct <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les items en vente dans le magasin </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aadff3536aad2240b9fe9b6c4473c5e59" name="aadff3536aad2240b9fe9b6c4473c5e59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadff3536aad2240b9fe9b6c4473c5e59">&#9670;&#160;</a></span>afficherPiece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherPiece </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>nbPiece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui affiche un nombre à coté d'une image de pièce </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">nbPiece</td><td>nombre de pièces à afficher </td></tr>
+    <tr><td class="paramname">x</td><td>coordonnée x d'affichage du nombre de pièces </td></tr>
+    <tr><td class="paramname">y</td><td>coordonnée y d'affichage du nombre de pièces </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8980f3c535f3b03e0fee929d699e7719" name="a8980f3c535f3b03e0fee929d699e7719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8980f3c535f3b03e0fee929d699e7719">&#9670;&#160;</a></span>afficherStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherStats </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui affiche les stats du personnage (pv, xp, niveau, attaque, vitesse, pm) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le personnage </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a6ba1f4e58785b3bf73c95a0e46914a68" name="a6ba1f4e58785b3bf73c95a0e46914a68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ba1f4e58785b3bf73c95a0e46914a68">&#9670;&#160;</a></span>afficherXp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherXp </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>xp</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui affiche un nombre à coté de l'écriture "XP" </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">xp</td><td>nombre d'xp à afficher </td></tr>
+    <tr><td class="paramname">x</td><td>coordonnée x d'affichage du nombre de pièces </td></tr>
+    <tr><td class="paramname">y</td><td>coordonnée y d'affichage du nombre de pièces </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adab16c149d922be2bc28a165d914c912" name="adab16c149d922be2bc28a165d914c912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adab16c149d922be2bc28a165d914c912">&#9670;&#160;</a></span>augmenterAttaque()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void augmenterAttaque </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>augmente la stats d'attaque du perso </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers le perso </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad13cfb8a7738a9634b90df3631c8ba8c" name="ad13cfb8a7738a9634b90df3631c8ba8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad13cfb8a7738a9634b90df3631c8ba8c">&#9670;&#160;</a></span>augmenterPvmax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void augmenterPvmax </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>augmente les pv max </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers le perso </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4991f8f87a3296a73f8cd51a9372b94a" name="a4991f8f87a3296a73f8cd51a9372b94a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4991f8f87a3296a73f8cd51a9372b94a">&#9670;&#160;</a></span>augmenterVitesse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void augmenterVitesse </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>augmente la stats de vitesse d'un perso </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers les perso </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1241573e2e773ad483531784f874a9cd" name="a1241573e2e773ad483531784f874a9cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1241573e2e773ad483531784f874a9cd">&#9670;&#160;</a></span>combat_afficher_inventaire()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void combat_afficher_inventaire </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui affiche l'inventaire en combat </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">l</td><td>liste de pointeurs vers les <a class="el" href="structitem__t.html" title="structure pour les items">item_t</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aff13de51843286a85e9b87c2ca8ed9b0" name="aff13de51843286a85e9b87c2ca8ed9b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff13de51843286a85e9b87c2ca8ed9b0">&#9670;&#160;</a></span>detecterAchat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void detecterAchat </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Event *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structloot__t.html">loot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>stock</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui détècte à partir de la position de la souris, si un item est cliqué on procède à son achat si le joueur à assez de pièces </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>pointeur vers l'évènement clic pour savoir les coordonnées du clic </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso pour vérifier son argent et la diminuer en cas d'achat </td></tr>
+    <tr><td class="paramname">l</td><td>pointeur vers la liste d'items pour ajouter les items achetés </td></tr>
+    <tr><td class="paramname">stock</td><td>pointeur vers le struct <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les items en vente dans le magasin pour savoir quels items sont disponibles </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aeec1fdee91b5b1de4fa26625c0018077" name="aeec1fdee91b5b1de4fa26625c0018077"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeec1fdee91b5b1de4fa26625c0018077">&#9670;&#160;</a></span>detecterItemUtilise()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int detecterItemUtilise </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Event *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui détecte losqu'on appuie sur un item et diminue sa quantité </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>pointeur vers l'événement souris cliqué </td></tr>
+    <tr><td class="paramname">l</td><td>liste de pointeurs vers les <a class="el" href="structitem__t.html" title="structure pour les items">item_t</a> </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso du joueur </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>renvoie 0 si aucun item n'a été utilisé ou 1 si un item à été utilisé </dd></dl>
+
+</div>
+</div>
+<a id="ac2df346b0dfd6e63b973addce9c15c3e" name="ac2df346b0dfd6e63b973addce9c15c3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2df346b0dfd6e63b973addce9c15c3e">&#9670;&#160;</a></span>detecterItemUtiliseCombat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int detecterItemUtiliseCombat </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Event *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui détecte losqu'on appuie sur un item en combat et diminue sa quantité </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">event</td><td>pointeur vers l'événement souris cliqué </td></tr>
+    <tr><td class="paramname">l</td><td>liste de pointeurs vers les <a class="el" href="structitem__t.html" title="structure pour les items">item_t</a> </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso du joueur </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>renvoie 0 si aucun item n'a été utilisé ou 1 si un item à été utilisé </dd></dl>
+
+</div>
+</div>
+<a id="a5401a18f11bb4fb2e1a9a8d38f894bbe" name="a5401a18f11bb4fb2e1a9a8d38f894bbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5401a18f11bb4fb2e1a9a8d38f894bbe">&#9670;&#160;</a></span>dropCoffre()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structloot__t.html">loot_t</a> dropCoffre </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui calcule les drops du coffre et les ajoutes </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>pointeur vers la liste d'items du joueur </td></tr>
+    <tr><td class="paramname">p</td><td>pointeur vers le perso </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>renvoie un <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les infos des objets gagnés </dd></dl>
+
+</div>
+</div>
+<a id="aa1c8835ee5903cac2898e353f5f416a1" name="aa1c8835ee5903cac2898e353f5f416a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1c8835ee5903cac2898e353f5f416a1">&#9670;&#160;</a></span>dropItem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structloot__t.html">loot_t</a> dropItem </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>e1</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui gère le loot pour un ennemi vaincu et ajoute les items correspondants, stocke les items obtenus dans itemDrop[] </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>liste des items </td></tr>
+    <tr><td class="paramname">e1</td><td>numéro du premier ennemi vaincu </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>un <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient la liste des items dropés </dd></dl>
+
+</div>
+</div>
+<a id="a2b791a98decce8b09610a53bfb1c3128" name="a2b791a98decce8b09610a53bfb1c3128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b791a98decce8b09610a53bfb1c3128">&#9670;&#160;</a></span>dropItem2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void dropItem2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>ennemi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structloot__t.html">loot_t</a> *</td>          <td class="paramname"><span class="paramname"><em>d</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui choisi quelle items sont dropées et ajouter </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">l</td><td>liste des items </td></tr>
+    <tr><td class="paramname">ennemi</td><td>numéro de l'ennemi vaincu </td></tr>
+    <tr><td class="paramname">d</td><td>pointeur vers le struct qui stocke les drops </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a139e5f4a74407d96f9ddc2c382e1d002" name="a139e5f4a74407d96f9ddc2c382e1d002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a139e5f4a74407d96f9ddc2c382e1d002">&#9670;&#160;</a></span>initStockMarchand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structloot__t.html">loot_t</a> initStockMarchand </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui initialise le stock du marchand avec des items aléatoires </p>
+<dl class="section return"><dt>Renvoie</dt><dd>un <a class="el" href="structloot__t.html" title="structure pour les loots">loot_t</a> qui contient les items en vente dans le magasin </dd></dl>
+
+</div>
+</div>
+<a id="abd42e9ce029653c1205e5d8cb9a1456d" name="abd42e9ce029653c1205e5d8cb9a1456d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd42e9ce029653c1205e5d8cb9a1456d">&#9670;&#160;</a></span>soin200PV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void soin200PV </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui redonne 200 pv </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers le perso concerné </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af13a4734d8a282ccc7cd689af3e3e349" name="af13a4734d8a282ccc7cd689af3e3e349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af13a4734d8a282ccc7cd689af3e3e349">&#9670;&#160;</a></span>soin50PV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void soin50PV </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui redonne 50 pv </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers le perso concerné </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac19786aa7320cfac42dc2c82e7b376c8" name="ac19786aa7320cfac42dc2c82e7b376c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac19786aa7320cfac42dc2c82e7b376c8">&#9670;&#160;</a></span>soinMana()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void soinMana </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>p</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui redonne tout les pms du personnage </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">p</td><td>pointeur vers le perso concerné </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abdaac76a780c601499799456b1dacb7f" name="abdaac76a780c601499799456b1dacb7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdaac76a780c601499799456b1dacb7f">&#9670;&#160;</a></span>tableauPrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void tableauPrix </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>prix</em></span>[], </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structitem__t.html">item_t</a> *</td>          <td class="paramname"><span class="paramname"><em>l</em></span>[]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui calcule les prix des items en fonction de si le joueur a des tickets de réduction ou n'en a pas </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prix</td><td>tableau où seront stockés les prix des items </td></tr>
+    <tr><td class="paramname">l</td><td>liste d'items du joueur pour vérifier le nombre de tickets de réduction </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><a href="inventaire_8c.html">inventaire.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

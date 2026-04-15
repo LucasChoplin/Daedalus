@@ -1,0 +1,483 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus: Référence du fichier src/system/map.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('map_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Référence du fichier map.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>contenus des fonctions de <a class="el" href="map_8h.html" title="librairie pour générer la map et déplacer le personnage">map.h</a>  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="map_8h_source.html">map.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="atlas_8h_source.html">atlas.h</a>&quot;</code><br />
+<code>#include &quot;../def.h&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:aad3b4a0e16af25e3fc855480bac256b8" id="r_aad3b4a0e16af25e3fc855480bac256b8"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aad3b4a0e16af25e3fc855480bac256b8">getIDSalleRandom</a> (void)</td></tr>
+<tr class="memdesc:aad3b4a0e16af25e3fc855480bac256b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne l'ID d'une salle aléatoire  <br /></td></tr>
+<tr class="memitem:a627882dc3eff2aebf19b0161ef2b37db" id="r_a627882dc3eff2aebf19b0161ef2b37db"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a627882dc3eff2aebf19b0161ef2b37db">getIDSalleRandomExcluant</a> (int mapIDExclu)</td></tr>
+<tr class="memdesc:a627882dc3eff2aebf19b0161ef2b37db"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne l'ID d'une salle active aléatoire différente de celle passée en paramètre  <br /></td></tr>
+<tr class="memitem:ac67ae220648e62847c1b745c8e5877f6" id="r_ac67ae220648e62847c1b745c8e5877f6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac67ae220648e62847c1b745c8e5877f6">genererSalle</a> (<a class="el" href="struct_salle.html">Salle</a> *salle, SalleType type)</td></tr>
+<tr class="memdesc:ac67ae220648e62847c1b745c8e5877f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">génère une salle en fonction de son type  <br /></td></tr>
+<tr class="memitem:ad2a43716053888784fa27ded04339f96" id="r_ad2a43716053888784fa27ded04339f96"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ad2a43716053888784fa27ded04339f96">isWall</a> (int tile)</td></tr>
+<tr class="memdesc:ad2a43716053888784fa27ded04339f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie si une tuile est un mur  <br /></td></tr>
+<tr class="memitem:a720efab39cf043673b8759dec4ab1982" id="r_a720efab39cf043673b8759dec4ab1982"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a720efab39cf043673b8759dec4ab1982">isCombatTile</a> (int tile)</td></tr>
+<tr class="memdesc:a720efab39cf043673b8759dec4ab1982"><td class="mdescLeft">&#160;</td><td class="mdescRight">vérifie si une tuile est un sol de combat  <br /></td></tr>
+<tr class="memitem:ad55459d76ba41042b96866c129be8d24" id="r_ad55459d76ba41042b96866c129be8d24"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad55459d76ba41042b96866c129be8d24">initMapParEtage</a> (int etageActuel, int *bossRoomID, int *miniBossRoomID, int *trocRoomID)</td></tr>
+<tr class="memdesc:ad55459d76ba41042b96866c129be8d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialise un étage en tenant compte de l'étage  <br /></td></tr>
+<tr class="memitem:ac23ed2f346a600617cbada68fa116208" id="r_ac23ed2f346a600617cbada68fa116208"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac23ed2f346a600617cbada68fa116208">drawMap</a> (SDL_Renderer *renderer)</td></tr>
+<tr class="memdesc:ac23ed2f346a600617cbada68fa116208"><td class="mdescLeft">&#160;</td><td class="mdescRight">dessine la map actuelle (l'étage)  <br /></td></tr>
+<tr class="memitem:ac7fcf34a4aca954db11c9efea2fef6b7" id="r_ac7fcf34a4aca954db11c9efea2fef6b7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac7fcf34a4aca954db11c9efea2fef6b7">drawMob</a> (SDL_Renderer *renderer, <a class="el" href="struct_mob.html">Mob</a> *mob)</td></tr>
+<tr class="memdesc:ac7fcf34a4aca954db11c9efea2fef6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">dessine un mob sur la map (miniboss, boss ou marchand)  <br /></td></tr>
+<tr class="memitem:a1bbe7354b423c9c7981039f57f022845" id="r_a1bbe7354b423c9c7981039f57f022845"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1bbe7354b423c9c7981039f57f022845">drawPlayer</a> (SDL_Renderer *renderer, <a class="el" href="struct_player.html">Player</a> *player)</td></tr>
+<tr class="memdesc:a1bbe7354b423c9c7981039f57f022845"><td class="mdescLeft">&#160;</td><td class="mdescRight">dessine le joueur sur la map  <br /></td></tr>
+<tr class="memitem:a02794020c84ae6b68024348bdb4d77f6" id="r_a02794020c84ae6b68024348bdb4d77f6"><td class="memItemLeft"><a id="a02794020c84ae6b68024348bdb4d77f6" name="a02794020c84ae6b68024348bdb4d77f6"></a>
+void&#160;</td><td class="memItemRight"><b>cleanupMap</b> (void)</td></tr>
+<tr class="memdesc:a02794020c84ae6b68024348bdb4d77f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">nettoie la map actuelle <br /></td></tr>
+<tr class="memitem:aa2a0497be9bab5a66832d22d2ad96bc7" id="r_aa2a0497be9bab5a66832d22d2ad96bc7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa2a0497be9bab5a66832d22d2ad96bc7">changeSalle</a> (int direction, int *playerX, int *playerY)</td></tr>
+<tr class="memdesc:aa2a0497be9bab5a66832d22d2ad96bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">change l'affichage de la salle en fonction de la direction du joueur  <br /></td></tr>
+<tr class="memitem:a52c49b77fa7b4bb9a56358c98ba9821b" id="r_a52c49b77fa7b4bb9a56358c98ba9821b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a52c49b77fa7b4bb9a56358c98ba9821b">setCurrentMapByID</a> (int mapID)</td></tr>
+<tr class="memdesc:a52c49b77fa7b4bb9a56358c98ba9821b"><td class="mdescLeft">&#160;</td><td class="mdescRight">change la salle actuelle où le joueur se trouve  <br /></td></tr>
+<tr class="memitem:ad7b49ceb9561babf6927c4c194ff5a7a" id="r_ad7b49ceb9561babf6927c4c194ff5a7a"><td class="memItemLeft"><a id="ad7b49ceb9561babf6927c4c194ff5a7a" name="ad7b49ceb9561babf6927c4c194ff5a7a"></a>
+void&#160;</td><td class="memItemRight"><b>genererSalleBossByID</b> (int mapID)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a3ce2ea8df27581675c89592b15b84ff1" id="r_a3ce2ea8df27581675c89592b15b84ff1"><td class="memItemLeft"><a id="a3ce2ea8df27581675c89592b15b84ff1" name="a3ce2ea8df27581675c89592b15b84ff1"></a>
+<a class="el" href="struct_salle.html">Salle</a> *&#160;</td><td class="memItemRight"><b>currentMap</b> = NULL</td></tr>
+<tr class="memitem:aeaff504a1019400d217d37cb0e1c5dcd" id="r_aeaff504a1019400d217d37cb0e1c5dcd"><td class="memItemLeft"><a id="aeaff504a1019400d217d37cb0e1c5dcd" name="aeaff504a1019400d217d37cb0e1c5dcd"></a>
+<a class="el" href="struct_salle.html">Salle</a> *&#160;</td><td class="memItemRight"><b>etage</b> [ETAGE_TAILLE *ETAGE_TAILLE]</td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>contenus des fonctions de <a class="el" href="map_8h.html" title="librairie pour générer la map et déplacer le personnage">map.h</a> </p>
+<dl class="section author"><dt>Auteur</dt><dd>Myriam Laaqira </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>14 février 2026 </dd></dl>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentation des fonctions</h2>
+<a id="aa2a0497be9bab5a66832d22d2ad96bc7" name="aa2a0497be9bab5a66832d22d2ad96bc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2a0497be9bab5a66832d22d2ad96bc7">&#9670;&#160;</a></span>changeSalle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void changeSalle </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>direction</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>playerX</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>playerY</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>change l'affichage de la salle en fonction de la direction du joueur </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">direction</td><td>direction du changement de salle </td></tr>
+    <tr><td class="paramname">playerX</td><td>pointeur vers la position X du joueur </td></tr>
+    <tr><td class="paramname">playerY</td><td>pointeur vers la position Y du joueur </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac23ed2f346a600617cbada68fa116208" name="ac23ed2f346a600617cbada68fa116208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac23ed2f346a600617cbada68fa116208">&#9670;&#160;</a></span>drawMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawMap </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>dessine la map actuelle (l'étage) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>pointeur vers le moteur de rendu </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac7fcf34a4aca954db11c9efea2fef6b7" name="ac7fcf34a4aca954db11c9efea2fef6b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7fcf34a4aca954db11c9efea2fef6b7">&#9670;&#160;</a></span>drawMob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawMob </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_mob.html">Mob</a> *</td>          <td class="paramname"><span class="paramname"><em>mob</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>dessine un mob sur la map (miniboss, boss ou marchand) </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">mob</td><td>pointeur vers le mob à dessiner </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1bbe7354b423c9c7981039f57f022845" name="a1bbe7354b423c9c7981039f57f022845"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bbe7354b423c9c7981039f57f022845">&#9670;&#160;</a></span>drawPlayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawPlayer </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_player.html">Player</a> *</td>          <td class="paramname"><span class="paramname"><em>player</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>dessine le joueur sur la map </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">player</td><td>pointeur vers le joueur à dessiner </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac67ae220648e62847c1b745c8e5877f6" name="ac67ae220648e62847c1b745c8e5877f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac67ae220648e62847c1b745c8e5877f6">&#9670;&#160;</a></span>genererSalle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void genererSalle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_salle.html">Salle</a> *</td>          <td class="paramname"><span class="paramname"><em>salle</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SalleType</td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>génère une salle en fonction de son type </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">salle</td><td>pointeur vers la salle à générer </td></tr>
+    <tr><td class="paramname">type</td><td>type de salle (SALLE_NORMALE, SALLE_BOSS, etc) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aad3b4a0e16af25e3fc855480bac256b8" name="aad3b4a0e16af25e3fc855480bac256b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad3b4a0e16af25e3fc855480bac256b8">&#9670;&#160;</a></span>getIDSalleRandom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getIDSalleRandom </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne l'ID d'une salle aléatoire </p>
+<dl class="section return"><dt>Renvoie</dt><dd>ID de la salle </dd></dl>
+
+</div>
+</div>
+<a id="a627882dc3eff2aebf19b0161ef2b37db" name="a627882dc3eff2aebf19b0161ef2b37db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a627882dc3eff2aebf19b0161ef2b37db">&#9670;&#160;</a></span>getIDSalleRandomExcluant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int getIDSalleRandomExcluant </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mapIDExclu</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne l'ID d'une salle active aléatoire différente de celle passée en paramètre </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mapIDExclu</td><td>ID de salle à exclure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>ID de salle active (ou mapIDExclu si aucune autre salle disponible) </dd></dl>
+
+</div>
+</div>
+<a id="ad55459d76ba41042b96866c129be8d24" name="ad55459d76ba41042b96866c129be8d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad55459d76ba41042b96866c129be8d24">&#9670;&#160;</a></span>initMapParEtage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void initMapParEtage </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>etageActuel</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>bossRoomID</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>miniBossRoomID</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>trocRoomID</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>initialise un étage en tenant compte de l'étage </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">etageActuel</td><td>numéro de l'étage actuel (1 à 3) </td></tr>
+    <tr><td class="paramname">bossRoomID</td><td>id de la salle boss choisie </td></tr>
+    <tr><td class="paramname">miniBossRoomID</td><td>id de la salle miniBoss choisie </td></tr>
+    <tr><td class="paramname">trocRoomID</td><td>id de la salle troc si presente, sinon on met une salle de coffre </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a720efab39cf043673b8759dec4ab1982" name="a720efab39cf043673b8759dec4ab1982"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a720efab39cf043673b8759dec4ab1982">&#9670;&#160;</a></span>isCombatTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int isCombatTile </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>tile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>vérifie si une tuile est un sol de combat </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tile</td><td>numéro de la tuile à vérifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>1 si c'est un sol de combat 0 sinon </dd></dl>
+
+</div>
+</div>
+<a id="ad2a43716053888784fa27ded04339f96" name="ad2a43716053888784fa27ded04339f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2a43716053888784fa27ded04339f96">&#9670;&#160;</a></span>isWall()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int isWall </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>tile</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>vérifie si une tuile est un mur </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tile</td><td>numéro de la tuile à vérifier </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>1 si c'est un mur 0 sinon </dd></dl>
+
+</div>
+</div>
+<a id="a52c49b77fa7b4bb9a56358c98ba9821b" name="a52c49b77fa7b4bb9a56358c98ba9821b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52c49b77fa7b4bb9a56358c98ba9821b">&#9670;&#160;</a></span>setCurrentMapByID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setCurrentMapByID </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mapID</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>change la salle actuelle où le joueur se trouve </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mapID</td><td>ID de la salle à afficher </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><a href="map_8c.html">map.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

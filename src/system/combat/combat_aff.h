@@ -16,9 +16,9 @@
 // afficher 
 
 /** \brief affiche l'interface du combat avec les boutons et la barre de vie  
-    \param renderer dimmension de l'écran
-    \param joueur structure des statistique du joueur
-    \param ennemi structure des statistique de l'ennemi
+    \param renderer pointeur vers le moteur de rendu
+    \param joueur pointeur vers le struct figther du personnage
+    \param ennemi la structure mob des ennemis
     \param fuite coordone du bouton fuite
     \param attack_btn coordone du bouton d'attaque
     \param forte coordone du bouton de l'attaque forte
@@ -29,7 +29,7 @@
 void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect fuite,SDL_Rect attack_btn,SDL_Rect forte,SDL_Rect inventaire,int inv,item_t * l[]);
 
 /** \brief afficher l'écran de fin de combat
-    \param renderer dimmension de l'écran
+    \param renderer pointeur vers le moteur de rendu
     \param state structure du deroulement de la partie 
     \param x coordonnée x du texte de fin 
     \param y coordonnée y du texte de fin 

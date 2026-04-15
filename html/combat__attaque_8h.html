@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus: Référence du fichier src/system/combat/combat_attaque.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('combat__attaque_8h.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Référence du fichier combat_attaque.h</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>librairie qui gère les attaques  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &quot;<a class="el" href="structs_8h_source.html">../../structs.h</a>&quot;</code><br />
+<code>#include &quot;../../def.h&quot;</code><br />
+<code>#include &lt;SDL2/SDL.h&gt;</code><br />
+</div>
+<p><a href="combat__attaque_8h_source.html">Aller au code source de ce fichier.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a63721ca2acb2a70e4167beabf290e888" id="r_a63721ca2acb2a70e4167beabf290e888"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a63721ca2acb2a70e4167beabf290e888">attaque</a> (<a class="el" href="struct_fighter.html">Fighter</a> *joueur, <a class="el" href="struct_mob.html">Mob</a> *ennemi, GameState *state)</td></tr>
+<tr class="memdesc:a63721ca2acb2a70e4167beabf290e888"><td class="mdescLeft">&#160;</td><td class="mdescRight">inflige une attaque normal à l'ennemi  <br /></td></tr>
+<tr class="memitem:a380bf8ea7d39e2d37ca7a47c9d0f1976" id="r_a380bf8ea7d39e2d37ca7a47c9d0f1976"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a380bf8ea7d39e2d37ca7a47c9d0f1976">attaqueForte</a> (<a class="el" href="struct_fighter.html">Fighter</a> *joueur, <a class="el" href="struct_mob.html">Mob</a> *ennemi, GameState *state)</td></tr>
+<tr class="memdesc:a380bf8ea7d39e2d37ca7a47c9d0f1976"><td class="mdescLeft">&#160;</td><td class="mdescRight">inflige une attaque forte à l'ennemi  <br /></td></tr>
+<tr class="memitem:a2392f9a9108b3c5a489d90ecec15344c" id="r_a2392f9a9108b3c5a489d90ecec15344c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2392f9a9108b3c5a489d90ecec15344c">attaqueEnnemi</a> (<a class="el" href="struct_fighter.html">Fighter</a> *joueur, <a class="el" href="struct_mob.html">Mob</a> *ennemi, GameState *state)</td></tr>
+<tr class="memdesc:a2392f9a9108b3c5a489d90ecec15344c"><td class="mdescLeft">&#160;</td><td class="mdescRight">l'ennemi inflige des soit normale soit forte aléatoirement  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>librairie qui gère les attaques </p>
+<dl class="section author"><dt>Auteur</dt><dd>Lucas Choplin </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>8 février 2026 </dd></dl>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentation des fonctions</h2>
+<a id="a63721ca2acb2a70e4167beabf290e888" name="a63721ca2acb2a70e4167beabf290e888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63721ca2acb2a70e4167beabf290e888">&#9670;&#160;</a></span>attaque()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void attaque </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>joueur</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_mob.html">Mob</a> *</td>          <td class="paramname"><span class="paramname"><em>ennemi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GameState *</td>          <td class="paramname"><span class="paramname"><em>state</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>inflige une attaque normal à l'ennemi </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joueur</td><td>pointeur vers le struct figther du personnage </td></tr>
+    <tr><td class="paramname">ennemi</td><td>pointeur vers la structure mob des ennemis </td></tr>
+    <tr><td class="paramname">state</td><td>pointeur vers l'état actuel du combat </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2392f9a9108b3c5a489d90ecec15344c" name="a2392f9a9108b3c5a489d90ecec15344c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2392f9a9108b3c5a489d90ecec15344c">&#9670;&#160;</a></span>attaqueEnnemi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void attaqueEnnemi </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>joueur</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_mob.html">Mob</a> *</td>          <td class="paramname"><span class="paramname"><em>ennemi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GameState *</td>          <td class="paramname"><span class="paramname"><em>state</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>l'ennemi inflige des soit normale soit forte aléatoirement </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joueur</td><td>pointeur vers le struct figther du personnage </td></tr>
+    <tr><td class="paramname">ennemi</td><td>pointeur vers la structure mob des ennemis </td></tr>
+    <tr><td class="paramname">state</td><td>pointeur vers l'état actuel du combat </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a380bf8ea7d39e2d37ca7a47c9d0f1976" name="a380bf8ea7d39e2d37ca7a47c9d0f1976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a380bf8ea7d39e2d37ca7a47c9d0f1976">&#9670;&#160;</a></span>attaqueForte()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void attaqueForte </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_fighter.html">Fighter</a> *</td>          <td class="paramname"><span class="paramname"><em>joueur</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_mob.html">Mob</a> *</td>          <td class="paramname"><span class="paramname"><em>ennemi</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">GameState *</td>          <td class="paramname"><span class="paramname"><em>state</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>inflige une attaque forte à l'ennemi </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">joueur</td><td>pointeur vers le struct figther du personnage </td></tr>
+    <tr><td class="paramname">ennemi</td><td>pointeur vers la structure mob des ennemis </td></tr>
+    <tr><td class="paramname">state</td><td>pointeur vers l'état actuel du combat </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><b>combat</b></li><li class="navelem"><a href="combat__attaque_8h.html">combat_attaque.h</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

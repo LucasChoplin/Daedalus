@@ -41,33 +41,33 @@ typedef struct{
     int hp, max_hp, attack, speed;
 } Mob;
 
-/** \brief structure pour le joueur en combat */
+/** \brief structure pour le personnage */
 typedef struct {
-    int classeID;/** indique la classe du personnage */
-    int hp; /** points de vie actuels du personnage */
-    int max_hp; /** points de vie maximum du personnage */
-    int attack; /** points d'attaque du personnage */
-    int speed; /** vitesse du personnage */
-    int xp; /** points d'expérience du personnage */
-    int max_xp; /** points d'expérience nécessaires pour monter de niveau */
-    int lvl; /** niveau du personnage */
-    int gold; /** quantité d'or possédée par le personnage */
-    int pm_atk; /**compteur de pm*/
-    int max_pm; /**nombre de fois que le joueur peut faire l'attaque  */
+    int classeID;/**< indique la classe du personnage */
+    int hp; /**< points de vie actuels du personnage */
+    int max_hp; /**< points de vie maximum du personnage */
+    int attack; /**< points d'attaque du personnage */
+    int speed; /**< vitesse du personnage */
+    int xp; /**< points d'expérience du personnage */
+    int max_xp; /**< points d'expérience nécessaires pour monter de niveau */
+    int lvl; /**< niveau du personnage */
+    int gold; /**< quantité d'or possédée par le personnage */
+    int pm_atk; /**< quantité de points de magie actuels de personnage */
+    int max_pm; /**< quantité maximum de points de magie du personnage */
 } Fighter;
 
 /** \brief structure pour les items  */
 typedef struct{
     int nb;/**< quantité de l'item */
-    void (*f) (Fighter * p);/* pointeur vers la fonction pour utiliser un item*/ 
+    void (*f) (Fighter * p);/**< pointeur vers la fonction pour utiliser un item*/ 
 } item_t;
 
 /** \brief structure pour les loots */
 typedef struct{
-    int nbItem;
-    int item[MAX_DROP];
-    int or;
-    int xp;
+    int nbItem; /**< nombre d'items dans le tableau item */
+    int item[MAX_DROP];/**< tableau contennant le numéro des items obtenus */
+    int or;/**< quantité d'or obtenu */
+    int xp;/**< points d'expérience obtenus */
 }loot_t;
 
 /** \brief structure pour un bouton */

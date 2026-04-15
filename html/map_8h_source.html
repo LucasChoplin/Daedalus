@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus:  Fichier source de src/system/map.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('map_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">map.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="map_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef map_h </span><span class="comment">//evite les inclusions multiples</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define map_h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL2/SDL.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../def.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="structs_8h.html">../structs.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keywordtype">int</span> <a class="code hl_function" href="map_8h.html#ad2a43716053888784fa27ded04339f96">isWall</a>(<span class="keywordtype">int</span> tile);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keywordtype">int</span> <a class="code hl_function" href="map_8h.html#a720efab39cf043673b8759dec4ab1982">isCombatTile</a>(<span class="keywordtype">int</span> tile);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ac67ae220648e62847c1b745c8e5877f6">genererSalle</a>(<a class="code hl_struct" href="struct_salle.html">Salle</a>* salle, SalleType type);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ad55459d76ba41042b96866c129be8d24">initMapParEtage</a>(<span class="keywordtype">int</span> etageActuel, <span class="keywordtype">int</span> *bossRoomID, <span class="keywordtype">int</span> *miniBossRoomID, <span class="keywordtype">int</span> *trocRoomID);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">int</span> <a class="code hl_function" href="map_8h.html#aad3b4a0e16af25e3fc855480bac256b8">getIDSalleRandom</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">int</span> <a class="code hl_function" href="map_8h.html#a627882dc3eff2aebf19b0161ef2b37db">getIDSalleRandomExcluant</a>(<span class="keywordtype">int</span> mapIDExclu);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a52c49b77fa7b4bb9a56358c98ba9821b">setCurrentMapByID</a>(<span class="keywordtype">int</span> mapID);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ac23ed2f346a600617cbada68fa116208">drawMap</a>(SDL_Renderer* renderer);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#ac7fcf34a4aca954db11c9efea2fef6b7">drawMob</a>(SDL_Renderer* renderer, <a class="code hl_struct" href="struct_mob.html">Mob</a>* mob);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a1bbe7354b423c9c7981039f57f022845">drawPlayer</a>(SDL_Renderer* renderer, <a class="code hl_struct" href="struct_player.html">Player</a>* player);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#a02794020c84ae6b68024348bdb4d77f6">cleanupMap</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="keywordtype">void</span> <a class="code hl_function" href="map_8h.html#aa2a0497be9bab5a66832d22d2ad96bc7">changeSalle</a>(<span class="keywordtype">int</span> direction, <span class="keywordtype">int</span>* playerX, <span class="keywordtype">int</span>* playerY);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="keyword">extern</span> <a class="code hl_struct" href="struct_salle.html">Salle</a>* currentMap;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keyword">extern</span> <a class="code hl_struct" href="struct_salle.html">Salle</a>* salles[];</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="amap_8h_html_a02794020c84ae6b68024348bdb4d77f6"><div class="ttname"><a href="map_8h.html#a02794020c84ae6b68024348bdb4d77f6">cleanupMap</a></div><div class="ttdeci">void cleanupMap(void)</div><div class="ttdoc">nettoie la map actuelle</div><div class="ttdef"><b>Definition</b> map.c:618</div></div>
+<div class="ttc" id="amap_8h_html_a1bbe7354b423c9c7981039f57f022845"><div class="ttname"><a href="map_8h.html#a1bbe7354b423c9c7981039f57f022845">drawPlayer</a></div><div class="ttdeci">void drawPlayer(SDL_Renderer *renderer, Player *player)</div><div class="ttdoc">dessine le joueur sur la map</div><div class="ttdef"><b>Definition</b> map.c:602</div></div>
+<div class="ttc" id="amap_8h_html_a52c49b77fa7b4bb9a56358c98ba9821b"><div class="ttname"><a href="map_8h.html#a52c49b77fa7b4bb9a56358c98ba9821b">setCurrentMapByID</a></div><div class="ttdeci">void setCurrentMapByID(int mapID)</div><div class="ttdoc">change la salle actuelle où le joueur se trouve</div><div class="ttdef"><b>Definition</b> map.c:665</div></div>
+<div class="ttc" id="amap_8h_html_a627882dc3eff2aebf19b0161ef2b37db"><div class="ttname"><a href="map_8h.html#a627882dc3eff2aebf19b0161ef2b37db">getIDSalleRandomExcluant</a></div><div class="ttdeci">int getIDSalleRandomExcluant(int mapIDExclu)</div><div class="ttdoc">retourne l&#39;ID d&#39;une salle active aléatoire différente de celle passée en paramètre</div><div class="ttdef"><b>Definition</b> map.c:107</div></div>
+<div class="ttc" id="amap_8h_html_a720efab39cf043673b8759dec4ab1982"><div class="ttname"><a href="map_8h.html#a720efab39cf043673b8759dec4ab1982">isCombatTile</a></div><div class="ttdeci">int isCombatTile(int tile)</div><div class="ttdoc">vérifie si une tuile est un sol de combat</div><div class="ttdef"><b>Definition</b> map.c:437</div></div>
+<div class="ttc" id="amap_8h_html_aa2a0497be9bab5a66832d22d2ad96bc7"><div class="ttname"><a href="map_8h.html#aa2a0497be9bab5a66832d22d2ad96bc7">changeSalle</a></div><div class="ttdeci">void changeSalle(int direction, int *playerX, int *playerY)</div><div class="ttdoc">change l&#39;affichage de la salle en fonction de la direction du joueur</div><div class="ttdef"><b>Definition</b> map.c:628</div></div>
+<div class="ttc" id="amap_8h_html_aad3b4a0e16af25e3fc855480bac256b8"><div class="ttname"><a href="map_8h.html#aad3b4a0e16af25e3fc855480bac256b8">getIDSalleRandom</a></div><div class="ttdeci">int getIDSalleRandom(void)</div><div class="ttdoc">retourne l&#39;ID d&#39;une salle aléatoire</div><div class="ttdef"><b>Definition</b> map.c:101</div></div>
+<div class="ttc" id="amap_8h_html_ac23ed2f346a600617cbada68fa116208"><div class="ttname"><a href="map_8h.html#ac23ed2f346a600617cbada68fa116208">drawMap</a></div><div class="ttdeci">void drawMap(SDL_Renderer *renderer)</div><div class="ttdoc">dessine la map actuelle (l&#39;étage)</div><div class="ttdef"><b>Definition</b> map.c:565</div></div>
+<div class="ttc" id="amap_8h_html_ac67ae220648e62847c1b745c8e5877f6"><div class="ttname"><a href="map_8h.html#ac67ae220648e62847c1b745c8e5877f6">genererSalle</a></div><div class="ttdeci">void genererSalle(Salle *salle, SalleType type)</div><div class="ttdoc">génère une salle en fonction de son type</div><div class="ttdef"><b>Definition</b> map.c:277</div></div>
+<div class="ttc" id="amap_8h_html_ac7fcf34a4aca954db11c9efea2fef6b7"><div class="ttname"><a href="map_8h.html#ac7fcf34a4aca954db11c9efea2fef6b7">drawMob</a></div><div class="ttdeci">void drawMob(SDL_Renderer *renderer, Mob *mob)</div><div class="ttdoc">dessine un mob sur la map (miniboss, boss ou marchand)</div><div class="ttdef"><b>Definition</b> map.c:582</div></div>
+<div class="ttc" id="amap_8h_html_ad2a43716053888784fa27ded04339f96"><div class="ttname"><a href="map_8h.html#ad2a43716053888784fa27ded04339f96">isWall</a></div><div class="ttdeci">int isWall(int tile)</div><div class="ttdoc">vérifie si une tuile est un mur</div><div class="ttdef"><b>Definition</b> map.c:432</div></div>
+<div class="ttc" id="amap_8h_html_ad55459d76ba41042b96866c129be8d24"><div class="ttname"><a href="map_8h.html#ad55459d76ba41042b96866c129be8d24">initMapParEtage</a></div><div class="ttdeci">void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int *trocRoomID)</div><div class="ttdoc">initialise un étage en tenant compte de l&#39;étage</div><div class="ttdef"><b>Definition</b> map.c:442</div></div>
+<div class="ttc" id="astruct_mob_html"><div class="ttname"><a href="struct_mob.html">Mob</a></div><div class="ttdoc">structure pour un mob</div><div class="ttdef"><b>Definition</b> structs.h:39</div></div>
+<div class="ttc" id="astruct_player_html"><div class="ttname"><a href="struct_player.html">Player</a></div><div class="ttdoc">structure pour l&#39;affichage du joueur</div><div class="ttdef"><b>Definition</b> structs.h:21</div></div>
+<div class="ttc" id="astruct_salle_html"><div class="ttname"><a href="struct_salle.html">Salle</a></div><div class="ttdoc">structure pour une salle de la carte</div><div class="ttdef"><b>Definition</b> structs.h:30</div></div>
+<div class="ttc" id="astructs_8h_html"><div class="ttname"><a href="structs_8h.html">structs.h</a></div><div class="ttdoc">contient les structs du projets</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><a href="map_8h.html">map.h</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

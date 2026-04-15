@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <time.h>
 
-/** \file combat_attaque.h
+/** \file combat_attaque.c
     \brief contenus des fonctions de combat_attaque.h
     \author Lucas Choplin
     \version 1.0

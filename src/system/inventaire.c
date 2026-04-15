@@ -60,7 +60,7 @@ void afficherTicketReduction(SDL_Renderer * r,item_t * l[], int x, int y){
 void afficherXp(SDL_Renderer * r,int xp, int x, int y){
     SDL_Color titleColor = {240, 230, 180, 255};
     drawChiffre(r,xp,x,y);
-    drawText(game.renderer, getTitleFont(), "XP", titleColor, x +100, y);
+    drawText(game.renderer, getXpFont(), "XP", titleColor, x +100, y);
 }
 
 void afficherStats(SDL_Renderer * r, Fighter * p){

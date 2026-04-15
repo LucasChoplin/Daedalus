@@ -28,7 +28,7 @@ int chargerImage(char nom[],SDL_Renderer * r,SDL_Texture ** t);
 /** \brief indique si un clic de souris touche une texture 
     \param e pointeur sur l'event de la souris enclenché sert à récupérer le x et y de la souris 
     \param r pointeur sur le RECT de la texture pour récupérer son x y w et h
-    \return 1 si la souris touche la texture et 0 si elle ne touvhe pas 
+    \return 1 si la souris touche la texture et 0 si elle ne touche pas 
 */
 int detecterButtonClique(SDL_Event * e,SDL_Rect * r);
 
@@ -48,7 +48,7 @@ int detecterSourisDansRect(int x, int y, SDL_Rect * r);
 */
 void afficherChiffre(SDL_Renderer * r,SDL_Texture * t,int nb,SDL_Rect * d);
 
-/** \brief fonction pour sauvegarder les données du jeu (actuellement sauvegarde pv max, attack, speed et quantités des deux premiers items )
+/** \brief fonction pour sauvegarder les données du jeu
     \param fighter pointeur vers le perso 
     \param listeItem pointeur vers la liste des items
     \param etageActuel entier qui indique l'étage actuel du donjon 
@@ -62,7 +62,7 @@ void saveGameData(Fighter *fighter, item_t *listeItem[], int etageActuel);
 */
 void chargerDonnées(Fighter *fighter, item_t *listeItem[], int * etageActuel);
 
-/** \brief fonction qui réintialise des donnés du jeu en cas de défaite du joueur
+/** \brief fonction qui réinitialise des donnés du jeu en cas de défaite du joueur
     \param p pointeur vers le perso du joueur pour charger l'ancienne sauvegarde 
     \param l pointeur vers la liste des items pour charger l'ancienne sauvegarde
     \param etageActuel pointeur vers la variable etageActuel pour charger l'ancienne sauvegarde

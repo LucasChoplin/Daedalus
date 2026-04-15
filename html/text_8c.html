@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus: Référence du fichier src/system/text.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('text_8c.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Référence du fichier text.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>contenu des fonctions de <a class="el" href="text_8h.html" title="librairie pour l&#39;affichage de text">text.h</a>  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;SDL2/SDL.h&gt;</code><br />
+<code>#include &lt;SDL2/SDL_ttf.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="structs_8h_source.html">../structs.h</a>&quot;</code><br />
+<code>#include &quot;../def.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="text_8h_source.html">text.h</a>&quot;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a956f29ad6ad381241bbdbaab9b440a51" id="r_a956f29ad6ad381241bbdbaab9b440a51"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a956f29ad6ad381241bbdbaab9b440a51">initText</a> (void)</td></tr>
+<tr class="memdesc:a956f29ad6ad381241bbdbaab9b440a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">initialise les polices de caractères  <br /></td></tr>
+<tr class="memitem:aeda1913dac2a5f4941540dcf7b19142b" id="r_aeda1913dac2a5f4941540dcf7b19142b"><td class="memItemLeft"><a id="aeda1913dac2a5f4941540dcf7b19142b" name="aeda1913dac2a5f4941540dcf7b19142b"></a>
+void&#160;</td><td class="memItemRight"><b>cleanupText</b> (void)</td></tr>
+<tr class="memdesc:aeda1913dac2a5f4941540dcf7b19142b"><td class="mdescLeft">&#160;</td><td class="mdescRight">nettoie les fonts <br /></td></tr>
+<tr class="memitem:a78e26c702075517604c4069d45ac23c7" id="r_a78e26c702075517604c4069d45ac23c7"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#a78e26c702075517604c4069d45ac23c7">getDefaultFont</a> (void)</td></tr>
+<tr class="memdesc:a78e26c702075517604c4069d45ac23c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font par defaut  <br /></td></tr>
+<tr class="memitem:ac9f9b0e4bc746dda491638b3feca14de" id="r_ac9f9b0e4bc746dda491638b3feca14de"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#ac9f9b0e4bc746dda491638b3feca14de">getTitleFont</a> (void)</td></tr>
+<tr class="memdesc:ac9f9b0e4bc746dda491638b3feca14de"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font pour les titres  <br /></td></tr>
+<tr class="memitem:a2d0f49fea5b38f20b1be62b98f35ce97" id="r_a2d0f49fea5b38f20b1be62b98f35ce97"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#a2d0f49fea5b38f20b1be62b98f35ce97">getCombatFont</a> (void)</td></tr>
+<tr class="memdesc:a2d0f49fea5b38f20b1be62b98f35ce97"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font pour le combat  <br /></td></tr>
+<tr class="memitem:ab8d756ca0c8559acdd60116b0f60fbbb" id="r_ab8d756ca0c8559acdd60116b0f60fbbb"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#ab8d756ca0c8559acdd60116b0f60fbbb">getEndScreenFont</a> (void)</td></tr>
+<tr class="memdesc:ab8d756ca0c8559acdd60116b0f60fbbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font pour l'écran de fin  <br /></td></tr>
+<tr class="memitem:a83ecc9054f40e32580c76f485eabe7de" id="r_a83ecc9054f40e32580c76f485eabe7de"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#a83ecc9054f40e32580c76f485eabe7de">getClassNameFont</a> (void)</td></tr>
+<tr class="memdesc:a83ecc9054f40e32580c76f485eabe7de"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font pour les noms des classes  <br /></td></tr>
+<tr class="memitem:aa595d48e0d691d40007e2cc4d1b0756e" id="r_aa595d48e0d691d40007e2cc4d1b0756e"><td class="memItemLeft">TTF_Font *&#160;</td><td class="memItemRight"><a class="el" href="#aa595d48e0d691d40007e2cc4d1b0756e">getClassStatsFont</a> (void)</td></tr>
+<tr class="memdesc:aa595d48e0d691d40007e2cc4d1b0756e"><td class="mdescLeft">&#160;</td><td class="mdescRight">retourne le font pour les stats des classes  <br /></td></tr>
+<tr class="memitem:ab30349013fa26bc2cde567ad8be43d15" id="r_ab30349013fa26bc2cde567ad8be43d15"><td class="memItemLeft"><a id="ab30349013fa26bc2cde567ad8be43d15" name="ab30349013fa26bc2cde567ad8be43d15"></a>
+TTF_Font *&#160;</td><td class="memItemRight"><b>getMenuFont</b> (void)</td></tr>
+<tr class="memitem:aa16a4a37a66ce59e46c55b424a494e1e" id="r_aa16a4a37a66ce59e46c55b424a494e1e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa16a4a37a66ce59e46c55b424a494e1e">drawText</a> (SDL_Renderer *renderer, TTF_Font *font, const char *texte, SDL_Color couleur, int x, int y)</td></tr>
+<tr class="memdesc:aa16a4a37a66ce59e46c55b424a494e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">dessine du texte  <br /></td></tr>
+<tr class="memitem:ac0a20c943af85d3f14b293c2d9d4ef65" id="r_ac0a20c943af85d3f14b293c2d9d4ef65"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0a20c943af85d3f14b293c2d9d4ef65">drawButton</a> (SDL_Renderer *renderer, <a class="el" href="struct_bouton.html">Bouton</a> *bouton)</td></tr>
+<tr class="memdesc:ac0a20c943af85d3f14b293c2d9d4ef65"><td class="mdescLeft">&#160;</td><td class="mdescRight">dessine un bouton avec texte centre  <br /></td></tr>
+<tr class="memitem:aa8b857f3cb3e08b424da5d1b862e36e5" id="r_aa8b857f3cb3e08b424da5d1b862e36e5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa8b857f3cb3e08b424da5d1b862e36e5">drawChiffre</a> (SDL_Renderer *r, int nb, int x, int y)</td></tr>
+<tr class="memdesc:aa8b857f3cb3e08b424da5d1b862e36e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">fonction qui écrit des chiffres  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>contenu des fonctions de <a class="el" href="text_8h.html" title="librairie pour l&#39;affichage de text">text.h</a> </p>
+<dl class="section author"><dt>Auteur</dt><dd>Myriam Laaqira </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1.0 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>11 mars 2026 </dd></dl>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentation des fonctions</h2>
+<a id="ac0a20c943af85d3f14b293c2d9d4ef65" name="ac0a20c943af85d3f14b293c2d9d4ef65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0a20c943af85d3f14b293c2d9d4ef65">&#9670;&#160;</a></span>drawButton()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawButton </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_bouton.html">Bouton</a> *</td>          <td class="paramname"><span class="paramname"><em>bouton</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>dessine un bouton avec texte centre </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>pointeur vers le renderer </td></tr>
+    <tr><td class="paramname">bouton</td><td>pointeur vers la structure du bouton a dessiner </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa8b857f3cb3e08b424da5d1b862e36e5" name="aa8b857f3cb3e08b424da5d1b862e36e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8b857f3cb3e08b424da5d1b862e36e5">&#9670;&#160;</a></span>drawChiffre()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawChiffre </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>nb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>fonction qui écrit des chiffres </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>pointeur vers le moteur de rendu </td></tr>
+    <tr><td class="paramname">nb</td><td>nombre à afficher </td></tr>
+    <tr><td class="paramname">x</td><td>paramètre x des coordoonées où afficher le nombre </td></tr>
+    <tr><td class="paramname">y</td><td>paramètre y des coordoonées où afficher le nombre </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa16a4a37a66ce59e46c55b424a494e1e" name="aa16a4a37a66ce59e46c55b424a494e1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa16a4a37a66ce59e46c55b424a494e1e">&#9670;&#160;</a></span>drawText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void drawText </td>
+          <td>(</td>
+          <td class="paramtype">SDL_Renderer *</td>          <td class="paramname"><span class="paramname"><em>renderer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TTF_Font *</td>          <td class="paramname"><span class="paramname"><em>font</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>texte</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">SDL_Color</td>          <td class="paramname"><span class="paramname"><em>couleur</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>y</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>dessine du texte </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">renderer</td><td>pointeur vers le renderer </td></tr>
+    <tr><td class="paramname">font</td><td>pointeur vers le font a utiliser </td></tr>
+    <tr><td class="paramname">texte</td><td>le texte </td></tr>
+    <tr><td class="paramname">couleur</td><td>couleur du texte </td></tr>
+    <tr><td class="paramname">x</td><td>coordonnee x d'affichage du texte </td></tr>
+    <tr><td class="paramname">y</td><td>coordonnee y d'affichage du texte </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a83ecc9054f40e32580c76f485eabe7de" name="a83ecc9054f40e32580c76f485eabe7de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83ecc9054f40e32580c76f485eabe7de">&#9670;&#160;</a></span>getClassNameFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getClassNameFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font pour les noms des classes </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font pour les noms des classes </dd></dl>
+
+</div>
+</div>
+<a id="aa595d48e0d691d40007e2cc4d1b0756e" name="aa595d48e0d691d40007e2cc4d1b0756e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa595d48e0d691d40007e2cc4d1b0756e">&#9670;&#160;</a></span>getClassStatsFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getClassStatsFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font pour les stats des classes </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font pour les stats des classes </dd></dl>
+
+</div>
+</div>
+<a id="a2d0f49fea5b38f20b1be62b98f35ce97" name="a2d0f49fea5b38f20b1be62b98f35ce97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d0f49fea5b38f20b1be62b98f35ce97">&#9670;&#160;</a></span>getCombatFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getCombatFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font pour le combat </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font pour le combat </dd></dl>
+
+</div>
+</div>
+<a id="a78e26c702075517604c4069d45ac23c7" name="a78e26c702075517604c4069d45ac23c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78e26c702075517604c4069d45ac23c7">&#9670;&#160;</a></span>getDefaultFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getDefaultFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font par defaut </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font par defaut </dd></dl>
+
+</div>
+</div>
+<a id="ab8d756ca0c8559acdd60116b0f60fbbb" name="ab8d756ca0c8559acdd60116b0f60fbbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8d756ca0c8559acdd60116b0f60fbbb">&#9670;&#160;</a></span>getEndScreenFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getEndScreenFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font pour l'écran de fin </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font pour l'écran de fin </dd></dl>
+
+</div>
+</div>
+<a id="ac9f9b0e4bc746dda491638b3feca14de" name="ac9f9b0e4bc746dda491638b3feca14de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9f9b0e4bc746dda491638b3feca14de">&#9670;&#160;</a></span>getTitleFont()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TTF_Font * getTitleFont </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>retourne le font pour les titres </p>
+<dl class="section return"><dt>Renvoie</dt><dd>pointeur vers le font pour les titres </dd></dl>
+
+</div>
+</div>
+<a id="a956f29ad6ad381241bbdbaab9b440a51" name="a956f29ad6ad381241bbdbaab9b440a51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a956f29ad6ad381241bbdbaab9b440a51">&#9670;&#160;</a></span>initText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int initText </td>
+          <td>(</td>
+          <td class="paramtype">void</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>initialise les polices de caractères </p>
+<dl class="section return"><dt>Renvoie</dt><dd>0 si tout s'est bien passe, -1 sinon </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><a href="text_8c.html">text.c</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

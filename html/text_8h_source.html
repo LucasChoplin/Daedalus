@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus:  Fichier source de src/system/text.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('text_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">text.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="text_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef text_h </span><span class="comment">//evite les inclusions multiples</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define text_h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;SDL2/SDL.h&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;SDL2/SDL_ttf.h&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="structs_8h.html">../structs.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keywordtype">int</span> <a class="code hl_function" href="text_8h.html#a956f29ad6ad381241bbdbaab9b440a51">initText</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keywordtype">void</span> <a class="code hl_function" href="text_8h.html#aeda1913dac2a5f4941540dcf7b19142b">cleanupText</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>TTF_Font* <a class="code hl_function" href="text_8h.html#a78e26c702075517604c4069d45ac23c7">getDefaultFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>TTF_Font* <a class="code hl_function" href="text_8h.html#ac9f9b0e4bc746dda491638b3feca14de">getTitleFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>TTF_Font* <a class="code hl_function" href="text_8h.html#a2d0f49fea5b38f20b1be62b98f35ce97">getCombatFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>TTF_Font* <a class="code hl_function" href="text_8h.html#ab8d756ca0c8559acdd60116b0f60fbbb">getEndScreenFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>TTF_Font* <a class="code hl_function" href="text_8h.html#a83ecc9054f40e32580c76f485eabe7de">getClassNameFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>TTF_Font* <a class="code hl_function" href="text_8h.html#aa595d48e0d691d40007e2cc4d1b0756e">getClassStatsFont</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>TTF_Font* getMenuFont(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keywordtype">void</span> <a class="code hl_function" href="text_8h.html#aa16a4a37a66ce59e46c55b424a494e1e">drawText</a>(SDL_Renderer* renderer, TTF_Font* font, <span class="keyword">const</span> <span class="keywordtype">char</span>* texte, SDL_Color couleur, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> <a class="code hl_function" href="text_8h.html#ac0a20c943af85d3f14b293c2d9d4ef65">drawButton</a>(SDL_Renderer* renderer, <a class="code hl_struct" href="struct_bouton.html">Bouton</a>* bouton);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> <a class="code hl_function" href="text_8h.html#aa8b857f3cb3e08b424da5d1b862e36e5">drawChiffre</a>(SDL_Renderer * r,<span class="keywordtype">int</span> nb, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="astruct_bouton_html"><div class="ttname"><a href="struct_bouton.html">Bouton</a></div><div class="ttdoc">structure pour un bouton</div><div class="ttdef"><b>Definition</b> structs.h:74</div></div>
+<div class="ttc" id="astructs_8h_html"><div class="ttname"><a href="structs_8h.html">structs.h</a></div><div class="ttdoc">contient les structs du projets</div></div>
+<div class="ttc" id="atext_8h_html_a2d0f49fea5b38f20b1be62b98f35ce97"><div class="ttname"><a href="text_8h.html#a2d0f49fea5b38f20b1be62b98f35ce97">getCombatFont</a></div><div class="ttdeci">TTF_Font * getCombatFont(void)</div><div class="ttdoc">retourne le font pour le combat</div><div class="ttdef"><b>Definition</b> text.c:80</div></div>
+<div class="ttc" id="atext_8h_html_a78e26c702075517604c4069d45ac23c7"><div class="ttname"><a href="text_8h.html#a78e26c702075517604c4069d45ac23c7">getDefaultFont</a></div><div class="ttdeci">TTF_Font * getDefaultFont(void)</div><div class="ttdoc">retourne le font par defaut</div><div class="ttdef"><b>Definition</b> text.c:72</div></div>
+<div class="ttc" id="atext_8h_html_a83ecc9054f40e32580c76f485eabe7de"><div class="ttname"><a href="text_8h.html#a83ecc9054f40e32580c76f485eabe7de">getClassNameFont</a></div><div class="ttdeci">TTF_Font * getClassNameFont(void)</div><div class="ttdoc">retourne le font pour les noms des classes</div><div class="ttdef"><b>Definition</b> text.c:88</div></div>
+<div class="ttc" id="atext_8h_html_a956f29ad6ad381241bbdbaab9b440a51"><div class="ttname"><a href="text_8h.html#a956f29ad6ad381241bbdbaab9b440a51">initText</a></div><div class="ttdeci">int initText(void)</div><div class="ttdoc">initialise les polices de caractères</div><div class="ttdef"><b>Definition</b> text.c:23</div></div>
+<div class="ttc" id="atext_8h_html_aa16a4a37a66ce59e46c55b424a494e1e"><div class="ttname"><a href="text_8h.html#aa16a4a37a66ce59e46c55b424a494e1e">drawText</a></div><div class="ttdeci">void drawText(SDL_Renderer *renderer, TTF_Font *font, const char *texte, SDL_Color couleur, int x, int y)</div><div class="ttdoc">dessine du texte</div><div class="ttdef"><b>Definition</b> text.c:100</div></div>
+<div class="ttc" id="atext_8h_html_aa595d48e0d691d40007e2cc4d1b0756e"><div class="ttname"><a href="text_8h.html#aa595d48e0d691d40007e2cc4d1b0756e">getClassStatsFont</a></div><div class="ttdeci">TTF_Font * getClassStatsFont(void)</div><div class="ttdoc">retourne le font pour les stats des classes</div><div class="ttdef"><b>Definition</b> text.c:92</div></div>
+<div class="ttc" id="atext_8h_html_aa8b857f3cb3e08b424da5d1b862e36e5"><div class="ttname"><a href="text_8h.html#aa8b857f3cb3e08b424da5d1b862e36e5">drawChiffre</a></div><div class="ttdeci">void drawChiffre(SDL_Renderer *r, int nb, int x, int y)</div><div class="ttdoc">fonction qui écrit des chiffres</div><div class="ttdef"><b>Definition</b> text.c:165</div></div>
+<div class="ttc" id="atext_8h_html_ab8d756ca0c8559acdd60116b0f60fbbb"><div class="ttname"><a href="text_8h.html#ab8d756ca0c8559acdd60116b0f60fbbb">getEndScreenFont</a></div><div class="ttdeci">TTF_Font * getEndScreenFont(void)</div><div class="ttdoc">retourne le font pour l&#39;écran de fin</div><div class="ttdef"><b>Definition</b> text.c:84</div></div>
+<div class="ttc" id="atext_8h_html_ac0a20c943af85d3f14b293c2d9d4ef65"><div class="ttname"><a href="text_8h.html#ac0a20c943af85d3f14b293c2d9d4ef65">drawButton</a></div><div class="ttdeci">void drawButton(SDL_Renderer *renderer, Bouton *bouton)</div><div class="ttdoc">dessine un bouton avec texte centre</div><div class="ttdef"><b>Definition</b> text.c:123</div></div>
+<div class="ttc" id="atext_8h_html_ac9f9b0e4bc746dda491638b3feca14de"><div class="ttname"><a href="text_8h.html#ac9f9b0e4bc746dda491638b3feca14de">getTitleFont</a></div><div class="ttdeci">TTF_Font * getTitleFont(void)</div><div class="ttdoc">retourne le font pour les titres</div><div class="ttdef"><b>Definition</b> text.c:76</div></div>
+<div class="ttc" id="atext_8h_html_aeda1913dac2a5f4941540dcf7b19142b"><div class="ttname"><a href="text_8h.html#aeda1913dac2a5f4941540dcf7b19142b">cleanupText</a></div><div class="ttdeci">void cleanupText(void)</div><div class="ttdoc">nettoie les fonts</div><div class="ttdef"><b>Definition</b> text.c:41</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><a href="text_8h.html">text.h</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -12,23 +12,23 @@
 */
 
 /** \brief inflige une attaque normal à l'ennemi
-    \param joueur structure des statistique du joueur
-    \param ennemi structure des statistique de l'ennemi
-    \param state valeur actulle sand le quel le combat est 
+    \param joueur pointeur vers le struct figther du personnage
+    \param ennemi pointeur vers la structure mob des ennemis
+    \param state pointeur vers l'état actuel du combat
 */
 void attaque(Fighter *joueur, Mob *ennemi, GameState *state);
 
 /** \brief inflige une attaque forte à l'ennemi
-    \param joueur structure des statistique du joueur
-    \param ennemi structure des statistique de l'ennemi
-    \param state valeur actulle sand le quel le combat est 
+    \param joueur pointeur vers le struct figther du personnage
+    \param ennemi pointeur vers la structure mob des ennemis
+    \param state pointeur vers l'état actuel du combat
 */
 void attaqueForte(Fighter *joueur, Mob *ennemi, GameState *state);
 
 /** \brief l'ennemi inflige des soit normale soit forte aléatoirement 
-    \param joueur structure des statistique du joueur
-    \param ennemi structure des statistique de l'ennemi
-    \param state valeur actulle sand le quel le combat est 
+    \param joueur pointeur vers le struct figther du personnage
+    \param ennemi pointeur vers la structure mob des ennemis
+    \param state pointeur vers l'état actuel du combat
 */
 void attaqueEnnemi(Fighter *joueur, Mob *ennemi, GameState *state);
 

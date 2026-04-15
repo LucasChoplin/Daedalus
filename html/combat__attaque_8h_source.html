@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.16.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daedalus:  Fichier source de src/system/combat/combat_attaque.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Daedalus
+   </div>
+   <div id="projectbrief">Projet développé en c avec SDL2</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.16.1 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Recherche',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('combat__attaque_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">combat_attaque.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="combat__attaque_8h.html">Aller à la documentation de ce fichier.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef COMBAT_ATTAQUE_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define COMBAT_ATTAQUE_H    </span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="structs_8h.html">../../structs.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;../../def.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;SDL2/SDL.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keywordtype">void</span> <a class="code hl_function" href="combat__attaque_8h.html#a63721ca2acb2a70e4167beabf290e888">attaque</a>(<a class="code hl_struct" href="struct_fighter.html">Fighter</a> *joueur, <a class="code hl_struct" href="struct_mob.html">Mob</a> *ennemi, GameState *state);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keywordtype">void</span> <a class="code hl_function" href="combat__attaque_8h.html#a380bf8ea7d39e2d37ca7a47c9d0f1976">attaqueForte</a>(<a class="code hl_struct" href="struct_fighter.html">Fighter</a> *joueur, <a class="code hl_struct" href="struct_mob.html">Mob</a> *ennemi, GameState *state);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keywordtype">void</span> <a class="code hl_function" href="combat__attaque_8h.html#a2392f9a9108b3c5a489d90ecec15344c">attaqueEnnemi</a>(<a class="code hl_struct" href="struct_fighter.html">Fighter</a> *joueur, <a class="code hl_struct" href="struct_mob.html">Mob</a> *ennemi, GameState *state);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acombat__attaque_8h_html_a2392f9a9108b3c5a489d90ecec15344c"><div class="ttname"><a href="combat__attaque_8h.html#a2392f9a9108b3c5a489d90ecec15344c">attaqueEnnemi</a></div><div class="ttdeci">void attaqueEnnemi(Fighter *joueur, Mob *ennemi, GameState *state)</div><div class="ttdoc">l&#39;ennemi inflige des soit normale soit forte aléatoirement</div><div class="ttdef"><b>Definition</b> combat_attaque.c:42</div></div>
+<div class="ttc" id="acombat__attaque_8h_html_a380bf8ea7d39e2d37ca7a47c9d0f1976"><div class="ttname"><a href="combat__attaque_8h.html#a380bf8ea7d39e2d37ca7a47c9d0f1976">attaqueForte</a></div><div class="ttdeci">void attaqueForte(Fighter *joueur, Mob *ennemi, GameState *state)</div><div class="ttdoc">inflige une attaque forte à l&#39;ennemi</div><div class="ttdef"><b>Definition</b> combat_attaque.c:28</div></div>
+<div class="ttc" id="acombat__attaque_8h_html_a63721ca2acb2a70e4167beabf290e888"><div class="ttname"><a href="combat__attaque_8h.html#a63721ca2acb2a70e4167beabf290e888">attaque</a></div><div class="ttdeci">void attaque(Fighter *joueur, Mob *ennemi, GameState *state)</div><div class="ttdoc">inflige une attaque normal à l&#39;ennemi</div><div class="ttdef"><b>Definition</b> combat_attaque.c:17</div></div>
+<div class="ttc" id="astruct_fighter_html"><div class="ttname"><a href="struct_fighter.html">Fighter</a></div><div class="ttdoc">structure pour le personnage</div><div class="ttdef"><b>Definition</b> structs.h:45</div></div>
+<div class="ttc" id="astruct_mob_html"><div class="ttname"><a href="struct_mob.html">Mob</a></div><div class="ttdoc">structure pour un mob</div><div class="ttdef"><b>Definition</b> structs.h:39</div></div>
+<div class="ttc" id="astructs_8h_html"><div class="ttname"><a href="structs_8h.html">structs.h</a></div><div class="ttdoc">contient les structs du projets</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>src</b></li><li class="navelem"><b>system</b></li><li class="navelem"><b>combat</b></li><li class="navelem"><a href="combat__attaque_8h.html">combat_attaque.h</a></li>
+    <li class="footer">Généré par <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
+  </ul>
+</div>
+</body>
+</html>
