@@ -88,10 +88,10 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
                         state = ENNEMY;
                     }
                 }
-                if((inv)&&(detecterItemUtiliseCombat(&e,listeItem,joueur))){
-                    inv = !inv;
-                    state = ENNEMY;
-                }
+                // if((inv)&&(detecterItemUtiliseCombat(&e,listeItem,joueur))){
+                //     inv = !inv;
+                //     state = ENNEMY;
+                // }
 
                 if (is_point_in_rect(mx, my, inventaire)) {
                     inv = !inv;//si on appuie sur inventaire on change la valeur de inv 
