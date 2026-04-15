@@ -18,7 +18,7 @@
 #include "../lib/def.h"
 
 //commande de compilation 
-//gcc -o main main.c ./system/atlas.c ./system/map.c ./system/inventaire.c ./system/utilitaire.c ./system/text.c ./system/combat/combat_aff.c ./system/combat/combat.c ./system/combat/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+//gcc -o main ./src/main.c ./src/atlas.c ./src/map.c ./src/inventaire.c ./src/utilitaire.c ./src/text.c ./src/combat_aff.c ./src/combat.c ./src/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSL2_mixer
 
 Game game;
 Player player;

@@ -1,5 +1,6 @@
-Pour lancer le jeu 
--lancer le fichier exécutable start dans le dossier bin (il est possible que l'éxecutable start ne fonctionne pas dans ce cas vous pouvez recompiler le jeu avec la commande make ou nous vous coneillons de lancer l'éxecutable dans un environnement Linux)
+Pour lancer le jeu
+-Sous Linux lancer le fichier ./bin/start
+-Sous Windows lancer le fichier ./bin/DaedalusWindows 
 Pour fonctionner le jeu à besoin des fichiers suivants : 
 -SDL2.dll
 -SDL2_image.dll
