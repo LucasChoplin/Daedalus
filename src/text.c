@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "../structs.h"
-#include "../def.h"
-#include "text.h"
+#include "../lib/structs.h"
+#include "../lib/def.h"
+#include "../lib/text.h"
 
 /** \file text.c
     \brief contenu des fonctions de text.h 

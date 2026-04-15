@@ -1,32 +1,32 @@
-bin/start : lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o
-	gcc lib/main.o lib/map.o lib/atlas.o lib/inventaire.o lib/utilitaire.o lib/text.o lib/combat.o lib/combat_aff.o lib/combat_attaque.o -o bin/start -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lm
+bin/start : bin/main.o bin/map.o bin/atlas.o bin/inventaire.o bin/utilitaire.o bin/text.o bin/combat.o bin/combat_aff.o bin/combat_attaque.o
+	gcc bin/main.o bin/map.o bin/atlas.o bin/inventaire.o bin/utilitaire.o bin/text.o bin/combat.o bin/combat_aff.o bin/combat_attaque.o -o bin/start -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lm
 
-lib/main.o : src/main.c src/structs.h src/def.h
-	gcc -c src/main.c -o lib/main.o
+bin/main.o : src/main.c lib/structs.h lib/def.h
+	gcc -c src/main.c -o bin/main.o
 	
-lib/map.o : src/system/map.c src/system/map.h src/system/atlas.h src/structs.h src/def.h
-	gcc -c src/system/map.c -o lib/map.o
+bin/map.o : src/map.c lib/map.h lib/atlas.h lib/structs.h lib/def.h
+	gcc -c src/map.c -o bin/map.o
 
-lib/atlas.o : src/system/atlas.c src/system/atlas.h src/structs.h src/def.h
-	gcc -c src/system/atlas.c -o lib/atlas.o
+bin/atlas.o : src/atlas.c lib/atlas.h lib/structs.h lib/def.h
+	gcc -c src/atlas.c -o bin/atlas.o
 
-lib/inventaire.o : src/system/inventaire.c src/system/inventaire.h src/structs.h src/def.h
-	gcc -c src/system/inventaire.c -o lib/inventaire.o
+bin/inventaire.o : src/inventaire.c lib/inventaire.h lib/structs.h lib/def.h
+	gcc -c src/inventaire.c -o bin/inventaire.o
 
-lib/utilitaire.o: src/system/utilitaire.c src/system/utilitaire.h src/structs.h src/def.h
-	gcc -c src/system/utilitaire.c -o lib/utilitaire.o
+bin/utilitaire.o: src/utilitaire.c lib/utilitaire.h lib/structs.h lib/def.h
+	gcc -c src/utilitaire.c -o bin/utilitaire.o
 
-lib/combat.o : src/system/combat/combat.c src/system/combat/combat.h src/structs.h src/def.h
-	gcc -c src/system/combat/combat.c -o lib/combat.o
+bin/combat.o : src/combat.c lib/combat.h lib/structs.h lib/def.h
+	gcc -c src/combat.c -o bin/combat.o
 
-lib/combat_aff.o : src/system/combat/combat_aff.c src/system/combat/combat_aff.h src/structs.h src/def.h
-	gcc -c src/system/combat/combat_aff.c -o lib/combat_aff.o
+bin/combat_aff.o : src/combat_aff.c lib/combat_aff.h lib/structs.h lib/def.h
+	gcc -c src/combat_aff.c -o bin/combat_aff.o
 
-lib/combat_attaque.o : src/system/combat/combat_attaque.c src/system/combat/combat_attaque.h src/structs.h src/def.h
-	gcc -c src/system/combat/combat_attaque.c -o lib/combat_attaque.o
+bin/combat_attaque.o : src/combat_attaque.c lib/combat_attaque.h lib/structs.h lib/def.h
+	gcc -c src/combat_attaque.c -o bin/combat_attaque.o
 	
-lib/text.o : src/system/text.c src/system/text.h src/structs.h src/def.h
-	gcc -c src/system/text.c -o lib/text.o
+bin/text.o : src/text.c lib/text.h lib/structs.h lib/def.h
+	gcc -c src/text.c -o bin/text.o
 
 clean:
-	rm -f lib/*.o start
+	rm -f bin/*.o start

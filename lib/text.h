@@ -2,7 +2,7 @@
 #define text_h
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include "../structs.h"
+#include "structs.h"
 /** \file text.h
     \brief librairie pour l'affichage de text 
     \author Myriam Laaqira

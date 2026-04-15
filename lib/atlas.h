@@ -1,7 +1,7 @@
 #ifndef atlas_h //evite les inclusions multiples
 #define atlas_h
 #include <SDL2/SDL.h>
-#include "../def.h"
+#include "def.h"
 
 /** \file atlas.h
     \brief librairie pour gérer les atlas 

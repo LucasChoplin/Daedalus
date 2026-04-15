@@ -1,7 +1,7 @@
 #ifndef COMBAT_ATTAQUE_H
 #define COMBAT_ATTAQUE_H    
-#include "../../structs.h"
-#include "../../def.h"
+#include "structs.h"
+#include "def.h"
 #include <SDL2/SDL.h>
 
 /** \file combat_attaque.h

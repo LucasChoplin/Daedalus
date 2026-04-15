@@ -1,8 +1,8 @@
 #ifndef map_h //evite les inclusions multiples
 #define map_h
 #include <SDL2/SDL.h>
-#include "../def.h"
-#include "../structs.h"
+#include "def.h"
+#include "structs.h"
 
 /** \file map.h
     \brief librairie pour générer la map et déplacer le personnage 
