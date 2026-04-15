@@ -32,7 +32,6 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
             break;
     }
     SDL_Surface* imageEnnemi;
-    SDL_Rect ennemiFrame;
     switch(ennemi.spriteID){
         case 0:
             imageEnnemi = SDL_LoadBMP("assets/archer.bmp");
@@ -41,8 +40,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
             imageEnnemi = SDL_LoadBMP("assets/gladiateur.bmp");
             break;
         case 2:
-            // Utiliser l'atlas des mobs pour le minotaure
-            ennemiFrame = getTileRect(ennemi.spriteID, ATLAS_MOB);
+            imageEnnemi = SDL_LoadBMP("assets/lancier.bmp");
             break;
     }
     TTF_Font* font = getCombatFont();
@@ -69,18 +67,12 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     Bouton boutonInventaire = {inventaire, {250, 0, 250, 255}, {255, 255, 255, 255}, "Inventaire", font};
 
     SDL_Texture* monImage = SDL_CreateTextureFromSurface(renderer, image);  
-    SDL_Texture* imageEnnemiTexture;
-    if(ennemi.spriteID == 2){
-        // Utiliser l'atlas des mobs pour le minotaure
-        imageEnnemiTexture = getAtlasMob();
-    } else {
-        imageEnnemiTexture = SDL_CreateTextureFromSurface(renderer, imageEnnemi);
-    }
+    SDL_Texture* imageEnnemiTexture = SDL_CreateTextureFromSurface(renderer, imageEnnemi);
 
+    SDL_RenderCopy(renderer, monImage, NULL, NULL);
+    SDL_RenderCopy(renderer, imageEnnemiTexture, NULL, NULL);
     SDL_FreeSurface(image);
-    if(ennemi.spriteID != 2){
-        SDL_FreeSurface(imageEnnemi);
-    }
+    SDL_FreeSurface(imageEnnemi);
 
     int longueur_xp = (int)((float)joueur->xp / joueur->max_xp * largeurBarreFixe);
 
@@ -91,13 +83,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
     SDL_QueryTexture(monImage, NULL, NULL, &personnage.w, &personnage.h);
 
     SDL_Rect ennemy = {1100, 100, 0, 0};
-    if(ennemi.spriteID == 2){
-        // Taille fixe pour le minotaure depuis l'atlas
-        ennemy.w = 128;
-        ennemy.h = 128;
-    } else {
-        SDL_QueryTexture(imageEnnemiTexture, NULL, NULL, &ennemy.w, &ennemy.h);
-    }
+    SDL_QueryTexture(imageEnnemiTexture, NULL, NULL, &ennemy.w, &ennemy.h);
 
 
     SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
@@ -110,11 +96,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     // Sprites en premier (sous le reste de l'UI)
     SDL_RenderCopy(renderer, monImage, NULL, &personnage);
-    if(ennemi.spriteID == 2){
-        SDL_RenderCopy(renderer, imageEnnemiTexture, &ennemiFrame, &ennemy);
-    } else {
-        SDL_RenderCopy(renderer, imageEnnemiTexture, NULL, &ennemy);
-    }
+    SDL_RenderCopy(renderer, imageEnnemiTexture, NULL, &ennemy);
 
     int largeurEnnemi = (int)((float)ennemi.hp / ennemi.max_hp * largeurBarreFixe);
 
@@ -187,6 +169,7 @@ void afficherCombat(SDL_Renderer *renderer, Fighter *joueur, Mob ennemi,SDL_Rect
 
     SDL_RenderPresent(renderer);
     SDL_DestroyTexture(monImage);
+    SDL_DestroyTexture(imageEnnemiTexture);
     if(bgCombatTexture != NULL){
         SDL_DestroyTexture(bgCombatTexture);
     }
