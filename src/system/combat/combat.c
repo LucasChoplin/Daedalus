@@ -35,6 +35,18 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
     int xp=0,gold=15;
     TTF_Font* font = getEndScreenFont();
 
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+        printf("Erreur SDL_mixer: %s\n", Mix_GetError());
+    }
+
+    Mix_Music *OST = Mix_LoadMUS("assets/God_s Falling.mp3");
+
+    if (!OST) {
+        printf("Erreur chargement musique: %s\n", Mix_GetError());
+    }
+
+    Mix_PlayMusic(OST, -1);
+
     GameState state = PLAYER;
     int running = 1;
     int inv = 0; //variable pour savoir si on affiche l'inventaire ou pas
@@ -134,7 +146,11 @@ int lancerCombat(SDL_Renderer *renderer, Fighter *joueur, Mob *ennemi, item_t * 
             afficherCombat(renderer, joueur, *ennemi, fuite, attack_btn, forte, inventaire, inv, listeItem);
             SDL_Delay(16);
         }
+
     }
+
+    Mix_FreeMusic(OST);
+    Mix_CloseAudio();
     SDL_Delay(2000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
