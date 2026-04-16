@@ -14,6 +14,7 @@
 
 static TTF_Font* defaultFont = NULL;
 static TTF_Font* titleFont = NULL;
+static TTF_Font* menuTitreFont = NULL;
 static TTF_Font* combatFont = NULL;
 static TTF_Font* endScreenFont = NULL;
 static TTF_Font* classNameFont = NULL;
@@ -23,7 +24,8 @@ static TTF_Font* xpFont = NULL;
 
 int initText(void){
     defaultFont = TTF_OpenFont("assets/DejaVuSans.ttf", 24);
-    titleFont = TTF_OpenFont("assets/LABYRINT.TTF", 110);
+    titleFont = TTF_OpenFont("assets/LABYRINT.TTF", 80);
+    menuTitreFont = TTF_OpenFont("assets/LABYRINT.TTF", 110);
     combatFont = TTF_OpenFont("assets/DejaVuSans.ttf", 22);
     endScreenFont = TTF_OpenFont("assets/DejaVuSans.ttf", 100);
     classNameFont = TTF_OpenFont("assets/LABYRINT.TTF", 26);
@@ -31,7 +33,7 @@ int initText(void){
     menuFont = TTF_OpenFont("assets/DejaVuSans.ttf", 44);
     xpFont = TTF_OpenFont("assets/LABYRINT.TTF", 65);
 
-    if(defaultFont == NULL || titleFont == NULL || combatFont == NULL || endScreenFont == NULL || classNameFont == NULL || classStatsFont == NULL || menuFont == NULL){
+    if(defaultFont == NULL || titleFont == NULL || combatFont == NULL || endScreenFont == NULL || classNameFont == NULL || classStatsFont == NULL || menuFont == NULL || menuTitreFont == NULL || xpFont == NULL){
         fprintf(stderr, "Erreur chargement fonts : %s\n", TTF_GetError());
         cleanupText();
         return -1;
@@ -69,6 +71,10 @@ void cleanupText(void){
         TTF_CloseFont(menuFont);
         menuFont = NULL;
     }
+    if(menuTitreFont != NULL){
+        TTF_CloseFont(menuTitreFont);
+        menuTitreFont = NULL;
+    }
     if(xpFont != NULL){
         TTF_CloseFont(xpFont);
         xpFont = NULL;
@@ -81,6 +87,10 @@ TTF_Font* getDefaultFont(void){
 
 TTF_Font* getTitleFont(void){
     return titleFont;
+}
+
+TTF_Font* getMenuTitreFont(void){
+    return menuTitreFont;
 }
 
 TTF_Font* getCombatFont(void){
