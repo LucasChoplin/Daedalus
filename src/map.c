@@ -161,7 +161,7 @@ static int getIDSalleVoisine(int idSalle, int direction){
     return y * ETAGE_TAILLE + x;
 }
 
-//le spawn
+//le spawn ou salle de depart (salle vide)
 static void genererSalleSpawn(Salle* salle){
     salle->type = SALLE_SPAWN;
     for(int y = 0; y < SALLE_HEIGHT; y++){
@@ -194,7 +194,7 @@ static void genererSalleSpawn(Salle* salle){
     salle->tiles[SALLE_HEIGHT-2][SALLE_WIDTH-1] = 26;
 }
 
-//une salle normale (tiles de combat)
+//une salle normale (avec tiles de combat)
 static void genererSalleNormale(Salle* salle){
     salle->type = SALLE_NORMALE;
     for(int y = 0; y < SALLE_HEIGHT; y++){
@@ -333,6 +333,7 @@ static void regenererSalleByID(int mapID, SalleType type){
     }
 }
 
+//
 static int getIDSalleRandomExcluantListe(const int *idsExclus, int nbExclus){
     if(nbrSallesActives == 0){
         return 0;
@@ -552,7 +553,7 @@ void initMapParEtage(int etageActuel, int *bossRoomID, int *miniBossRoomID, int 
             }
         }
     }
-
+    //on set la salle actuelle sur le spawn et on retourne les ID des salles importantes
     currentMap = etage[idSalleSpawn];
     if(bossRoomID){
         *bossRoomID = idSalleBoss;

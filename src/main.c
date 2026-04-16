@@ -18,7 +18,7 @@
 #include "../lib/def.h"
 
 //commande de compilation 
-//gcc -o main ./src/main.c ./src/atlas.c ./src/map.c ./src/inventaire.c ./src/utilitaire.c ./src/text.c ./src/combat_aff.c ./src/combat.c ./src/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSL2_mixer
+//gcc -o main ./src/main.c ./src/atlas.c ./src/map.c ./src/inventaire.c ./src/utilitaire.c ./src/text.c ./src/combat_aff.c ./src/combat.c ./src/combat_attaque.c -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 Game game;
 Player player;
@@ -35,7 +35,7 @@ int initSDL(void){
 
     SDL_DisplayMode mode;
     SDL_GetCurrentDisplayMode(0, &mode);
-    if((mode.w<SCREEN_WIDTH)||(mode.h<SCREEN_HEIGHT)){//si l'écran est trop petit la fenêtre est crée en fonction de sa taille 
+    if((mode.w<SCREEN_WIDTH)||(mode.h<SCREEN_HEIGHT)){//si l'écran est trop petit la fenêtre est créée en fonction de sa taille 
         game.window = SDL_CreateWindow("Daedalus",SDL_WINDOWPOS_UNDEFINED,SDL_WINDOWPOS_UNDEFINED,mode.w,mode.h,windowFlags);
     }
     else{
@@ -183,7 +183,7 @@ void afficherCredits(SDL_Renderer * r){
         drawText(r, getDefaultFont(), "Myriam Laaqira", textColor, SCREEN_WIDTH / 2 - 105, yBase + espaceLigne * 4);
         drawText(r, getDefaultFont(), "Lucas Choplin", textColor, SCREEN_WIDTH / 2 - 90, yBase + espaceLigne * 5);
         drawText(r, getDefaultFont(), "Graphismes : @hannilism", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 7);
-        drawText(r, getDefaultFont(), "Musiques : @caroissinging & @heavyreiju", textColor, SCREEN_WIDTH / 2 - 155, yBase + espaceLigne * 8);
+        drawText(r, getDefaultFont(), "Musiques : @caroissinging & @heavyreiju", textColor, SCREEN_WIDTH / 2 - 240, yBase + espaceLigne * 8);
         drawText(r, getDefaultFont(), "Merci d'avoir joue a Daedalus !", textColor, SCREEN_WIDTH / 2 - 185, yBase + espaceLigne * 10);
         drawText(r, getDefaultFont(), "(Echap / Espace pour quitter)", textColor, SCREEN_WIDTH / 2 - 195, SCREEN_HEIGHT - 40);
 
@@ -301,13 +301,13 @@ int main(int argc, char *argv[]){
     SDL_Rect quit = {(SCREEN_WIDTH-TAILLE_MENU)/2, SCREEN_HEIGHT*2/3, TAILLE_MENU, TAILLE_MENU/2};
 
     const int menuRectH = TAILLE_MENU / 2;
-    TTF_Font* titleFont = getTitleFont();
+    TTF_Font* menuTitreFont = getTitleFont();
     SDL_Texture* titleTexture = NULL;
     SDL_Rect titleRect = {0, 0, 0, 0};
 
-    if(titleFont != NULL){
+    if(menuTitreFont != NULL){
         SDL_Color titleColor = {74, 61, 27, 255};
-        SDL_Surface* titleSurface = TTF_RenderUTF8_Blended(titleFont, "DAEDALUS", titleColor);
+        SDL_Surface* titleSurface = TTF_RenderUTF8_Blended(menuTitreFont, "DAEDALUS", titleColor);
         if(titleSurface != NULL){
             titleTexture = SDL_CreateTextureFromSurface(game.renderer, titleSurface);
             titleRect.w = titleSurface->w;
@@ -339,8 +339,6 @@ int main(int argc, char *argv[]){
                     sortie = 2;
                 }
                 else if (detecterButtonClique(&event,&quit)){
-                    Mix_FreeMusic(OSTgame);
-                    Mix_CloseAudio();
                     cleanup();
                     return 0;
                 }
@@ -431,7 +429,7 @@ int main(int argc, char *argv[]){
             SDL_RenderCopy(game.renderer, getAtlasPerso(), &archerF, &DestArc);
             SDL_RenderCopy(game.renderer, getAtlasPerso(), &lanF, &DestLan);
 
-            drawText(game.renderer, titleFont, "CHOIX DE LA CLASSE", titleColor, 240, startY - 120);
+            drawText(game.renderer, getTitleFont(), "CHOIX DE LA CLASSE", titleColor, 240, startY - 120);
             
             //GLADIATEUR
             drawText(game.renderer, nameFont, "GLADIATEUR", titleColor, startX + 8, startY + 200);
